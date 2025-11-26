@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8fbc6128da96cf543857caf9d85b7a33, type: 3}
-  m_Name: SpellDatabase
+  m_Name: PlayerSpellDatabase
   m_EditorClassIdentifier: 
-  allSpells: []
+  allSpells:
+  - {fileID: 11400000, guid: f00fb5fa75f937c4fa1c015f801ff666, type: 2}

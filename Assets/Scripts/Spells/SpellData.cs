@@ -8,4 +8,5 @@ public class SpellData : ScriptableObject
     public float damage;
     public float cooldown;
     public GameObject prefab;   // l'objet à instancier
+    public float manaCost;
 }

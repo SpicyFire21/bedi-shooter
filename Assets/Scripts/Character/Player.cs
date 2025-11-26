@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 public class Player : Character
 {
-    public int maxMana = 1000;
+    public float maxMana = 1000f;
     public float regenPerSecond = 60f;
-    public float currentMana = 0f;
+    public float currentMana = 100f;
 
     public SpellDatabase spellList;
 
@@ -34,13 +34,6 @@ public class Player : Character
             currentMana += regenPerSecond * Time.deltaTime;
             if (currentMana > maxMana) currentMana = maxMana;
             Debug.Log(currentMana);        
-        }
-
-
-
-
-        if (Input.GetKeyDown(KeyCode.E)){
-            
         }
     }
 }

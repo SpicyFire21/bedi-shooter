@@ -1300,9 +1300,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b43d1e6315a523340b6d201fede9d3a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  currentHealth: 20
+  characterName: 
+  moveSpeed: 5
+  isPlayer: 0
   maxMana: 1000
   regenPerSecond: 60
   currentMana: 0
+  spellList: {fileID: 0}
 --- !u!1 &4523139366846529165
 GameObject:
   m_ObjectHideFlags: 0
