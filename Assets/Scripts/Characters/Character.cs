@@ -4,12 +4,12 @@ public class Character : MonoBehaviour
 {
 
     [Header("Stats")]
-    public float maxHealth = 20f;
-    public float currentHealth = 20f;
+    public float maxHealth;
+    public float currentHealth;
     public string characterName;
 
     [Header("Movement")]
-    public float moveSpeed = 5f;
+    public float moveSpeed;
 
     public bool isPlayer; // false par défaut
 

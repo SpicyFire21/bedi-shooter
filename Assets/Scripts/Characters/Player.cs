@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 public class Player : Character
 {
-    public float maxMana = 1000f;
-    public float regenPerSecond = 60f;
-    public float currentMana = 100f;
+    public float maxMana;
+    public float manaRegenPerSecond = 0.5f;
+    public float healthRegenPerSecond = 1.5f;
+    public float currentMana;
 
     public SpellDatabase spellList;
 
@@ -18,7 +19,7 @@ public class Player : Character
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+    
     }
 
     // Update is called once per frame
@@ -31,9 +32,19 @@ public class Player : Character
 
         if (currentMana < maxMana)
         {
-            currentMana += regenPerSecond * Time.deltaTime;
-            if (currentMana > maxMana) currentMana = maxMana;
-            Debug.Log(currentMana);        
+            currentMana += manaRegenPerSecond * Time.deltaTime;
+            if (currentMana > maxMana) currentMana = maxMana;      
         }
+
+        if (currentHealth < maxHealth)
+        {
+            currentHealth += healthRegenPerSecond * Time.deltaTime;
+            if (currentHealth > maxHealth) currentHealth = maxHealth;
+        }
+
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+        currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
+        // borne mini, borne max, si on dépasse = retour a la valeur max
+        // cela évite de dépasser le maxMana et le maxHealth
     }
 }
