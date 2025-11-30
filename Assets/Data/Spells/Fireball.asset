@@ -15,6 +15,6 @@ MonoBehaviour:
   spellName: Fireball
   icon: {fileID: 0}
   damage: 20
-  cooldown: 5
+  cooldown: 10
   prefab: {fileID: 3542697110213142978, guid: 7cddd1622ac048b46b4002b5ec93b0c7, type: 3}
-  manaCost: 200
+  manaCost: 15
