@@ -26,4 +26,9 @@ public class Character : MonoBehaviour
     {
         
     }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+    }
 }

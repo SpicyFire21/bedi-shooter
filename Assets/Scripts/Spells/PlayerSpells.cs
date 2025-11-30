@@ -1,104 +1,157 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Apple;
 
-// structure pour associer une touche à un sort dans PlayerSpellDatabase
+// structure pour associer une touche à un sort dans playerdatabase
 [System.Serializable]
 public struct SpellKey
 {
     public KeyCode key;      // touche pour lancer le sort
-    public int spellIndex;   // index dans PlayerSpellDatabase.allSpells
+    public int spellIndex;   // index du sort dans playerdatabase.allSpells
 }
 
 public class PlayerSpells : MonoBehaviour
 {
-    public SpellDatabase playerDatabase; // la base des sorts débloqués pour ce joueur
-    public Transform castPoint;                // point depuis lequel les sorts seront lancés
-    public List<SpellKey> spellKeys;           // mapping touches -> index dans playerDatabase
+    public SpellDatabase playerDatabase; // base de données des sorts débloqués pour ce joueur
+    public Transform castPoint;          // point depuis lequel le sort sera lancé
+    public List<SpellKey> spellKeys;     // mapping touches -> index des sorts
 
-    private Player player;        // référence au joueur pour accéder au mana, etc.
-    private float[] cooldowns;    // tableau des cooldowns pour chaque sort
+    private Player player;        // référence au script player pour gérer le mana etc
+    private float[] cooldowns;    // tableau pour gérer les cooldowns de chaque sort
+    private Vector3 destination;
+    public LayerMask groundLayer;
 
     void Start()
     {
-        // on récupère le script player attaché au même gameobject
-        player = GetComponent<Player>();
+        player = GetComponent<Player>(); // on récupère le script player attaché au même gameobject
 
-        // on initialise le tableau de cooldowns en fonction du nombre de sorts débloqués
         if (playerDatabase != null)
-            cooldowns = new float[playerDatabase.allSpells.Count];
+            cooldowns = new float[playerDatabase.allSpells.Count]; // initialise le tableau de cooldowns
     }
 
     void Update()
     {
-        // on réduit le temps restant des cooldowns chaque frame
+        // on diminue les cooldowns à chaque frame
         for (int i = 0; i < cooldowns.Length; i++)
             cooldowns[i] -= Time.deltaTime;
 
-        // on parcourt toutes les touches assignées aux sorts
+        // on vérifie si une touche de sort est pressée
         foreach (var sk in spellKeys)
         {
-            // si la touche est pressée, on essaye de lancer le sort correspondant
             if (Input.GetKeyDown(sk.key))
                 TryCastSpell(sk.spellIndex);
-            
         }
     }
 
-    // méthode pour lancer un sort par son index dans playerDatabase
+    // méthode pour lancer un sort par son index
     public void TryCastSpell(int index)
     {
-        Debug.Log("tentative de sort");
-        if (playerDatabase == null) return;                       // sécurité : database inexistante
-        if (index >= playerDatabase.allSpells.Count) return;     // sécurité : index invalide
-        if (cooldowns[index] > 0f) return;                       // sort en cooldown, on ne fait rien
+        GameObject obj;
+        if (index >= playerDatabase.allSpells.Count) return;
+        if (cooldowns[index] > 0f) return;
 
-        SpellData spell = playerDatabase.allSpells[index];       // on récupère les infos du sort
+        SpellData spell = playerDatabase.allSpells[index];
 
-        // vérification du mana
-        if (player.currentMana < spell.manaCost)
+        if (player.currentMana < spell.manaCost) return;
+
+        if (spell.isTargetedOnGround)
         {
-            Debug.Log("mana insuffisant pour " + spell.spellName);
-            return;
+            destination = GetMouseGroundPosition(spell.attackRange);
+            if (destination == Vector3.zero)
+            {
+                Debug.Log("pas de sol pour ce spell");
+                return; // on bloque le lancement si pas de sol
+            }
+            obj = Instantiate(
+                spell.prefab,
+                destination,
+                Quaternion.identity
+            );
+        }
+        else
+        {
+            destination = GetMouseWorldPosition();
+            obj = Instantiate(
+                spell.prefab,
+                castPoint.position,
+                Quaternion.identity
+            );
         }
 
-        // on dépense le mana du joueur
-        player.currentMana -= spell.manaCost;
+        
+        SpellBase spellLogic = obj.GetComponent<SpellBase>();
 
-        // instanciation du prefab du sort à la position et rotation du castPoint
-        GameObject obj = Instantiate(spell.prefab, castPoint.position, castPoint.rotation);
-
-        // appel générique de Init si le prefab a une méthode Init (voir exemple pour la fireball par exemple)
-        MonoBehaviour[] scripts = obj.GetComponents<MonoBehaviour>();
-        foreach (var s in scripts)
+        if (spellLogic != null)
         {
-            var method = s.GetType().GetMethod("Init");
-            if (method != null)
-                method.Invoke(s, new object[] { player }); // on passe le joueur au prefab
-
-            // pour faire clair, on va appeler sans connaitre la methode init de la prefab selectionné (elle prend un character
-            // en param, donc on va y assigner le player actuel)
+            spellLogic.Init(player, spell, destination);
+            player.currentMana -= spell.manaCost;
+            cooldowns[index] = spell.cooldown;
         }
 
-        // on met le sort en cooldown après le lancer
-        cooldowns[index] = spell.cooldown;
-
-        // debug pour confirmer le lancement
-        Debug.Log("sort lancé : " + spell.spellName);
+        
     }
 
     // méthode pour débloquer un nouveau sort à la volée
     public void UnlockSpell(SpellData spell, KeyCode key)
     {
-        // on ajoute le sort à la PlayerSpellDatabase
-        playerDatabase.allSpells.Add(spell);
-
-        // on ajoute le mapping touche -> index
-        spellKeys.Add(new SpellKey { key = key, spellIndex = playerDatabase.allSpells.Count - 1 });
-
-        // on agrandit le tableau de cooldowns pour ce nouveau sort
-        System.Array.Resize(ref cooldowns, playerDatabase.allSpells.Count);
-
-        // debug pour confirmer le déblocage
+        playerDatabase.allSpells.Add(spell); // ajoute le sort à la base
+        spellKeys.Add(new SpellKey { key = key, spellIndex = playerDatabase.allSpells.Count - 1 }); // mapping touche->index
+        System.Array.Resize(ref cooldowns, playerDatabase.allSpells.Count); // ajuste le tableau de cooldowns
         Debug.Log("sort débloqué : " + spell.spellName + " sur la touche " + key);
     }
+
+    // récupère la position de la souris dans le monde
+    private Vector3 GetMouseWorldPosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+                // ignore le joueur et renvoie un point loin devant
+                Vector3 fallback = ray.GetPoint(1000);
+                return fallback;
+            }
+            return hit.point;
+        }
+        else
+        {
+            Vector3 fallback = ray.GetPoint(1000);
+            return fallback;
+        }
+    }
+
+    private Vector3 GetMouseGroundPosition(float maxRange)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 1000f, groundLayer)) // si c'est pas un groundLayer, on ne peut PAS instancier cette objet
+        {
+            float dist = Vector3.Distance(player.transform.position, hit.point);
+
+            if (dist <= maxRange)
+                return hit.point;
+
+            Vector3 dir = (hit.point - player.transform.position).normalized;
+            return player.transform.position + dir * maxRange;
+        }
+
+        return Vector3.zero;
+    }
+
+    public float GetCooldown(int index)
+    {
+        if (index >= 0 && index < cooldowns.Length)
+            return Mathf.Max(0f, cooldowns[index]);
+        return 0f;
+    }
+
+
+
+
+
+
 }
