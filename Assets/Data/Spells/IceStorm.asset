@@ -15,9 +15,9 @@ MonoBehaviour:
   spellName: IceStorm
   icon: {fileID: 0}
   damage: 50
-  cooldown: 0
+  cooldown: 20
   prefab: {fileID: 417830094756996763, guid: 54b328c499db0a54da1b70780a254bce, type: 3}
-  manaCost: 0
+  manaCost: 15
   isTargetedOnGround: 1
   attackRange: 20
   castSound: {fileID: 8300000, guid: f951fbb131e26144aa5a081573d20700, type: 3}
