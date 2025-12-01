@@ -46,6 +46,7 @@ public class PlayerSpells : MonoBehaviour
     // méthode pour lancer un sort par son index
     public void TryCastSpell(int index)
     {
+        Debug.Log("tentative spell");
         GameObject obj;
         if (index >= playerDatabase.allSpells.Count) return;
         if (cooldowns[index] > 0f) return;
