@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IceStorm
   m_EditorClassIdentifier: 
   spellName: IceStorm
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 2cd45cd819310a8458fefcd7a2a9c347, type: 3}
   damage: 50
   cooldown: 20
   prefab: {fileID: 417830094756996763, guid: 54b328c499db0a54da1b70780a254bce, type: 3}
