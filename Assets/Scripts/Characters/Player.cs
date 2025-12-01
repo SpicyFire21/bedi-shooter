@@ -1,5 +1,7 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : Character
 {
@@ -26,6 +28,7 @@ public class Player : Character
     void Update()
     {
 
+        HandleDeath();
         if (!isPlayer) {
             return;
         }
@@ -46,5 +49,10 @@ public class Player : Character
         currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
         // borne mini, borne max, si on dépasse = retour a la valeur max
         // cela évite de dépasser le maxMana et le maxHealth
+    }
+
+    public override void DeathHandler(float destructionTime)
+    {
+        Destroy(gameObject, destructionTime);
     }
 }

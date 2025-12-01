@@ -10,5 +10,4 @@ public class MonsterData : ScriptableObject
     public float attackCooldown = 1.5f;
     public float lastAttackTime;
     public AudioClip deathSound;    // son joué quand le sort est lancé
-    public bool deathSoundAlreadyDone = false;
 }

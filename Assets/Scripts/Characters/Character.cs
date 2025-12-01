@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public abstract class Character : MonoBehaviour
 {
-
     [Header("Stats")]
     public float maxHealth;
     public float currentHealth;
@@ -12,25 +11,20 @@ public class Character : MonoBehaviour
     public float moveSpeed;
 
     public bool isPlayer; // false par défaut
+    public bool isDead;
+    public bool deathSoundPlayed = false;
 
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected void HandleDeath()
     {
-        
+        if (!isDead && currentHealth <= 0)
+        {
+            isDead = true;
+            DeathHandler(3f);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public bool IsDead()
-    {
-        return currentHealth <= 0;
-    }
+    public abstract void DeathHandler(float destructionTime);
 
     public void TakeDamage(float damage)
     {

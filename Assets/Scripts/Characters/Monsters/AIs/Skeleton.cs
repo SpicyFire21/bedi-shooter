@@ -2,16 +2,11 @@
 
 public class Skeleton : Monster
 {
-    void Update()
+    public override void Update()
     {
+        base.Update();
         LookAtPlayer();
         SpeedAnimManager();
-
-        if (currentHealth <= 0)
-        {
-            DeathHandler(2f);
-            return;
-        }
     }
 
     private void LookAtPlayer()
@@ -28,7 +23,7 @@ public class Skeleton : Monster
 
     private void SpeedAnimManager()
     {
-        if (agent == null || player == null) return;
+        if (agent == null || isDead || player == null) return;
 
         float distance = Vector3.Distance(transform.position, player.position);
 
