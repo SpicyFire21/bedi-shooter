@@ -27,6 +27,11 @@ public class Character : MonoBehaviour
         
     }
 
+    public bool IsDead()
+    {
+        return currentHealth <= 0;
+    }
+
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;

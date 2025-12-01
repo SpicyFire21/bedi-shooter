@@ -34,6 +34,10 @@ public class SpellsPanel : MonoBehaviour
 
 
     private List<GameObject> panelLists;
+
+    [SerializeField]
+    private PlayerSpells playerSpells;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -70,11 +74,14 @@ public class SpellsPanel : MonoBehaviour
             // mettre à jour les valeur
             icon.sprite = spell.icon;
             nameText.text = spell.name;
-            //keyText.text = spell.key.ToString();
-            cooldownText.text = spell.cooldown.ToString("F1") + "s";
+            keyText.text = playerSpells.spellKeys.Find(x => x.spellIndex == i).key.ToString();
+            cooldownText.text = "Ready";
+            costText.text = spell.manaCost + "";
         }
     }
 
+
+    // update en temps réel le cooldown
     private void updateSpellsUI()
     { 
         // parce que les deux listes ont la meme taille si bien update --> un panel = un spell et inversement
@@ -82,10 +89,20 @@ public class SpellsPanel : MonoBehaviour
         {
             SpellData spell = player.spellList.allSpells[i];
             Text cooldownText = panelLists[i].transform.Find("SpellCooldown").GetComponent<Text>();
-            cooldownText.text = spell.cooldown + "s";
+            if (playerSpells.GetCooldown(i) <= 0)
+            {
+                cooldownText.text = "Ready";
+                cooldownText.color = Color.green;
+            } else
+            {
+                cooldownText.text = playerSpells.GetCooldown(i).ToString("F1") + "s";
+                cooldownText.color = Color.red;
+            }
         }
     }
 
+
+    // update le panel entier (dans le cas ou le panel serait modifié)
     public void checkPanels()
     {
         // gere le cas ou on a ajouté un spell entre temps et on souhaite donc update les valeurs
@@ -107,8 +124,9 @@ public class SpellsPanel : MonoBehaviour
             // mettre à jour les valeurs
             icon.sprite = spell.icon;
             nameText.text = spell.name;
-            //keyText.text = spell.key.ToString();
+            keyText.text = playerSpells.spellKeys.Find(x => x.spellIndex == i).key.ToString(); // on va trouver la key lié a l'index du spell
             cooldownText.text = spell.cooldown.ToString("F1") + "s";
+            costText.text = spell.manaCost + "";
         }
     }
 }

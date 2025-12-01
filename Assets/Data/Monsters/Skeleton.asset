@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a8922105dc7d3d468b110c40657ba63, type: 3}
+  m_Name: Skeleton
+  m_EditorClassIdentifier: 
+  detectionRange: 1
+  attackRange: 2
+  prefab: {fileID: 8840928904092592330, guid: 3d59695ea5071f24fbbc65c49667f865, type: 3}
+  attackCooldown: 1.5
+  lastAttackTime: 0
+  deathSound: {fileID: 8300000, guid: 3d2a0080f826e884ab6313db59743336, type: 3}
+  deathSoundAlreadyDone: 0

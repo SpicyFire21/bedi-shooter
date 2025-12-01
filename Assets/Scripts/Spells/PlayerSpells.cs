@@ -150,6 +150,18 @@ public class PlayerSpells : MonoBehaviour
         return 0f;
     }
 
+    public KeyCode GetKeyForSpell(int spellIndex)
+    {
+        foreach (var sk in spellKeys)
+        {
+            if (sk.spellIndex == spellIndex)
+                return sk.key;
+        }
+
+        return KeyCode.None;
+    }
+
+
 
 
 
