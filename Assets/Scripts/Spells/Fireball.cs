@@ -23,7 +23,7 @@ public class Fireball : SpellBase
 
         if (target != null && target != caster)
         {
-            // target.TakeDamage(data.damage);
+            target.currentHealth -= data.damage;
             Destroy(gameObject);
             return;
         }
