@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allSpells:
   - {fileID: 11400000, guid: f00fb5fa75f937c4fa1c015f801ff666, type: 2}
+  - {fileID: 11400000, guid: 112fbbd974ea8f449b4943fc38f2ad5e, type: 2}
