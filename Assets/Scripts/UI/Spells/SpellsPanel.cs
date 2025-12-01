@@ -67,7 +67,7 @@ public class SpellsPanel : MonoBehaviour
             Text costText = panel.transform.Find("ManaCost").GetComponent<Text>();
 
 
-            // mettre à jour les valeurs
+            // mettre à jour les valeur
             icon.sprite = spell.icon;
             nameText.text = spell.name;
             //keyText.text = spell.key.ToString();
