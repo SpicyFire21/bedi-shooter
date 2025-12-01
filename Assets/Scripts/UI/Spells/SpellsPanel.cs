@@ -24,6 +24,9 @@ public class SpellsPanel : MonoBehaviour
     private Text spellCooldown;
 
     [SerializeField]
+    private Text spellCost;
+
+    [SerializeField]
     private GameObject spellPanelPrefab;
 
     [SerializeField]
@@ -61,6 +64,8 @@ public class SpellsPanel : MonoBehaviour
             Text nameText = panel.transform.Find("SpellName").GetComponent<Text>();
             Text keyText = panel.transform.Find("SpellKey").GetComponent<Text>();
             Text cooldownText = panel.transform.Find("SpellCooldown").GetComponent<Text>();
+            Text costText = panel.transform.Find("ManaCost").GetComponent<Text>();
+
 
             // mettre à jour les valeurs
             icon.sprite = spell.icon;
@@ -97,6 +102,7 @@ public class SpellsPanel : MonoBehaviour
             Text nameText = panel.transform.Find("SpellName").GetComponent<Text>();
             Text keyText = panel.transform.Find("SpellKey").GetComponent<Text>();
             Text cooldownText = panel.transform.Find("SpellCooldown").GetComponent<Text>();
+            Text costText = panel.transform.Find("ManaCost").GetComponent<Text>();
 
             // mettre à jour les valeurs
             icon.sprite = spell.icon;
