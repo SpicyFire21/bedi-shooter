@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fireball
   m_EditorClassIdentifier: 
   spellName: Fireball
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 81ea5013a4e5d8b4a8213230ec4b49c5, type: 3}
   damage: 20
   cooldown: 10
   prefab: {fileID: 2044565841225397092, guid: 2bec9cabefc9a6d4ab92b9b54475d1a7, type: 3}
