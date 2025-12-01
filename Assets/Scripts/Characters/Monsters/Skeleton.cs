@@ -3,16 +3,6 @@ using UnityEngine.AI;
 
 public class Skeleton : Monster
 {
-    [Header("AI Settings")]
-    public Transform player;
-
-    private NavMeshAgent agent;
-    public Animator anim;
-
-    [Header("Attack Settings")]
-    public float attackCooldown = 1.5f;
-    private float lastAttackTime;
-
     protected override void Start()
     {
         base.Start();
@@ -28,6 +18,8 @@ public class Skeleton : Monster
 
     void Update()
     {
+        Debug.Log(currentHealth);
+
         if (IsDead())
             return;
 
