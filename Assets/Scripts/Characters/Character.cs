@@ -29,5 +29,9 @@ public abstract class Character : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        if (this is Monster monster)
+        {
+            monster.UpdateHealthBar();
+        }
     }
 }
