@@ -39,28 +39,67 @@ public class Skeleton : Monster
 
         float distance = Vector3.Distance(transform.position, player.position);
 
+        // =====================
+        // Regarder vers le joueur
+        // =====================
+        Vector3 direction = player.position - transform.position;
+        direction.y = 0; // on ignore la hauteur pour ne pas pencher le squelette
+        if (direction != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            // Rotation fluide
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        }
+
+
+        // -----------------------
+        // Gérer le déplacement
+        // -----------------------
         agent.SetDestination(player.position);
 
-        if (distance > detectionRange)
+        if (distance <= attackRange)
         {
-            // COURT si trop loin
-            agent.speed = moveSpeed * 2f;
-            anim.SetFloat("Speed", 2f);
+            // Arrêt devant le joueur
+            agent.isStopped = true;
         }
         else
         {
-            // MARCHE si proche
-            agent.speed = moveSpeed;
-            anim.SetFloat("Speed", 1f);
+            agent.isStopped = false;
+
+            // Marche / course selon distance
+            if (distance > detectionRange)
+            {
+                agent.speed = moveSpeed * 3f; // course
+            }
+            else
+            {
+                agent.speed = moveSpeed;      // marche
+            }
         }
 
-        // === attack ===
+        // -----------------------
+        // Définir Speed pour l'Animator
+        // -----------------------
+        float actualSpeed = agent.velocity.magnitude;
+
+        // Seuil minimal pour éviter la marche fantôme
+        if (actualSpeed < 0.1f)
+            actualSpeed = 0f;
+
+        // Normaliser pour l'Animator (1 = marche, 2 = course)
+        float animSpeed = (distance > detectionRange) ? 2f : 1f;
+        anim.SetFloat("Speed", (actualSpeed > 0f) ? animSpeed : 0f);
+
+        // -----------------------
+        // Attaque
+        // -----------------------
         if (distance <= attackRange && Time.time - lastAttackTime >= attackCooldown)
         {
             anim.SetTrigger("Attack");
             lastAttackTime = Time.time;
         }
     }
+
 
     // ===============================
     //          ATTACK
