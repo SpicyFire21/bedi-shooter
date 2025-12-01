@@ -18,11 +18,32 @@ public class Skeleton : Monster
 
     void Update()
     {
-        Debug.Log(currentHealth);
+        LookAtPlayer();
+        SpeedAnimManager();
 
         if (IsDead())
+        {
+            DeathHandler(2f);
             return;
+        }
+    }
 
+
+
+
+
+
+    // ===============================
+    //          ATTACK
+    // ===============================
+    private void Attack()
+    {
+        anim.SetTrigger("Attack");
+    }
+
+
+    private void SpeedAnimManager()
+    {
         if (player == null || agent == null || !agent.isOnNavMesh)
         {
             anim.SetFloat("Speed", 0f);
@@ -31,17 +52,7 @@ public class Skeleton : Monster
 
         float distance = Vector3.Distance(transform.position, player.position);
 
-        // =====================
-        // Regarder vers le joueur
-        // =====================
-        Vector3 direction = player.position - transform.position;
-        direction.y = 0; // on ignore la hauteur pour ne pas pencher le squelette
-        if (direction != Vector3.zero)
-        {
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            // Rotation fluide
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-        }
+
 
 
         // -----------------------
@@ -92,28 +103,6 @@ public class Skeleton : Monster
         }
     }
 
-
-    // ===============================
-    //          ATTACK
-    // ===============================
-    private void Attack()
-    {
-        anim.SetTrigger("Attack");
-    }
-
-    // ===============================
-    //          DAMAGE / DEATH
-    // ===============================
-    public override void TakeDamage(int amount)
-    {
-        if (IsDead()) return;
-
-        base.TakeDamage(amount);
-
-        anim.SetBool("Take_damage", true);
-        Invoke(nameof(ResetDamageFlag), 0.2f);
-    }
-
     private void ResetDamageFlag()
     {
         anim.SetBool("Take_damage", false);
@@ -121,7 +110,7 @@ public class Skeleton : Monster
 
     protected override void Die()
     {
-        anim.SetBool("Is_dead", true);
+    
 
         if (agent != null)
             agent.isStopped = true;
@@ -133,7 +122,19 @@ public class Skeleton : Monster
 
     private bool IsDead()
     {
-        return anim.GetBool("Is_dead");
+        return currentHealth <= 0;
+    }
+
+    private void LookAtPlayer()
+    {
+        Vector3 direction = player.position - transform.position;
+        direction.y = 0; // on ignore la hauteur pour ne pas pencher le squelette
+        if (direction != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            // Rotation fluide
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        }
     }
 
     // ===============================
