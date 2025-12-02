@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellName: Fireball
   icon: {fileID: 21300000, guid: 81ea5013a4e5d8b4a8213230ec4b49c5, type: 3}
-  damage: 20
-  cooldown: 10
+  spellType: 0
+  value: 20
+  cooldown: 0
+  manaCost: 0
+  lifeTime: 3
+  effectDuration: 5
   prefab: {fileID: 2044565841225397092, guid: 2bec9cabefc9a6d4ab92b9b54475d1a7, type: 3}
-  manaCost: 10
-  isTargetedOnGround: 0
-  attackRange: 10
   castSound: {fileID: 8300000, guid: f621af33d78ffc34aa7f3c54ef80a923, type: 3}
   volume: 1

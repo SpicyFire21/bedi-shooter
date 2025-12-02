@@ -1,0 +1,22 @@
+﻿using UnityEngine;
+
+public class Fireball : ProjectileSpellBase
+{
+    private void OnTriggerEnter(Collider other)
+    {
+        Character target = other.GetComponent<Character>();
+
+        if (target != null && target != caster)
+        {
+            if (target.currentHealth <= 0) return;
+            target.TakeDamage(data.value);
+            Destroy(gameObject);
+        }
+
+        if (other.CompareTag("Destructible"))
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+        }
+    }
+}

@@ -2,15 +2,14 @@ using UnityEngine;
 
 public abstract class SpellBase : MonoBehaviour
 {
-    protected Player caster;
+    protected Character caster;
     protected SpellData data;
-    protected Vector3 destination;
 
-    public virtual void Init(Player player, SpellData spellData, Vector3 dir)
+    public virtual void Init(Character character, SpellData spellData)
     {
-        caster = player;
+        Debug.Log("Appel slt");
+        caster = character;
         data = spellData;
-        destination = dir;
 
         if (data.castSound != null)
         {

@@ -1,25 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class IceStorm : SpellBase
+public class IceStorm : ZoneSpellBase
 {
     [Header("Ice Zone Settings")]
-    public float lifeTime = 3f;
     public float tickRate = 1f;
-
-    private HashSet<Character> targets = new HashSet<Character>();
     private Coroutine damageCoroutine;
-    private bool isActiveZone = true;
 
-    protected override void Cast()
+
+    public override void Initialize(Character caster, SpellData data)
     {
-        lifeTime = lifeTime + 0.1f; // sans cela, pour lifetime = 3 et tickrate = 1, les cibles subiront uniquement deux ticks de degats et non 3
-
-        // démarre la coroutine pour les dégâts
-        damageCoroutine = StartCoroutine(DamageRoutine());
-
-        // destruction automatique
-        Invoke(nameof(DestroyZone), lifeTime);
+        base.Initialize(caster, data);
+        damageCoroutine = StartCoroutine(DamageRoutine()); // initialisation de base + notre customization par rapport au spell (ici des damages mais on peut bien avoir du heal...)
     }
 
 
@@ -27,7 +19,7 @@ public class IceStorm : SpellBase
     // ici, elle applique périodiquement les dégâts aux cibles présentes dans la zone.
     private IEnumerator DamageRoutine()
     {
-        float damagePerTick = data.damage * (tickRate / lifeTime);
+        float damagePerTick = data.value * (tickRate / data.effectDuration);
         if (damagePerTick <= 0f) damagePerTick = 1f; // on assure au moins un degat par tick peut importe le calcul
 
         while (isActiveZone)
@@ -63,18 +55,6 @@ public class IceStorm : SpellBase
         {
             Debug.Log("Caracter retired:" + target.name);
         }
-    }
-
-    private void DestroyZone()
-    {
-        isActiveZone = false;
-        targets.Clear();
-        if (damageCoroutine != null)
-            StopCoroutine(damageCoroutine);
-        Collider col = GetComponent<Collider>();
-        if (col != null)
-            col.enabled = false;
-        Destroy(gameObject);
     }
 
     private void OnDestroy()

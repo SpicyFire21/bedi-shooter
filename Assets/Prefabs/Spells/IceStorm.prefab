@@ -99,7 +99,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f169ce10c1f7a5744b957b23cde7aa5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 3
+  range: 20
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
   tickRate: 1
 --- !u!65 &-6249999476146494601
 BoxCollider:
@@ -118,7 +121,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 5.5, y: 0.5, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
