@@ -13,10 +13,34 @@ public class Player : Character
     public SpellDatabase spellList;
 
 
-    
+    [SerializeField] private float meleeRange = 2f;
+    [SerializeField] private float meleeRadius = 0.8f;
+    [SerializeField] private int meleeDamage = 15;
+    [SerializeField] private LayerMask meleeMask;
+    public override float MeleeRange => meleeRange;
+    public override float MeleeRadius => meleeRadius;
+    public override int MeleeDamage => meleeDamage;
+    public override LayerMask MeleeMask => meleeMask;
+
+    public Animator animator; // Drag ton Animator dans lâ€™inspecteur
 
 
+    public override void Attack()
+    {
+        Debug.Log("je vais te dÃ©marrer fdp");
+        animator.SetTrigger("Attack"); // DÃ©clenche lâ€™animation
 
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position + transform.forward * MeleeRange, MeleeRadius, MeleeMask);
+
+        foreach (Collider enemy in hitEnemies)
+        {
+            Character target = enemy.GetComponent<Character>();
+            if (target != null)
+            {
+                target.TakeDamage(MeleeDamage);
+            }
+        }
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,9 +52,17 @@ public class Player : Character
     void Update()
     {
 
+
+
+
         HandleDeath();
         if (!isPlayer) {
             return;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {   
+            Attack();
         }
 
         if (currentMana < maxMana)
@@ -47,8 +79,8 @@ public class Player : Character
 
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
         currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
-        // borne mini, borne max, si on dépasse = retour a la valeur max
-        // cela évite de dépasser le maxMana et le maxHealth
+        // borne mini, borne max, si on dï¿½passe = retour a la valeur max
+        // cela ï¿½vite de dï¿½passer le maxMana et le maxHealth
     }
 
     public override void DeathHandler(float destructionTime)

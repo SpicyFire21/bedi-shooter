@@ -3597,7 +3597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.45825055
+      value: 0.023559809
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3605,7 +3605,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.29174626
+      value: -3.7317715
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4344,6 +4344,13 @@ MonoBehaviour:
   healthRegenPerSecond: 1.5
   currentMana: 15
   spellList: {fileID: 11400000, guid: b53c192ca167357418de33b6e46155c2, type: 2}
+  meleeRange: 2
+  meleeRadius: 0.8
+  meleeDamage: 15
+  meleeMask:
+    serializedVersion: 2
+    m_Bits: 0
+  animator: {fileID: 0}
 --- !u!114 &1360808164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6572,7 +6579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.45825055
+      value: 0.023559809
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6580,7 +6587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.29174626
+      value: -3.7317715
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8112,7 +8119,7 @@ PrefabInstance:
       objectReference: {fileID: 6579130724565027312, guid: d65cb71d03f80554986e5af1e652d79b, type: 3}
     - target: {fileID: 4401551526267993630, guid: 3d59695ea5071f24fbbc65c49667f865, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.43
       objectReference: {fileID: 0}
     - target: {fileID: 4401551526267993630, guid: 3d59695ea5071f24fbbc65c49667f865, type: 3}
       propertyPath: m_LocalPosition.y

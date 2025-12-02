@@ -15,6 +15,13 @@ public abstract class Character : MonoBehaviour
     public bool deathSoundPlayed = false;
 
 
+    [Header("Attacks")]
+    public abstract float MeleeRange { get; }
+    public abstract float MeleeRadius { get; }
+    public abstract int MeleeDamage { get; }
+    public abstract LayerMask MeleeMask { get; }
+
+
     protected void HandleDeath()
     {
         if (!isDead && currentHealth <= 0)
@@ -34,4 +41,7 @@ public abstract class Character : MonoBehaviour
             monster.UpdateHealthBar();
         }
     }
+
+    public abstract void Attack();
+
 }

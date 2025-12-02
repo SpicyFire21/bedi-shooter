@@ -12,7 +12,18 @@ public class Monster : Character
     private MonsterHealthBar healthBarInstance;
     protected float lastAttackTime;
 
+    
+    [SerializeField] private float meleeRange = 2f;
+    [SerializeField] private float meleeRadius = 0.8f;
+    [SerializeField] private int meleeDamage = 15;
+    [SerializeField] private LayerMask meleeMask;
+    public override float MeleeRange => meleeRange;
+    public override float MeleeRadius => meleeRadius;
+    public override int MeleeDamage => meleeDamage;
+    public override LayerMask MeleeMask => meleeMask;
 
+public override void Attack()
+    {}
 
     void Start()
     {
@@ -37,7 +48,7 @@ public class Monster : Character
 
     public virtual void Update()
     {
-        HandleDeath(); // vérifie la mort
+        HandleDeath(); // vï¿½rifie la mort
     }
 
     public void UpdateHealthBar()
