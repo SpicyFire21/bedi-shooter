@@ -2229,11 +2229,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 665223834}
   m_CullTransparentMesh: 1
---- !u!4 &688739197 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2719569588957798408, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-  m_PrefabInstance: {fileID: 425005569}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &707313243
 GameObject:
   m_ObjectHideFlags: 0
@@ -4309,7 +4304,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerDatabase: {fileID: 11400000, guid: b53c192ca167357418de33b6e46155c2, type: 2}
-  castPoint: {fileID: 688739197}
   spellKeys:
   - key: 102
     spellIndex: 0
@@ -4317,9 +4311,6 @@ MonoBehaviour:
     spellIndex: 1
   - key: 104
     spellIndex: 2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &1360808163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4336,6 +4327,7 @@ MonoBehaviour:
   currentHealth: 20
   characterName: "b\xE9di"
   moveSpeed: 4
+  castPoint: {fileID: 477352027}
   isPlayer: 1
   isDead: 0
   deathSoundPlayed: 0
@@ -4350,7 +4342,7 @@ MonoBehaviour:
   meleeMask:
     serializedVersion: 2
     m_Bits: 0
-  animator: {fileID: 0}
+  animator: {fileID: 1360808168}
 --- !u!114 &1360808164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4368,6 +4360,11 @@ MonoBehaviour:
   manaBarFill: {fileID: 1242576086}
   healthBarText: {fileID: 525271520}
   manaBarText: {fileID: 1324599916}
+--- !u!95 &1360808168 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6982812146204527121, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+  m_PrefabInstance: {fileID: 425005569}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1363567725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8101,6 +8098,10 @@ PrefabInstance:
       propertyPath: anim
       value: 
       objectReference: {fileID: 1018077423}
+    - target: {fileID: 3303004151139118684, guid: 3d59695ea5071f24fbbc65c49667f865, type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: cfbfb6eeae6610f4293580ef55593b49, type: 2}
     - target: {fileID: 3303004151139118684, guid: 3d59695ea5071f24fbbc65c49667f865, type: 3}
       propertyPath: agent
       value: 
