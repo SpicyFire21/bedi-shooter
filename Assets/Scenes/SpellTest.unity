@@ -4311,6 +4311,8 @@ MonoBehaviour:
     spellIndex: 1
   - key: 104
     spellIndex: 2
+  - key: 107
+    spellIndex: 3
 --- !u!114 &1360808163
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -33,6 +33,7 @@ public class ZoneSpellBase : SpellBase
 
     public virtual void Initialize(Character caster, SpellData data)
     {
+        data.lifeTime = data.lifeTime + 0.1f;
         this.caster = caster;
         this.data = data;
         isActiveZone = true;
@@ -61,8 +62,4 @@ public class ZoneSpellBase : SpellBase
 
         return false;
     }
-
-    // helpers pour les sous-classes
-    protected void RegisterTarget(Character c) => targets.Add(c);
-    protected void UnregisterTarget(Character c) => targets.Remove(c);
 }

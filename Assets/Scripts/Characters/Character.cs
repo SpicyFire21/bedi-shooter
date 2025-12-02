@@ -35,7 +35,26 @@ public abstract class Character : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        float newHealth = currentHealth -= damage;
+        currentHealth = newHealth;
+        if (this is Monster monster)
+        {
+            monster.UpdateHealthBar();
+        }
+    }
+
+    public void TakeHealth(float health)
+    {
+        float newHealth = currentHealth += health;
+        if (newHealth < maxHealth)
+        {
+            Debug.Log("on peut ! : " + newHealth);
+            currentHealth = newHealth;
+        }
+        else
+        {
+            currentHealth = maxHealth;
+        }
         if (this is Monster monster)
         {
             monster.UpdateHealthBar();

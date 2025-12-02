@@ -27,19 +27,19 @@ public class Player : Character
 
     public override void Attack()
     {
-        Debug.Log("je vais te démarrer fdp");
-        animator.SetTrigger("Attack"); // Déclenche l’animation
+        //Debug.Log("je vais te démarrer fdp");
+        //animator.SetTrigger("Attack"); // Déclenche l’animation
 
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position + transform.forward * MeleeRange, MeleeRadius, MeleeMask);
+        //Collider[] hitEnemies = Physics.OverlapSphere(transform.position + transform.forward * MeleeRange, MeleeRadius, MeleeMask);
 
-        foreach (Collider enemy in hitEnemies)
-        {
-            Character target = enemy.GetComponent<Character>();
-            if (target != null)
-            {
-                target.TakeDamage(MeleeDamage);
-            }
-        }
+        //foreach (Collider enemy in hitEnemies)
+        //{
+        //    Character target = enemy.GetComponent<Character>();
+        //    if (target != null)
+        //    {
+        //        target.TakeDamage(MeleeDamage);
+        //    }
+        //}
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

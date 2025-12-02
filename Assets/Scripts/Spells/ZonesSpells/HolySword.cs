@@ -1,33 +1,33 @@
-Ôªøusing System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class IceStorm : ZoneSpellBase
+public class HolySword : ZoneSpellBase
 {
-    [Header("Ice Zone Settings")]
+    [Header("Holy Sword Settings")]
     public float tickRate = 1f;
-    private Coroutine damageCoroutine;
+    private Coroutine healthRoutine;
 
 
     public override void Initialize(Character caster, SpellData data)
     {
         base.Initialize(caster, data);
-        damageCoroutine = StartCoroutine(DamageRoutine()); // initialisation de base + notre customization par rapport au spell (ici des damages mais on peut bien avoir du heal...)
+        healthRoutine = StartCoroutine(HealthRoutine()); // initialisation de base + notre customization par rapport au spell (ici des damages mais on peut bien avoir du heal...)
     }
 
 
-    // coroutine : m√©thode qui s'ex√©cute sur plusieurs frames et peut faire des pauses sans bloquer le jeu.
-    // ici, elle applique p√©riodiquement les d√©g√¢ts aux cibles pr√©sentes dans la zone.
-    private IEnumerator DamageRoutine()
+    // coroutine : mÈthode qui s'exÈcute sur plusieurs frames et peut faire des pauses sans bloquer le jeu.
+    // ici, elle applique pÈriodiquement les dÈg‚ts aux cibles prÈsentes dans la zone.
+    private IEnumerator HealthRoutine()
     {
         float damagePerTick = data.value * (tickRate / data.lifeTime);
         if (damagePerTick <= 0f) damagePerTick = 1f; // on assure au moins un degat par tick peut importe le calcul
         while (isActiveZone)
         {
             foreach (var target in targets)
-            {        
+            {
                 if (target != null)
                 {
-                    target.TakeDamage(damagePerTick);
+                    target.TakeHealth(damagePerTick);
                 }
             }
             yield return new WaitForSeconds(tickRate);
@@ -56,8 +56,8 @@ public class IceStorm : ZoneSpellBase
 
     private void OnDestroy()
     {
-        if (damageCoroutine != null)
-            StopCoroutine(damageCoroutine);
+        if (healthRoutine != null)
+            StopCoroutine(healthRoutine);
 
         isActiveZone = false;
     }
