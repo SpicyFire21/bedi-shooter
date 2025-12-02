@@ -2,6 +2,12 @@
 
 public class Skeleton : Monster
 {
+
+    void start()
+    {
+        agent.updateRotation = true;
+    }
+
     public override void Update()
     {
         base.Update();
@@ -13,10 +19,26 @@ public class Skeleton : Monster
     {
         if (player == null) return;
 
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        // Ne regarde le joueur que lorsqu'il est suffisant proche pour attaquer
+        if (distance > data.attackRange + 0.2f)
+            return;
+
         Vector3 dir = player.position - transform.position;
         dir.y = 0;
 
-        if (dir != Vector3.zero)
+        if (distance <= data.detectionRange && distance > data.attackRange)
+        {
+            // rotation légère pendant la marche
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                Quaternion.LookRotation(dir),
+                Time.deltaTime * 2f
+            );
+        }
+
+        if (dir.sqrMagnitude > 0.001f)
         {
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
@@ -25,6 +47,7 @@ public class Skeleton : Monster
             );
         }
     }
+
 
     private void SpeedAnimManager()
     {
