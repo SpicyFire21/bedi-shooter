@@ -3976,11 +3976,13 @@ MonoBehaviour:
   characterName: Larry
   moveSpeed: 2
   isPlayer: 0
-  detectionRange: 10
-  attackRange: 2
-  player: {fileID: 478058264}
+  isDead: 0
+  deathSoundPlayed: 0
+  data: {fileID: 11400000, guid: 003d37290b72224498fbd2e76d1dd649, type: 2}
+  agent: {fileID: 8965173632766348717}
   anim: {fileID: 8965173632766348713}
-  attackCooldown: 1.5
+  player: {fileID: 478058264}
+  healthBarPrefab: {fileID: 6579130724565027312, guid: d65cb71d03f80554986e5af1e652d79b, type: 3}
 --- !u!195 &8965173632766348717
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8922105dc7d3d468b110c40657ba63, type: 3}
   m_Name: Skeleton
   m_EditorClassIdentifier: 
-  detectionRange: 1
+  detectionRange: 5
   attackRange: 2
   prefab: {fileID: 8840928904092592330, guid: 3d59695ea5071f24fbbc65c49667f865, type: 3}
   attackCooldown: 1.5
