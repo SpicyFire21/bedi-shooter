@@ -9,7 +9,7 @@ public abstract class Character : MonoBehaviour
 
     [Header("Movement")]
     public float moveSpeed;
-
+    public Transform castPoint;
     public bool isPlayer; // false par défaut
     public bool isDead;
     public bool deathSoundPlayed = false;
