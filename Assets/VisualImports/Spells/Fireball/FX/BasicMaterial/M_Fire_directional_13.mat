@@ -104,7 +104,7 @@ Material:
     - _Mask_udrl: {r: 0, g: 0, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _Smoothstep: {r: 0, g: 1, b: 0, a: 0}
-    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+    - _TintColor: {r: 0.20000002, g: 0.20000002, b: 0.20000002, a: 0.5}
     - _VOTex_speed: {r: 0, g: 0, b: 0, a: 0}
     - _VOTex_uv: {r: 0, g: 0, b: 1, a: 1}
     - _color1: {r: 1, g: 1, b: 1, a: 1}
