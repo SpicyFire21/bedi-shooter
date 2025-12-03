@@ -9,7 +9,7 @@ public class MonsterData : ScriptableObject
     public GameObject prefab;
     public float attackCooldown = 1.5f;
     public float lastAttackTime;
-    public AudioClip deathSound;    // son joué quand le sort est lancé
+    public AudioClip deathSound;    // son joué quand le sort est lancé *
     public float spawnRate;
     public float maxOnField;
     private int onField = 0;
