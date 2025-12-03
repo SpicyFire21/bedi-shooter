@@ -13,6 +13,8 @@ public abstract class Character : MonoBehaviour
     public bool isPlayer; // false par défaut
     public bool isDead;
     public bool deathSoundPlayed = false;
+    public int level;
+    private float xp;
 
 
     protected void HandleDeath()

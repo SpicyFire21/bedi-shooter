@@ -4,6 +4,7 @@ public class Skeleton : Monster
 {
 
     public PirateSword weapon;
+    private float storedDamage;
 
     protected override void Start()
     {
@@ -80,29 +81,39 @@ public class Skeleton : Monster
         // --- LOGIQUE D’ATTAQUE ---
         if (inAttackRange && Time.time >= lastAttackTime + data.attackCooldown)
         {
-            Attack(weapon.weaponData.weaponDamage);
+            if (weapon != null)
+            {
+                Attack(weapon.weaponData.weaponDamage);
+            } else
+            {
+                Attack(data.damage);
+            }
         }
     }
 
     public override void Attack(float damage)
     {
         Debug.Log("ATTACK");
-        if (player != null)
-        {
-            Debug.Log("PLAYER ! : " + player.name);
-            Player playerCharacter = player.GetComponent<Player>();
-            if (playerCharacter != null)
-            {
-                Debug.Log("CHARACTER : " + playerCharacter.name);
-                playerCharacter.TakeDamage(damage);
-            }
-        }
+        storedDamage = damage;
+
         int randomAttack = Random.Range(0, 5); // 0 → 4
         anim.SetInteger("AttackIndex", randomAttack);
         anim.SetTrigger("Attack");
+        AudioSource.PlayClipAtPoint(weapon.weaponData.actionSound, transform.position, 1f);
         lastAttackTime = Time.time;
     }
 
+    public void ApplyDamage()
+    {
+        if (player != null)
+        {
+            Player playerCharacter = player.GetComponent<Player>();
+            if (playerCharacter != null)
+            {
+                playerCharacter.TakeDamage(storedDamage);
+            }
+        }
+    }
 
     public override void Spawn(Vector3 spawnPosition)
     {
