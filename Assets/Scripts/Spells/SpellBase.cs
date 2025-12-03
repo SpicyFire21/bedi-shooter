@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class SpellBase : MonoBehaviour
 {
-    protected Character caster;
+    public Character caster;
     protected SpellData data;
 
     public virtual void Init(Character character, SpellData spellData)
