@@ -19411,7 +19411,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  lifeTime: 2
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 118
 --- !u!1 &3920547439657193503
 GameObject:
   m_ObjectHideFlags: 0

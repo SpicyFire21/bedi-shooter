@@ -73,7 +73,7 @@ public class SpellsPanel : MonoBehaviour
 
             // mettre à jour les valeur
             icon.sprite = spell.icon;
-            nameText.text = spell.name;
+            nameText.text = spell.spellName;
             keyText.text = playerSpells.spellKeys.Find(x => x.spellIndex == i).key.ToString();
             cooldownText.text = "Ready";
             costText.text = spell.manaCost + "";
@@ -123,7 +123,7 @@ public class SpellsPanel : MonoBehaviour
 
             // mettre à jour les valeurs
             icon.sprite = spell.icon;
-            nameText.text = spell.name;
+            nameText.text = spell.spellName;
             keyText.text = playerSpells.spellKeys.Find(x => x.spellIndex == i).key.ToString(); // on va trouver la key lié a l'index du spell
             cooldownText.text = spell.cooldown.ToString("F1") + "s";
             costText.text = spell.manaCost + "";
