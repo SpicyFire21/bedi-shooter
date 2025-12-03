@@ -6,7 +6,6 @@ public class Skeleton : Monster
     protected override void Start()
     {
         base.Start();
-        Debug.Log("player:" + player.name);
         agent.updateRotation = true;
     }
 
@@ -99,13 +98,6 @@ public class Skeleton : Monster
         Debug.Log("un monstre a spawn : " + data.name);
         data.IncrementOnField();
         transform.position = spawnPosition;
-        isDead = false;
-        currentHealth = maxHealth;
-        lastAttackTime = 0f;
-        agent.isStopped = false;
-        agent.enabled = true;
-        anim.Update(0f);
-        gameObject.SetActive(true);
     }
 
 }

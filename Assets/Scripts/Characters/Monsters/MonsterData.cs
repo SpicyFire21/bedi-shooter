@@ -16,4 +16,6 @@ public class MonsterData : ScriptableObject
     public int monstersOnField => onField; // toute cette logique evite de pouvoir directement modifié depuis l'inspecteur ce qui pourrait casser le jeu
     public void IncrementOnField() => onField++;
     public void DecrementOnField() => onField = Mathf.Max(0, onField - 1);
+
+    public void ResetOnField() => onField = 0;
 }

@@ -33,11 +33,10 @@ public class ZoneSpellBase : SpellBase
 
     public virtual void Initialize(Character caster, SpellData data)
     {
-        data.lifeTime = data.lifeTime + 0.1f;
         this.caster = caster;
         this.data = data;
         isActiveZone = true;
-        Destroy(gameObject, data.lifeTime);
+        Destroy(gameObject, data.lifeTime + 0.1f);
     }
 
     protected bool TryGetTargetPosition(out Vector3 position)

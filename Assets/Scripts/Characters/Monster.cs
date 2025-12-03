@@ -7,7 +7,7 @@ public abstract class Monster : Character
     public MonsterData data;
     public NavMeshAgent agent;
     public Animator anim;
-    public Transform player;
+    protected Transform player;
     public MonsterHealthBar healthBarPrefab;
     private MonsterHealthBar healthBarInstance;
     protected float lastAttackTime;
@@ -22,7 +22,7 @@ public abstract class Monster : Character
     public override int MeleeDamage => meleeDamage;
     public override LayerMask MeleeMask => meleeMask;
 
-public override void Attack()
+    public override void Attack()
     {}
 
 
@@ -31,6 +31,12 @@ public override void Attack()
 
     protected virtual void Start()
     {
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+                player = playerObj.transform;
+        }
         SetHealthBar();
     }
 

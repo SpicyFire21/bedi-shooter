@@ -13,13 +13,14 @@ public class MonsterSpawner : MonoBehaviour
     public Player player;
 
     [Header("Spawn Settings")]
-    public float spawnRadiusMin = 5f;
-    public float spawnRadiusMax = 15f;
+    public float spawnRadiusMin;
+    public float spawnRadiusMax;
 
     void Start()
     {
         foreach (MonsterData monster in monsterDatabase.monstersList)
         {
+            monster.ResetOnField(); // on reset a chaque lancement de jeu
             StartCoroutine(SpawnRoutine(monster));
         }
     }
@@ -54,14 +55,10 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
-    int CountMonsterOnField(MonsterData monster)
+    Vector3 GetRandomPointOnNavMeshAroundPlayer() // on prend un point aléatoire sur le mesh en respectant le radius mit dans l'inspecteur -->                                              
+                                                  // on essaye tant qu'on a pas trouvé de bonne position (20 fois en tout)
     {
-        return GameObject.FindGameObjectsWithTag(monster.prefab.tag).Length;
-    }
-
-    Vector3 GetRandomPointOnNavMeshAroundPlayer()
-    {
-        for (int i = 0; i < spawnRadiusMax; i++)
+        for (int i = 0; i < 20; i++)
         {
             Vector2 randomDir = Random.insideUnitCircle.normalized;
             float distance = Random.Range(spawnRadiusMin, spawnRadiusMax);
@@ -74,8 +71,6 @@ public class MonsterSpawner : MonoBehaviour
                 return hit.position;
             }
         }
-
-        // Fallback sécurité
         return player.transform.position + Vector3.forward * spawnRadiusMin;
     }
 }
