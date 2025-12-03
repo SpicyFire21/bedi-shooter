@@ -20,6 +20,6 @@ MonoBehaviour:
   manaCost: 0
   lifeTime: 5
   effectDuration: 0
-  prefab: {fileID: 2952631268968578322, guid: 387e44fc45ffbd04b9a0b1b0de6a5954, type: 3}
+  prefab: {fileID: 2952631268968578322, guid: fbe3cff5ed5b2204fb841fe5e1bb1e9e, type: 3}
   castSound: {fileID: 0}
   volume: 1
