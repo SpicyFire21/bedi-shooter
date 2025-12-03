@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Skeleton
   m_EditorClassIdentifier: 
   detectionRange: 5
-  attackRange: 2
-  prefab: {fileID: 8840928904092592330, guid: 3d59695ea5071f24fbbc65c49667f865, type: 3}
+  attackRange: 4
+  prefab: {fileID: 6200216252321468030, guid: 3b79efede7f2e8b48ada13201de7d242, type: 3}
   attackCooldown: 1.5
   lastAttackTime: 0
   deathSound: {fileID: 8300000, guid: 3d2a0080f826e884ab6313db59743336, type: 3}
+  spawnRate: 1
+  maxOnField: 2

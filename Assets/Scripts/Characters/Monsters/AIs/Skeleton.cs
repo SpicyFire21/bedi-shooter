@@ -3,10 +3,16 @@
 public class Skeleton : Monster
 {
 
-    void start()
+    protected override void Start()
     {
+        base.Start();
+        Debug.Log("player:" + player.name);
         agent.updateRotation = true;
     }
+
+
+
+
 
     public override void Update()
     {
@@ -86,4 +92,20 @@ public class Skeleton : Monster
 
         lastAttackTime = Time.time;
     }
+
+
+    public override void Spawn(Vector3 spawnPosition)
+    {
+        Debug.Log("un monstre a spawn : " + data.name);
+        data.IncrementOnField();
+        transform.position = spawnPosition;
+        isDead = false;
+        currentHealth = maxHealth;
+        lastAttackTime = 0f;
+        agent.isStopped = false;
+        agent.enabled = true;
+        anim.Update(0f);
+        gameObject.SetActive(true);
+    }
+
 }

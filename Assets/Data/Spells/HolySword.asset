@@ -18,7 +18,7 @@ MonoBehaviour:
   value: 50
   cooldown: 0
   manaCost: 0
-  lifeTime: 7.999997
+  lifeTime: 5.1
   effectDuration: 5
   prefab: {fileID: 1213241984902183363, guid: aeabfe706b429e04ba0c64fd19139c3a, type: 3}
   castSound: {fileID: 8300000, guid: 180fdf304e7a4d5409cd1122fa59c503, type: 3}

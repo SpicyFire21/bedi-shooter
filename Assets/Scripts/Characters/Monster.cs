@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Monster : Character
+public abstract class Monster : Character
 {
     public MonsterData data;
     public NavMeshAgent agent;
@@ -25,13 +25,20 @@ public class Monster : Character
 public override void Attack()
     {}
 
-    void Start()
+
+
+    public abstract void Spawn(Vector3 spawnPosition);
+
+    protected virtual void Start()
     {
         SetHealthBar();
     }
 
+
     public override void DeathHandler(float destructionTime)
     {
+
+        data.DecrementOnField();
         if (agent != null) agent.isStopped = true;
         if (anim != null) anim.SetBool("Is_dead", true);
 

@@ -2229,11 +2229,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 665223834}
   m_CullTransparentMesh: 1
---- !u!4 &688739197 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2719569588957798408, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-  m_PrefabInstance: {fileID: 425005569}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &707313243
 GameObject:
   m_ObjectHideFlags: 0
@@ -4299,7 +4294,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerDatabase: {fileID: 11400000, guid: b53c192ca167357418de33b6e46155c2, type: 2}
-  castPoint: {fileID: 688739197}
   spellKeys:
   - key: 102
     spellIndex: 0
@@ -4307,9 +4301,6 @@ MonoBehaviour:
     spellIndex: 1
   - key: 104
     spellIndex: 2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &1360808163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4326,6 +4317,7 @@ MonoBehaviour:
   currentHealth: 20
   characterName: "b\xE9di"
   moveSpeed: 4
+  castPoint: {fileID: 477352027}
   isPlayer: 1
   isDead: 0
   deathSoundPlayed: 0
@@ -4334,6 +4326,13 @@ MonoBehaviour:
   healthRegenPerSecond: 1.5
   currentMana: 15
   spellList: {fileID: 11400000, guid: b53c192ca167357418de33b6e46155c2, type: 2}
+  meleeRange: 2
+  meleeRadius: 0.8
+  meleeDamage: 15
+  meleeMask:
+    serializedVersion: 2
+    m_Bits: 0
+  animator: {fileID: 0}
 --- !u!114 &1360808164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5833,6 +5832,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 8539748528577670402, guid: d669ab04edec86c45b38e85a8c136398, type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: cfbfb6eeae6610f4293580ef55593b49, type: 2}
     - target: {fileID: 8539748528577670402, guid: d669ab04edec86c45b38e85a8c136398, type: 3}
       propertyPath: player
       value: 
