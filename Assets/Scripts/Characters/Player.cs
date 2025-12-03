@@ -12,35 +12,8 @@ public class Player : Character
 
     public SpellDatabase spellList;
 
+    public Animator animator; 
 
-    [SerializeField] private float meleeRange = 2f;
-    [SerializeField] private float meleeRadius = 0.8f;
-    [SerializeField] private int meleeDamage = 15;
-    [SerializeField] private LayerMask meleeMask;
-    public override float MeleeRange => meleeRange;
-    public override float MeleeRadius => meleeRadius;
-    public override int MeleeDamage => meleeDamage;
-    public override LayerMask MeleeMask => meleeMask;
-
-    public Animator animator; // Drag ton Animator dans l’inspecteur
-
-
-    public override void Attack()
-    {
-        //Debug.Log("je vais te démarrer fdp");
-        //animator.SetTrigger("Attack"); // Déclenche l’animation
-
-        //Collider[] hitEnemies = Physics.OverlapSphere(transform.position + transform.forward * MeleeRange, MeleeRadius, MeleeMask);
-
-        //foreach (Collider enemy in hitEnemies)
-        //{
-        //    Character target = enemy.GetComponent<Character>();
-        //    if (target != null)
-        //    {
-        //        target.TakeDamage(MeleeDamage);
-        //    }
-        //}
-    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -51,18 +24,9 @@ public class Player : Character
     // Update is called once per frame
     void Update()
     {
-
-
-
-
         HandleDeath();
         if (!isPlayer) {
             return;
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {   
-            Attack();
         }
 
         if (currentMana < maxMana)

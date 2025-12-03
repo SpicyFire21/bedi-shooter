@@ -12,9 +12,11 @@ public class MonsterData : ScriptableObject
     public AudioClip deathSound;    // son joué quand le sort est lancé *
     public float spawnRate;
     public float maxOnField;
-    private int onField = 0;
     public float minRangeRadius;
     public float maxRangeRadius;
+    public float damage;
+
+    private int onField = 0;
     public int monstersOnField => onField; // toute cette logique evite de pouvoir directement modifié depuis l'inspecteur ce qui pourrait casser le jeu
     public void IncrementOnField() => onField++;
     public void DecrementOnField() => onField = Mathf.Max(0, onField - 1);

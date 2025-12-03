@@ -3,6 +3,8 @@
 public class Skeleton : Monster
 {
 
+    public PirateSword weapon;
+
     protected override void Start()
     {
         base.Start();
@@ -78,17 +80,26 @@ public class Skeleton : Monster
         // --- LOGIQUE D’ATTAQUE ---
         if (inAttackRange && Time.time >= lastAttackTime + data.attackCooldown)
         {
-            LaunchAttack();
+            Attack(weapon.weaponData.weaponDamage);
         }
     }
 
-    private void LaunchAttack()
+    public override void Attack(float damage)
     {
+        Debug.Log("ATTACK");
+        if (player != null)
+        {
+            Debug.Log("PLAYER ! : " + player.name);
+            Player playerCharacter = player.GetComponent<Player>();
+            if (playerCharacter != null)
+            {
+                Debug.Log("CHARACTER : " + playerCharacter.name);
+                playerCharacter.TakeDamage(damage);
+            }
+        }
         int randomAttack = Random.Range(0, 5); // 0 → 4
-
         anim.SetInteger("AttackIndex", randomAttack);
         anim.SetTrigger("Attack");
-
         lastAttackTime = Time.time;
     }
 

@@ -12,18 +12,7 @@ public abstract class Monster : Character
     private MonsterHealthBar healthBarInstance;
     protected float lastAttackTime;
 
-    
-    [SerializeField] private float meleeRange = 2f;
-    [SerializeField] private float meleeRadius = 0.8f;
-    [SerializeField] private int meleeDamage = 15;
-    [SerializeField] private LayerMask meleeMask;
-    public override float MeleeRange => meleeRange;
-    public override float MeleeRadius => meleeRadius;
-    public override int MeleeDamage => meleeDamage;
-    public override LayerMask MeleeMask => meleeMask;
-
-    public override void Attack()
-    {}
+    public abstract void Attack(float damage);
 
 
 
@@ -43,7 +32,6 @@ public abstract class Monster : Character
 
     public override void DeathHandler(float destructionTime)
     {
-
         data.DecrementOnField();
         if (agent != null) agent.isStopped = true;
         if (anim != null) anim.SetBool("Is_dead", true);

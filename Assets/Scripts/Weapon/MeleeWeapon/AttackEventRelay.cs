@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class AttackEventRelay : MonoBehaviour
 {
-    public PirateSword sword;
+    public Weapon weapon;
 
     public void EnableDamage()
     {
-        if (sword != null)
-            sword.EnableDamage();
+        if (weapon != null)
+            weapon.EnableDamage();
     }
 
     public void DisableDamage()
     {
-        if (sword != null)
-            sword.DisableDamage();
+        if (weapon != null)
+            weapon.DisableDamage();
     }
 }

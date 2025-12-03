@@ -4,7 +4,7 @@ using UnityEngine;
 public class WeaponData : ScriptableObject
 {
     public string weaponName;
-    public int damage = 10;
-    public bool isMelee = true;
-    public AudioClip swordSound;
+    public int weaponDamage;
+    public bool isMelee;
+    public AudioClip actionSound;
 }
