@@ -19,6 +19,12 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI manaBarText;
+
+    [SerializeField]
+    private Image xpBar;
+
+    [SerializeField]
+    private Text levelText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -34,6 +40,8 @@ public class PlayerStats : MonoBehaviour
         manaBarFill.fillAmount = player.currentMana / player.maxMana;
         healthBarText.text = player.currentHealth.ToString("F1") + " / " + player.maxHealth.ToString("F1");
         manaBarText.text = player.currentMana.ToString("F1") + " / " + player.maxMana.ToString("F1");
+        xpBar.fillAmount = player.currentXP / player.xpToNextLevel;
+        levelText.text = "Lv. " + player.level.ToString();
         // F1 = un chiffre après la virgule
     }
 }

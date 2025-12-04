@@ -35,9 +35,23 @@ public class ZoneSpellBase : SpellBase
     {
         this.caster = caster;
         this.data = data;
+
+        Player playerCaster = caster as Player;
+        float levelBonusMultiplier = 1f;
+        if (playerCaster != null)
+        {
+            // 5% de dégâts en plus par niveau du joueur (lvl10 -> +50%)
+            levelBonusMultiplier = 1f + (0.05f * (playerCaster.level - 1));
+        }
+
+        localValue = data.value * levelBonusMultiplier;
+
         isActiveZone = true;
+
+        // Détruit la zone après sa durée de vie
         Destroy(gameObject, data.lifeTime + 0.1f);
     }
+
 
     protected bool TryGetTargetPosition(out Vector3 position)
     {

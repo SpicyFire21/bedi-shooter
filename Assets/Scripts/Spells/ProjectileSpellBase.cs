@@ -10,6 +10,7 @@ public class ProjectileSpellBase : SpellBase
     protected Rigidbody rb;
     protected Vector3 direction;
 
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -40,16 +41,28 @@ public class ProjectileSpellBase : SpellBase
         projectile.Initialize(caster, data, GetDirection());
     }
 
- 
 
     public virtual void Initialize(Character caster, SpellData data, Vector3 dir)
     {
         this.caster = caster;
         this.data = data;
         this.direction = dir;
+
         rb.linearVelocity = direction * speed;
+
+        Player playerCaster = caster as Player;
+        float levelBonusMultiplier = 1f;
+        if (playerCaster != null)
+        {
+            // 5% de dégâts en plus par niveau du joueur (lvl10 -> +50%)
+            levelBonusMultiplier = 1f + (0.05f * (playerCaster.level - 1));
+        }
+
+        localValue = data.value * levelBonusMultiplier;
+
         Destroy(gameObject, data.lifeTime);
     }
+
 
     protected virtual Vector3 GetDirection()
     {

@@ -47,7 +47,7 @@ public class MonsterSpawner : MonoBehaviour
             Debug.Log("instanciation");
 
             Monster monsterComponent = monsterObj.GetComponent<Monster>();
-            monsterComponent.Spawn(spawnPos);
+            monsterComponent.Spawn(spawnPos, Random.Range(1, player.level + (Random.Range(1, 10))));
         }
     }
 
