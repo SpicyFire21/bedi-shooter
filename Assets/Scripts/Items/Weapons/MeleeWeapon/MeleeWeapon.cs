@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RangeWeapon : Weapon
+public class MeleeWeapon : Weapon
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -12,5 +12,9 @@ public class RangeWeapon : Weapon
     void Update()
     {
         
+    }
+    public override void Use(Player player)
+    {
+
     }
 }

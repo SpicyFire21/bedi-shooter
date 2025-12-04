@@ -83,13 +83,13 @@ public class Skeleton : Monster
         {
             if (weapon != null)
             {
-                if (weapon.weaponData.weaponDamage < (damage / 2)) // si il a une arme vraiment faible par rapport a son niveau, on va faire un petit calcul 
+                if (weapon.weaponDamage < (damage / 2)) // si il a une arme vraiment faible par rapport a son niveau, on va faire un petit calcul 
                     // entre ses degats et les degats de son arme pour pas qu'il tape du 7 si par exemple les degats de son arme c'est 7
                 {
-                    Attack(weapon.weaponData.weaponDamage + damage / 1.5f);
+                    Attack(weapon.weaponDamage + damage / 1.5f);
                 } else
                 {
-                    Attack(weapon.weaponData.weaponDamage);
+                    Attack(weapon.weaponDamage);
                 }
             } else
             {
@@ -106,7 +106,7 @@ public class Skeleton : Monster
         int randomAttack = Random.Range(0, 5); // 0 → 4
         anim.SetInteger("AttackIndex", randomAttack);
         anim.SetTrigger("Attack");
-        AudioSource.PlayClipAtPoint(weapon.weaponData.actionSound, transform.position, 1f);
+        AudioSource.PlayClipAtPoint(weapon.actionSound, transform.position, 1f);
         lastAttackTime = Time.time;
     }
 

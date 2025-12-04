@@ -1,7 +1,11 @@
 using UnityEngine;
 
-public class MeleeWeapon : Weapon
+public abstract class Weapon : ItemBase
 {
+    public bool canDealDamage = false;
+    public float weaponDamage;
+    public AudioClip actionSound;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -13,4 +17,5 @@ public class MeleeWeapon : Weapon
     {
         
     }
+    public abstract override void Use(Player player);
 }
