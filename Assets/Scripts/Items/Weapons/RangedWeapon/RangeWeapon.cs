@@ -1,10 +1,7 @@
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class RangeWeapon : Weapon
 {
-    public WeaponData weaponData;
-    public bool canDealDamage = false;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,13 +14,8 @@ public class Weapon : MonoBehaviour
         
     }
 
-    public void EnableDamage()
+    public override void Use(Player player)
     {
-        canDealDamage = true;
-    }
 
-    public void DisableDamage()
-    {
-        canDealDamage = false;
     }
 }

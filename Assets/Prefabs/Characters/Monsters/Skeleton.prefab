@@ -2251,8 +2251,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c33798d83c0b84a8df8ed1421581a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: d594d8f3239c4ba4a83f710748bc15fb, type: 2}
+  data: {fileID: 0}
   canDealDamage: 0
+  weaponDamage: 0
+  actionSound: {fileID: 0}
 --- !u!54 &5023841580676718828
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3105,6 +3107,7 @@ MonoBehaviour:
   isPlayer: 0
   isDead: 0
   deathSoundPlayed: 0
+  baseMaxHealth: 20
   data: {fileID: 11400000, guid: cfbfb6eeae6610f4293580ef55593b49, type: 2}
   level: 1
   agent: {fileID: 8654848328736654189}

@@ -15,7 +15,7 @@ public abstract class Character : MonoBehaviour
     public bool deathSoundPlayed = false;
 
     [Header("Base stats")]
-    public float baseMaxHealth = 100f;
+    public float baseMaxHealth;
 
 
     protected void HandleDeath()
