@@ -119,6 +119,109 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &99225213 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2922891418913868426, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+  m_PrefabInstance: {fileID: 203103667}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &99225214 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1180798199891299953, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+  m_PrefabInstance: {fileID: 203103667}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &99225217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99225213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8731ed6b57c847c41bb51bd754876233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  currentHealth: 10
+  characterName: 
+  moveSpeed: 5
+  castPoint: {fileID: 0}
+  isPlayer: 0
+  isDead: 0
+  deathSoundPlayed: 0
+  data: {fileID: 11400000, guid: cfbfb6eeae6610f4293580ef55593b49, type: 2}
+  agent: {fileID: 0}
+  anim: {fileID: 99225214}
+  healthBarPrefab: {fileID: 6579130724565027312, guid: d65cb71d03f80554986e5af1e652d79b, type: 3}
+  meleeRange: 2
+  meleeRadius: 0.8
+  meleeDamage: 15
+  meleeMask:
+    serializedVersion: 2
+    m_Bits: 0
+  hoverAmplitude: 0.5
+  hoverSpeed: 2
+  followHeight: 2
+--- !u!1001 &203103667
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2583908327349440560, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.712179
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583908327349440560, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583908327349440560, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.559711
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583908327349440560, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.08715588
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583908327349440560, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583908327349440560, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9961947
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583908327349440560, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583908327349440560, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583908327349440560, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583908327349440560, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922891418913868426, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      propertyPath: m_Name
+      value: KamiGhost
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2922891418913868426, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 99225217}
+  m_SourcePrefab: {fileID: 100100000, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
 --- !u!1001 &325819831
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -315,13 +418,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerDatabase: {fileID: 11400000, guid: b53c192ca167357418de33b6e46155c2, type: 2}
-  castPoint: {fileID: 2086452504}
   spellKeys:
   - key: 102
     spellIndex: 0
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &478058258 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4416926081852918493, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
@@ -913,9 +1012,17 @@ PrefabInstance:
       value: Skeleton
       objectReference: {fileID: 0}
     - target: {fileID: 8539748528577670402, guid: d669ab04edec86c45b38e85a8c136398, type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: cfbfb6eeae6610f4293580ef55593b49, type: 2}
+    - target: {fileID: 8539748528577670402, guid: d669ab04edec86c45b38e85a8c136398, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 478058264}
+    - target: {fileID: 8539748528577670402, guid: d669ab04edec86c45b38e85a8c136398, type: 3}
+      propertyPath: meleeRange
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -934,3 +1041,4 @@ SceneRoots:
   - {fileID: 2061433297}
   - {fileID: 1787939846}
   - {fileID: 360228465511975441}
+  - {fileID: 203103667}
