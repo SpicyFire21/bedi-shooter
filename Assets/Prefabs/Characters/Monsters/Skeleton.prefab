@@ -3105,6 +3105,7 @@ MonoBehaviour:
   isPlayer: 0
   isDead: 0
   deathSoundPlayed: 0
+  baseMaxHealth: 20
   data: {fileID: 11400000, guid: cfbfb6eeae6610f4293580ef55593b49, type: 2}
   level: 1
   agent: {fileID: 8654848328736654189}

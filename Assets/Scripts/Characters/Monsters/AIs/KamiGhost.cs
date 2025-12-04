@@ -1,23 +1,31 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 
 public class KamiGhost : Monster
 {
     [Header("Ghost Settings")]
-    public float hoverAmplitude = 0.5f;   // amplitude du mouvement vertical
-    public float hoverSpeed = 2f;         // vitesse du mouvement vertical
-    public float followHeight = 2f;       // hauteur de vol par rapport au sol
+    public float hoverAmplitude = 0.5f;
+    public float hoverSpeed = 2f;
+    public float rotationSpeed = 3f;
 
-    private float baseY;
+    [Header("Speed Settings")]
+    public float accelerationMultiplier = 100000000f;   // vitesse quand le joueur est dans la detection range
+
+    [Header("Kamikaze Settings")]
+    public GameObject explosionVFX;   // prefab d'explosion (optionnel)
+    public float explosionRadius = 3f; // rayon de l'explosion
+    public LayerMask damageMask;      // couches qui recevront les d√©g√¢ts
+
+    private float baseMoveSpeed;
+    private float hoverOffset;
+    private bool isTouchingPlayer = false;
+    private bool hasExploded = false;
 
     protected override void Start()
     {
         base.Start();
 
-        baseY = transform.position.y;
-
-        //moveSpeed = data.moveSpeed;   // dÈj‡ prÈsent dans MonsterData
-        //maxHealth = data.maxHealth;
-        //currentHealth = maxHealth;
+        hoverOffset = Random.Range(0f, 100f);
+        baseMoveSpeed = moveSpeed;  // on garde la valeur de base
 
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
@@ -26,52 +34,103 @@ public class KamiGhost : Monster
     public override void Update()
     {
         base.Update();
+        if (isDead || player == null || hasExploded) return;
 
-        if (isDead || player == null) return;
+        HandleSpeedChange();
 
-        HoverMotion();
-        FollowPlayer();
+        if (!isTouchingPlayer)
+            MoveTowardsPlayer();
+
+        ApplyHoverEffect();
     }
 
-    private void HoverMotion()
+    private void HandleSpeedChange()
     {
-        // Mouvement vertical flottant
-        float newY = baseY + Mathf.Sin(Time.time * hoverSpeed) * hoverAmplitude;
-        Vector3 pos = transform.position;
-        pos.y = newY;
-        transform.position = pos;
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        // Si le joueur entre dans la detection range ‚Üí acc√©l√©ration
+        if (distance <= data.detectionRange)
+            moveSpeed = (baseMoveSpeed + 2) * accelerationMultiplier;
+        else
+            moveSpeed = baseMoveSpeed;
     }
 
-    private void FollowPlayer()
+    private void MoveTowardsPlayer()
     {
         Vector3 dir = (player.position - transform.position).normalized;
 
-        // On ignore la hauteur pour le dÈplacement horizontal
-        dir.y = 0;
-
-        // DÈplacement fluide vers la cible
+        // D√©placement
         transform.position += dir * moveSpeed * Time.deltaTime;
 
-        // Rotation vers le joueur
-        if (dir != Vector3.zero)
+        // Rotation horizontale
+        Vector3 flatDir = dir;
+        flatDir.y = 0f;
+
+        if (flatDir != Vector3.zero)
         {
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
-                Quaternion.LookRotation(dir),
-                Time.deltaTime * 3f
+                Quaternion.LookRotation(flatDir),
+                rotationSpeed * Time.deltaTime
             );
         }
     }
 
-    public override void Attack()
+    private void ApplyHoverEffect()
     {
-        // tu implÈmenteras plus tard
+        Vector3 pos = transform.position;
+        pos.y += Mathf.Sin((Time.time + hoverOffset) * hoverSpeed) * hoverAmplitude * Time.deltaTime;
+        transform.position = pos;
     }
 
-    public override void Spawn(Vector3 spawnPosition)
+    private void Explode()
     {
-        Debug.Log("un monstre a spawn : " + data.name);
+        if (hasExploded) return;
+
+        hasExploded = true;
+
+        // Explosion visuelle
+        if (explosionVFX != null)
+            Instantiate(explosionVFX, transform.position, Quaternion.identity);
+
+        // Inflige les d√©g√¢ts dans un rayon
+        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, damageMask);
+        foreach (Collider hit in hits)
+        {
+            Character target = hit.GetComponent<Character>();
+            if (target != null)
+            {
+                target.TakeDamage(damage);
+            }
+        }
+
+        // Destruction du fant√¥me
+        DeathHandler(0);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (hasExploded) return;
+
+        if (other.CompareTag("Player"))
+        {
+            isTouchingPlayer = true;
+            Explode(); // d√©clenche l'explosion au contact
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            isTouchingPlayer = false;
+    }
+
+    public override void Attack(float value) { }
+
+    public override void Spawn(Vector3 spawnPosition, int level)
+    {
         data.IncrementOnField();
+        SetLevel(level);
         transform.position = spawnPosition;
     }
 }
