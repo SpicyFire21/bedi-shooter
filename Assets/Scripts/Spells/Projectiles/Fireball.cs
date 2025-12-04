@@ -9,7 +9,7 @@ public class Fireball : ProjectileSpellBase
         if (target != null && target != caster)
         {
             if (target.currentHealth <= 0) return;
-            target.TakeDamage(data.value);
+            target.TakeDamage(localValue);
             Destroy(gameObject);
         }
 

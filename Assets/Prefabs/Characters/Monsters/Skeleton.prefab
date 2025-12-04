@@ -3105,12 +3105,11 @@ MonoBehaviour:
   isPlayer: 0
   isDead: 0
   deathSoundPlayed: 0
-  level: 0
   data: {fileID: 11400000, guid: cfbfb6eeae6610f4293580ef55593b49, type: 2}
+  level: 1
   agent: {fileID: 8654848328736654189}
   anim: {fileID: 3293867621458562182}
-  healthBarPrefab: {fileID: 6579130724565027312, guid: d65cb71d03f80554986e5af1e652d79b, type: 3}
-  basicDamage: 0
+  healthBarPrefab: {fileID: -1830062705855029619, guid: 088680c26ec060b499c41da48529dbae, type: 3}
   weapon: {fileID: 1563048156107819566, guid: 332277e628edb0c4a8397e4a277e9519, type: 3}
 --- !u!195 &8654848328736654189
 NavMeshAgent:

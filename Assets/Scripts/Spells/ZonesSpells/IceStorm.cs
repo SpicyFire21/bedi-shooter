@@ -19,7 +19,7 @@ public class IceStorm : ZoneSpellBase
     // ici, elle applique périodiquement les dégâts aux cibles présentes dans la zone.
     private IEnumerator DamageRoutine()
     {
-        float damagePerTick = data.value * (tickRate / data.lifeTime);
+        float damagePerTick = localValue * (tickRate / data.lifeTime);
         if (damagePerTick <= 0f) damagePerTick = 1f; // on assure au moins un degat par tick peut importe le calcul
         while (isActiveZone)
         {

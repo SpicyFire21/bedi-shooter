@@ -83,10 +83,17 @@ public class Skeleton : Monster
         {
             if (weapon != null)
             {
-                Attack(weapon.weaponData.weaponDamage);
+                if (weapon.weaponData.weaponDamage < (damage / 2)) // si il a une arme vraiment faible par rapport a son niveau, on va faire un petit calcul 
+                    // entre ses degats et les degats de son arme pour pas qu'il tape du 7 si par exemple les degats de son arme c'est 7
+                {
+                    Attack(weapon.weaponData.weaponDamage + damage / 1.5f);
+                } else
+                {
+                    Attack(weapon.weaponData.weaponDamage);
+                }
             } else
             {
-                Attack(data.damage);
+                Attack(damage);
             }
         }
     }
@@ -115,10 +122,11 @@ public class Skeleton : Monster
         }
     }
 
-    public override void Spawn(Vector3 spawnPosition)
+    public override void Spawn(Vector3 spawnPosition, int level)
     {
         Debug.Log("un monstre a spawn : " + data.name);
         data.IncrementOnField();
+        SetLevel(level);
         transform.position = spawnPosition;
     }
 
