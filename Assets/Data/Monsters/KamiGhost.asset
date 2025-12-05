@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: KamiGhost
   m_EditorClassIdentifier: 
   baseMoveSpeed: 2
-  baseXpReward: 0
-  baseDamage: 30
+  baseXpReward: 12
+  baseDamage: 18
   detectionRange: 6
   attackRange: 0
   attackCooldown: 0
   prefab: {fileID: 2922891418913868426, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
-  spawnRate: 0
-  maxOnField: 0
-  minRangeRadius: 0
-  maxRangeRadius: 0
+  spawnRate: 1
+  maxOnField: 2
+  minRangeRadius: 15
+  maxRangeRadius: 25
   deathSound: {fileID: 0}
+  onGround: 0
