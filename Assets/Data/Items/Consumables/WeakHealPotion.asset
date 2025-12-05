@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4de527f422a2d33448c8a402b80c78eb, type: 3}
-  m_Name: PirateSword
+  m_Name: WeakHealPotion
   m_EditorClassIdentifier: 
-  itemName: Pirate Sword
-  itemPrefab: {fileID: 8055904020073888615, guid: 332277e628edb0c4a8397e4a277e9519, type: 3}
-  itemSprite: {fileID: 0}
-  itemType: 0
+  itemName: Weak heal potion
+  itemDescription: A weak heal potion that restores 30 HP.
+  itemPrefab: {fileID: 1000012970591572, guid: 7cafb89b5a0f61f479d0a748962abbbc, type: 3}
+  itemSprite: {fileID: 21300000, guid: 54eb76f332a5d224687083eab68b1670, type: 3}
+  itemType: 1
+  itemLevel: 5

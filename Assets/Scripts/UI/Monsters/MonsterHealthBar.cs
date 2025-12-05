@@ -14,14 +14,13 @@ public class MonsterHealthBar : MonoBehaviour
         if (target == null) return;
 
         transform.position = target.position + offset;
-        Debug.Log("target position : " + target.name);
         transform.rotation = Camera.main.transform.rotation; // billboard --> sert à ce que la barre de vie soit toujours orienté vers NOTRE caméra
     }
 
     public void SetHealth(float current, float max)
     {
         healthBar.fillAmount = current / max;
-        healthText.text = current.ToString() + " / " + max.ToString("F1");
+        healthText.text = current.ToString("F1") + " / " + max.ToString("F1");
     }
 
     public void SetLevel(float level)

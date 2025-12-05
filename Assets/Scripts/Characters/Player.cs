@@ -22,6 +22,9 @@ public class Player : Character
     [Header("Spells")]
     public SpellDatabase spellList;
 
+    [Header("Inventory")]
+    public Inventory inventory;
+
     [Header("Animator")]
     public Animator animator;
 
@@ -30,6 +33,16 @@ public class Player : Character
     public float currentXP = 0f;
     public float xpToNextLevel = 100f;
     public float xpMultiplierPerLevel = 1.2f;
+
+
+
+    private void Awake()
+    {
+        if (inventory == null)
+        {
+            inventory = GetComponent<Inventory>();
+        }
+    }
 
     void Start()
     {
