@@ -850,7 +850,7 @@ MonoBehaviour:
   explosionRadius: 3
   damageMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
 --- !u!136 &2481302484459061854
 CapsuleCollider:
   m_ObjectHideFlags: 0
