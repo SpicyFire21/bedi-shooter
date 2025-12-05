@@ -46,7 +46,7 @@ public abstract class Monster : Character
     protected virtual void ApplyStats()
     {
         float healthMultiplier = 1f + (level - 1) * 0.3f;
-        float damageMultiplier = 1f + (level - 1) * 0.25f;
+        float damageMultiplier = 1f + (level - 1) * 0.18f;
 
         maxHealth = baseMaxHealth * healthMultiplier;
         currentHealth = maxHealth;

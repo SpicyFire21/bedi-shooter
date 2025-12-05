@@ -23,6 +23,8 @@ public class MonsterData : ScriptableObject
     [Header("Audio")]
     public AudioClip deathSound;
 
+    public bool onGround;
+
     private int onField = 0;
     public int monstersOnField => onField;
 

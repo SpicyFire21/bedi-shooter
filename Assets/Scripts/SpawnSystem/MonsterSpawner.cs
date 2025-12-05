@@ -34,20 +34,25 @@ public class MonsterSpawner : MonoBehaviour
             float roll = Random.value; // si spawnrate = 0.5 alors une chance sur deux de spawn chaque secondes
             if (roll > monster.spawnRate)
                 continue;
+            Vector3 spawnPos;
 
+            if (monster.onGround)
+            {
+                spawnPos = GetRandomPointOnNavMeshAroundPlayer(monster);
+            } else
+            {
+                spawnPos = GetRandomAirSpawnPositionAroundPlayer(monster);
+            }
 
-
-            Vector3 spawnPos = GetRandomPointOnNavMeshAroundPlayer(monster);
-
-            GameObject monsterObj = Instantiate(
-                monster.prefab,
-                spawnPos,
-                Quaternion.identity
-            );
+                GameObject monsterObj = Instantiate(
+                    monster.prefab,
+                    spawnPos,
+                    Quaternion.identity
+                );
             Debug.Log("instanciation");
 
             Monster monsterComponent = monsterObj.GetComponent<Monster>();
-            monsterComponent.Spawn(spawnPos, Random.Range(1, player.level + (Random.Range(1, 10))));
+            monsterComponent.Spawn(spawnPos, Random.Range(15, player.level + (Random.Range(1, 10))));
         }
     }
 
@@ -69,4 +74,21 @@ public class MonsterSpawner : MonoBehaviour
         }
         return player.transform.position + Vector3.forward * monster.minRangeRadius;
     }
+
+    Vector3 GetRandomAirSpawnPositionAroundPlayer(MonsterData monster)
+    {
+        // Choisit une direction aléatoire autour du joueur
+        Vector2 randomDir = Random.insideUnitCircle.normalized;
+        float distance = Random.Range(monster.minRangeRadius, monster.maxRangeRadius);
+
+        // Choisit une hauteur aléatoire ou fixe
+        float height = Random.Range(5, 10);
+
+        // Calcul de la position aérienne
+        Vector3 spawnPos = player.transform.position + new Vector3(randomDir.x, 0, randomDir.y) * distance;
+        spawnPos.y += height;
+
+        return spawnPos;
+    }
+
 }
