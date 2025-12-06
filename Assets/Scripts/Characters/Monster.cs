@@ -80,7 +80,6 @@ public abstract class Monster : Character
             {
                 float xpReward = CalculateXPReward();
                 playerScript.GainXP(xpReward);
-                Debug.Log("XP GAGNE : " + xpReward);
             }
         }
 

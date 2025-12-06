@@ -44,7 +44,6 @@ public abstract class Character : MonoBehaviour
         float newHealth = currentHealth += health;
         if (newHealth < maxHealth)
         {
-            Debug.Log("on peut ! : " + newHealth);
             currentHealth = newHealth;
         }
         else

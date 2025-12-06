@@ -3,21 +3,34 @@ using UnityEngine;
 public abstract class ItemBase : MonoBehaviour
 {
     public ItemData data;
+    private bool pickedUp = false;
 
     public virtual void OnPickup(Player player)
     {
-        Debug.Log("Ramassé : " + data.itemName);
+        if (player.inventory != null)
+        {
+            player.inventory.AddItem(data); 
+            Destroy(gameObject);
+            Debug.Log("Item ramassé : " + data.name);
+        }
     }
 
     public abstract void Use(Player player);
 
-    private void OnTriggerEnter(Collider other) // tout les items se ramassent en passant dessus
+    private void OnTriggerEnter(Collider other)
     {
-        Player player = other.GetComponent<Player>();
+        if (pickedUp) return;
 
-        if (player != null)
+        if (other.CompareTag("Player") && CompareTag("Pickable"))
         {
-            OnPickup(player);
+            Player player = other.GetComponent<Player>();
+            if (player != null)
+            {
+                Debug.Log("On essaye d'add un item : " + data);
+                pickedUp = true;
+                OnPickup(player);
+            }
         }
     }
+
 }

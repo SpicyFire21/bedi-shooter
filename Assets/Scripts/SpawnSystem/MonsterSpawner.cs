@@ -26,8 +26,6 @@ public class MonsterSpawner : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            Debug.Log("actuel : " + monster.monstersOnField);
-            Debug.Log("max : " + monster.maxOnField);
             if (monster.monstersOnField >= monster.maxOnField)
                 continue;
 
@@ -49,10 +47,8 @@ public class MonsterSpawner : MonoBehaviour
                     spawnPos,
                     Quaternion.identity
                 );
-            Debug.Log("instanciation");
-
             Monster monsterComponent = monsterObj.GetComponent<Monster>();
-            monsterComponent.Spawn(spawnPos, Random.Range(15, player.level + (Random.Range(1, 10))));
+            monsterComponent.Spawn(spawnPos, Random.Range(1, player.level + (Random.Range(1, 10))));
         }
     }
 
