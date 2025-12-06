@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a8922105dc7d3d468b110c40657ba63, type: 3}
-  m_Name: Skeleton
+  m_Name: DarkSkeleton
   m_EditorClassIdentifier: 
   baseMoveSpeed: 3
   baseXpReward: 15
-  baseDamage: 5
-  detectionRange: 7
-  attackRange: 2.3
-  attackCooldown: 1.5
-  prefab: {fileID: 8435787980998359774, guid: a510f007eba1de442bd5e7afe3a13204, type: 3}
-  spawnRate: 0.25
-  maxOnField: 3
+  baseDamage: 10
+  detectionRange: 2
+  attackRange: 2
+  attackCooldown: 1
+  prefab: {fileID: 8435787980998359774, guid: 866b24ac318220148a048a713842e8dc, type: 3}
+  spawnRate: 0.1
+  maxOnField: 1
   minRangeRadius: 15
   maxRangeRadius: 40
   deathSound: {fileID: 8300000, guid: 3d2a0080f826e884ab6313db59743336, type: 3}
