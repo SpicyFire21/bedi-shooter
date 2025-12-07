@@ -172,6 +172,10 @@ PrefabInstance:
       value: KamiGhost
       objectReference: {fileID: 0}
     - target: {fileID: 6232425013186448195, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
+      propertyPath: ChaseSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 1ce491727bff63f4fa254c8e80f5d3f1, type: 3}
+    - target: {fileID: 6232425013186448195, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
       propertyPath: explosionVFX
       value: 
       objectReference: {fileID: 1000011274395142}

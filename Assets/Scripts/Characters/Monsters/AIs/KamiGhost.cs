@@ -14,6 +14,7 @@ public class KamiGhost : Monster
     public GameObject explosionVFX;   // prefab d'explosion (optionnel)
     public float explosionRadius = 3f; // rayon de l'explosion
     public LayerMask damageMask;      // couches qui recevront les dégâts
+    public AudioClip ChaseSound;
 
     private float baseMoveSpeed;
     private float hoverOffset;
@@ -44,15 +45,33 @@ public class KamiGhost : Monster
         ApplyHoverEffect();
     }
 
+    private bool chaseSoundPlayed = false;
+
     private void HandleSpeedChange()
     {
         float distance = Vector3.Distance(transform.position, player.position);
 
-        // Si le joueur entre dans la detection range → accélération
         if (distance <= data.detectionRange)
+        {
+            anim.SetBool("Attack", true);
+
+            // jouer le son une seule fois à l'entrée en detection range
+            if (!chaseSoundPlayed && ChaseSound != null)
+            {
+                AudioSource.PlayClipAtPoint(ChaseSound, transform.position, 4f);
+                chaseSoundPlayed = true;
+            }
+
             moveSpeed = (baseMoveSpeed + 2) * accelerationMultiplier;
+        }
         else
+        {
             moveSpeed = baseMoveSpeed;
+            anim.SetBool("Attack", false);
+
+            // réinitialiser le flag pour pouvoir rejouer le son plus tard
+            chaseSoundPlayed = false;
+        }
     }
 
     private void MoveTowardsPlayer()

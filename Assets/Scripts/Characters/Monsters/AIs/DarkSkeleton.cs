@@ -71,7 +71,7 @@ public class DarkSkeleton : Skeleton
     public void PlayScreamSound()
     {
         if (screamSound != null)
-            AudioSource.PlayClipAtPoint(screamSound, transform.position);
+            AudioSource.PlayClipAtPoint(screamSound, transform.position, 0.7f);
     }
 
 

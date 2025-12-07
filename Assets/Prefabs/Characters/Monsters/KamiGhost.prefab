@@ -851,6 +851,7 @@ MonoBehaviour:
   damageMask:
     serializedVersion: 2
     m_Bits: 4294967295
+  ChaseSound: {fileID: 8300000, guid: 1ce491727bff63f4fa254c8e80f5d3f1, type: 3}
 --- !u!136 &2481302484459061854
 CapsuleCollider:
   m_ObjectHideFlags: 0
