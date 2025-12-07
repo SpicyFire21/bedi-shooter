@@ -3377,10 +3377,13 @@ MonoBehaviour:
   baseMaxHealth: 15
   data: {fileID: 11400000, guid: 0a22c18f1a5d6cc41b28f4002945cd55, type: 2}
   level: 1
-  agent: {fileID: 0}
-  anim: {fileID: 0}
+  agent: {fileID: 8654848328736654189}
+  anim: {fileID: 3293867621458562182}
   healthBarPrefab: {fileID: -1830062705855029619, guid: 088680c26ec060b499c41da48529dbae, type: 3}
   weapon: {fileID: 1563048156107819566, guid: 332277e628edb0c4a8397e4a277e9519, type: 3}
+  screamCooldown: 6
+  screamDuration: 1.5
+  screamSound: {fileID: 8300000, guid: f0e0371bb4c666348aa78729794e0061, type: 3}
 --- !u!1 &8609415892963258905
 GameObject:
   m_ObjectHideFlags: 0

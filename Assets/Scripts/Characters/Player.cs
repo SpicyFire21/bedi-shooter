@@ -22,9 +22,6 @@ public class Player : Character
     [Header("Spells")]
     public SpellDatabase spellList;
 
-    [Header("Inventory")]
-    public Inventory inventory;
-
     [Header("Animator")]
     public Animator animator;
 
@@ -34,15 +31,12 @@ public class Player : Character
     public float xpToNextLevel = 100f;
     public float xpMultiplierPerLevel = 1.2f;
 
+    [Header("Equipment Slots")]
+    public Transform headSlot;
+    public Transform chestSlot;
+    public Transform weaponSlot;
+    public Transform legsSlot;
 
-
-    private void Awake()
-    {
-        if (inventory == null)
-        {
-            inventory = GetComponent<Inventory>();
-        }
-    }
 
     void Start()
     {

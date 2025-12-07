@@ -17,9 +17,9 @@ MonoBehaviour:
   baseDamage: 5
   detectionRange: 7
   attackRange: 2.3
-  attackCooldown: 1.5
+  attackCooldown: 0.1
   prefab: {fileID: 8435787980998359774, guid: a510f007eba1de442bd5e7afe3a13204, type: 3}
-  spawnRate: 0.25
+  spawnRate: 0.1
   maxOnField: 3
   minRangeRadius: 15
   maxRangeRadius: 40

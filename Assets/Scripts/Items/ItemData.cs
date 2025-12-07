@@ -8,13 +8,24 @@ public class ItemData : ScriptableObject
     public GameObject itemPrefab;
     public Sprite itemSprite;
     public ItemType itemType;
+    public EquipmentSlot EquipmenttSlot;
     public int itemLevel;
 }
 
 public enum ItemType
 {
-    Weapon,
     Consumable,
+    Equipment
 }
+
+public enum EquipmentSlot
+{
+    Head,
+    Chest,
+    Hands,
+    Legs,
+    Feet,
+}
+
 
 
