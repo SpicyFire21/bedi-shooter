@@ -7,12 +7,6 @@ public class EquipmentManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private Player player;
 
-    [Header("Current Equipped Items")]
-    private ItemData equippedHead;
-    private ItemData equippedChest;
-    private ItemData equippedLegs;
-    private ItemData equippedWeapon;
-
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -45,21 +39,42 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
+
+    public void Unequip(EquipmentSlot slot)
+    {
+        switch (slot)
+        {
+            case EquipmentSlot.Head:
+                Debug.Log("Casque retiré");
+                break;
+
+            case EquipmentSlot.Chest:
+                Debug.Log("Plastron retiré");
+                break;
+
+            case EquipmentSlot.Legs:
+                Debug.Log("Jambes retirées");
+                break;
+
+            case EquipmentSlot.Hands:
+                UnequipWeapon();
+                Debug.Log("Arme retirée");
+                break;
+        }
+    }
+
     private void EquipHead(ItemData item, GameObject prefab)
     {
-        equippedHead = item;
         Debug.Log("Équipé casque : " + item.name);
     }
 
     private void EquipChest(ItemData item, GameObject prefab)
     {
-        equippedChest = item;
         Debug.Log("Équipé plastron : " + item.name);
     }
 
     private void EquipLegs(ItemData item, GameObject prefab)
     {
-        equippedLegs = item;
         Debug.Log("Équipé jambes : " + item.name);
     }
 
@@ -77,8 +92,13 @@ public class EquipmentManager : MonoBehaviour
         Renderer itemRenderer = prefab.GetComponentInChildren<Renderer>();
         if (itemRenderer != null)
             slotRenderer.material = itemRenderer.sharedMaterial;
-
-        equippedWeapon = item;
         Debug.Log("Equipé : " + item.name);
+    }
+    private void UnequipWeapon()
+    {
+        SkinnedMeshRenderer slotRenderer = player.weaponSlot?.GetComponentInChildren<SkinnedMeshRenderer>();
+        if (slotRenderer == null) return;
+
+        slotRenderer.sharedMesh = null;
     }
 }
