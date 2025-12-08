@@ -1,81 +1,77 @@
-using UnityEngine;
-
-
-public struct ShootHitInfo
-{
-    public Vector3 direction;
-    public Vector3 hitPoint;
-    public Transform target;
-}
+ï»¿using UnityEngine;
 
 public abstract class RangeWeapon : Weapon
 {
-
-    public int currentAmmo;
     public int maxAmmo;
+    public int currentAmmo;
     public int magazineSize;
-    public GameObject projectilePrefab;
+    public float bulletSpeed;
+    public GameObject bulletPrefab;
 
+    public RaycastHit rayHit;
+    public Vector3 direction;
+    public LayerMask enemyMask;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-
+        currentAmmo = maxAmmo;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
 
     public override void Attack(Player player)
     {
         if (currentAmmo <= 0) return;
 
-        DoAnimation(player);
+        direction = GetDirection(player);
 
-        ShootHitInfo shootInfo = GetShootInfo(weaponRange, player);
+        GameObject instance = Instantiate(
+            bulletPrefab,
+            player.castPoint.position,
+            bulletPrefab.transform.rotation
+        );
 
-        // Exemple : instanciation du projectile
-        GameObject proj = Instantiate(projectilePrefab, player.castPoint.position, Quaternion.identity);
+        instance.transform.rotation = Quaternion.LookRotation(direction);
 
-        proj.transform.forward = shootInfo.direction;
+        Rigidbody bulletRb = instance.GetComponent<Rigidbody>();
+        if (bulletRb == null) return;
 
-        // Si tu as touché une target
-        if (shootInfo.target != null)
-        {
-            Debug.Log("Cible touchée : " + shootInfo.target.name);
-        }
+        bulletRb.linearVelocity = direction * bulletSpeed; 
+
+        Bullet bullet = instance.GetComponent<Bullet>();
+        if (bullet != null)
+            bullet.Init(weaponRange, weaponDamage, enemyMask, player);
 
         currentAmmo--;
     }
 
 
-    public ShootHitInfo GetShootInfo(float maxDistance, Player player)
-    {
-        ShootHitInfo info = new ShootHitInfo();
 
+    public Vector3 GetDirection(Player player)
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, weaponRange, hitMask))
         {
-            info.direction = (hit.point - player.castPoint.position).normalized;
-            info.hitPoint = hit.point;
-            info.target = hit.transform;
-        }
-        else
-        {
-            info.direction = ray.direction;
-            info.hitPoint = ray.origin + ray.direction * maxDistance;
-            info.target = null;
+            return (hit.point - player.castPoint.position).normalized;
         }
 
-        return info;
+        return ray.direction.normalized;
     }
 
+    //public Monster GetTarget(Player player)
+    //{
+    //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //    RaycastHit hit;
+
+    //    if (Physics.Raycast(ray, out hit, weaponRange, enemyMask))
+    //    {
+    //        if (hit.collider.TryGetComponent<Monster>(out Monster character))
+    //        {
+    //            return character; 
+    //        }
+    //    }
+
+    //    return null;
+    //}
 
 
     public abstract void DoAnimation(Player player);

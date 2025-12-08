@@ -2380,7 +2380,7 @@ MonoBehaviour:
   weaponDamage: 0
   actionSound: {fileID: 0}
   weaponRange: 0
-  weaponAttackCooldown: 0
+  weaponAttackSpeed: 0
   hitMask:
     serializedVersion: 2
     m_Bits: 0
@@ -3333,10 +3333,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.4870216
   m_Height: 1.8
   m_Direction: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
+  m_Center: {x: 0.007936269, y: 0.8000001, z: 0.00661397}
 --- !u!195 &8654848328736654189
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3380,6 +3380,7 @@ MonoBehaviour:
   isDead: 0
   deathSoundPlayed: 0
   baseMaxHealth: 15
+  baseMoveSpeed: 2.5
   data: {fileID: 11400000, guid: 0a22c18f1a5d6cc41b28f4002945cd55, type: 2}
   level: 1
   agent: {fileID: 8654848328736654189}

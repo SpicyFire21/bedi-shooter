@@ -89,7 +89,7 @@ public class Player : Character
 
         if (Time.timeScale == 0f) return; // bloque toute attaque si le jeu est en pause
         if (Inventory.instance.IsOpen()) return;
-        if (Input.GetMouseButton(0) && equippedWeapon != null && tps.Grounded)
+        if (Input.GetMouseButtonDown(0) && equippedWeapon != null && tps.Grounded)
         {
             equippedWeapon.Attack(this);
         }

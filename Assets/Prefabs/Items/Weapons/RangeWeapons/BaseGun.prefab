@@ -163,11 +163,16 @@ MonoBehaviour:
   weaponAttackSpeed: 4
   hitMask:
     serializedVersion: 2
-    m_Bits: 128
-  currentAmmo: 100000
+    m_Bits: 246
+  currentAmmo: 98498
   maxAmmo: 100000
   magazineSize: 30
-  projectilePrefab: {fileID: 2989000923634411228, guid: 4dd20d1d1ffe72c489e2fcfefb999303, type: 3}
+  bulletSpeed: 38
+  bulletPrefab: {fileID: 2989000923634411228, guid: 4dd20d1d1ffe72c489e2fcfefb999303, type: 3}
+  direction: {x: 0.99089724, y: -0.03542135, z: -0.12987708}
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!54 &4375098600735302288
 Rigidbody:
   m_ObjectHideFlags: 0
