@@ -30,7 +30,6 @@ public abstract class Equipment : ItemBase
 
     public void UnapplyEquipmentStats(Player player)
     {
-        Debug.Log("je deapply " + this.name);
         player.bonusDamage -= equipmentDamageBonus;
         player.bonusMaxHealth -= equipmentHealthBonus;
         player.bonusMoveSpeed -= equipmentSpeedBonus;

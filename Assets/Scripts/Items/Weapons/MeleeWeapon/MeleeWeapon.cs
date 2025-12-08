@@ -40,7 +40,7 @@ public abstract class MeleeWeapon : Weapon
                 // angle entre la direction du joueur et la target
                 float angle = Vector3.Angle(forward, toTarget);
 
-                if (angle <= 115 / 2f)
+                if (angle <= 155 / 2f)
                 {
                     return character;
                 } // on prend l'angle vers lequel le player est tourné pour pouvoir n'attaquer que les cibles en face de nous

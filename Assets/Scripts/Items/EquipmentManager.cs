@@ -122,19 +122,19 @@ public class EquipmentManager : MonoBehaviour
 
     private void UnequipHead()
     {
-        RemoveStatsFromSlot(player.bootsSlot);
+        RemoveEquipmentStats(Inventory.instance.getEquippedHelmet());
         UnequipFromSlot(player.headSlot, EquipmentSlot.Head);
     }
 
     private void UnequipChest()
     {
-        RemoveStatsFromSlot(player.bootsSlot);
+        RemoveEquipmentStats(Inventory.instance.getEquippedChest());
         UnequipFromSlot(player.chestSlot, EquipmentSlot.Chest);
     }
 
     private void UnequipLegs()
     {
-        RemoveStatsFromSlot(player.bootsSlot);
+        RemoveEquipmentStats(Inventory.instance.getEquippedLeggings());
     }
 
     private void UnequipWeapon()
@@ -145,7 +145,7 @@ public class EquipmentManager : MonoBehaviour
 
     private void UnequipBoots()
     {
-        RemoveStatsFromSlot(player.bootsSlot);
+        RemoveEquipmentStats(Inventory.instance.getEquippedBoots());
     }
 
 
@@ -190,12 +190,26 @@ public class EquipmentManager : MonoBehaviour
             slotRenderer.material = originalMat;
     }
 
-    private void RemoveStatsFromSlot(Transform slot)
+    private void RemoveEquipmentStats(ItemData itemData)
     {
-        Equipment equipment = slot.GetComponentInChildren<Equipment>();
+        if (itemData == null) return;
+
+        // on récupère le prefab de l'item équipé
+        GameObject prefab = itemData.itemPrefab;
+        if (prefab == null) return;
+
+        // essaye de récupérer un composant Equipment sur le prefab
+        Equipment equipment = prefab.GetComponent<Equipment>();
+        if (equipment == null)
+            equipment = prefab.GetComponentInChildren<Equipment>();
+
         if (equipment != null)
+        {
+            // supprime les stats appliquées au joueur
             equipment.UnapplyEquipmentStats(player);
+        }
     }
+
 
 
 }

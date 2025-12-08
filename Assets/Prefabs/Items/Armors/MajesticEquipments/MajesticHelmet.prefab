@@ -103,7 +103,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3063047427609029728, guid: c7708e48cfddc934e9bc02ed838447d2, type: 3}
       propertyPath: m_Name
-      value: MajesticHelmet Variant
+      value: MajesticHelmet
       objectReference: {fileID: 0}
     - target: {fileID: 3063047427609029728, guid: c7708e48cfddc934e9bc02ed838447d2, type: 3}
       propertyPath: m_TagString
@@ -197,6 +197,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 0f3dca3159cf5a842879bbba07823789, type: 2}
-  equipmentHealthBonus: 100
+  equipmentHealthBonus: 210
   equipmentDamageBonus: 15
   equipmentSpeedBonus: 0

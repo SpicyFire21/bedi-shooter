@@ -3826,63 +3826,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: New Text
---- !u!1001 &567253789
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.2874302
-      objectReference: {fileID: 0}
-    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.217
-      objectReference: {fileID: 0}
-    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 3.5656352
-      objectReference: {fileID: 0}
-    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8055904020073888615, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
-      propertyPath: m_Name
-      value: PirateSword
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
 --- !u!1 &573964111
 GameObject:
   m_ObjectHideFlags: 0
@@ -9072,6 +9015,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1358915589}
   m_CullTransparentMesh: 1
+--- !u!1001 &1387558174
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.9904032
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.5966496
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243902195250586077, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055904020073888615, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
+      propertyPath: m_Name
+      value: PirateSword
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3b61530bef1f00546b7e738bb7dddff0, type: 3}
 --- !u!4 &1393985736 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4593000378645290, guid: c266c61b42ce56a4ca7e9190ef1209e3, type: 3}
@@ -15879,6 +15879,7 @@ MonoBehaviour:
   isDead: 0
   deathSoundPlayed: 0
   baseMaxHealth: 100
+  baseMoveSpeed: 2.5
   baseMaxMana: 20
   baseDamage: 10
   baseManaRegenPerSecond: 0.3
@@ -15899,6 +15900,9 @@ MonoBehaviour:
   weaponSlot: {fileID: 172776632}
   legsSlot: {fileID: 1334060954}
   bootsSlot: {fileID: 1572220865}
+  bonusDamage: 0
+  bonusMaxHealth: 0
+  bonusMoveSpeed: 0
   tps: {fileID: 2321425488337261644}
 --- !u!4 &854182243244585741
 Transform:
@@ -18812,9 +18816,9 @@ SceneRoots:
   - {fileID: 445003113}
   - {fileID: 2061295}
   - {fileID: 2094077984}
-  - {fileID: 567253789}
   - {fileID: 1148851118}
   - {fileID: 8314664747210899315}
   - {fileID: 9099417675180049323}
   - {fileID: 3669887236955233273}
   - {fileID: 1580769825}
+  - {fileID: 1387558174}

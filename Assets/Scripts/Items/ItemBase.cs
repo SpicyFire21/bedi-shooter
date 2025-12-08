@@ -9,7 +9,6 @@ public abstract class ItemBase : MonoBehaviour
     {
             Inventory.instance.AddItem(data); 
             Destroy(gameObject);
-            Debug.Log("Item ramassé : " + data.name);
     }
 
     private void OnTriggerEnter(Collider other)
