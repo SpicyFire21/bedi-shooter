@@ -99,7 +99,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f169ce10c1f7a5744b957b23cde7aa5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 3
+  maxRange: 20
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
   tickRate: 1
 --- !u!65 &-6249999476146494601
 BoxCollider:

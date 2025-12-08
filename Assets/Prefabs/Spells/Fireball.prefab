@@ -19363,7 +19363,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
-  lifeTime: 3
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 118
 --- !u!54 &-839771452830519106
 Rigidbody:
   m_ObjectHideFlags: 0

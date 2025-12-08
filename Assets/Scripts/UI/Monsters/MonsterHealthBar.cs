@@ -4,6 +4,8 @@ using UnityEngine.UI;
 public class MonsterHealthBar : MonoBehaviour
 {
     public Image healthBar;
+    public Text levelText;
+    public Text healthText;
     public Transform target;
     public Vector3 offset = new Vector3(0, 2f, 0);
 
@@ -18,5 +20,11 @@ public class MonsterHealthBar : MonoBehaviour
     public void SetHealth(float current, float max)
     {
         healthBar.fillAmount = current / max;
+        healthText.text = current.ToString("F1") + " / " + max.ToString("F1");
+    }
+
+    public void SetLevel(float level)
+    {
+        levelText.text = "Lv. " + level.ToString();
     }
 }

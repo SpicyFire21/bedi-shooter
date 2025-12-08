@@ -12,9 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8922105dc7d3d468b110c40657ba63, type: 3}
   m_Name: Skeleton
   m_EditorClassIdentifier: 
-  detectionRange: 1
-  attackRange: 2
-  prefab: {fileID: 8840928904092592330, guid: 3d59695ea5071f24fbbc65c49667f865, type: 3}
-  attackCooldown: 1.5
-  lastAttackTime: 0
+  baseMoveSpeed: 3
+  baseXpReward: 15
+  baseDamage: 5
+  detectionRange: 7
+  attackRange: 2.3
+  attackCooldown: 0.1
+  prefab: {fileID: 8435787980998359774, guid: a510f007eba1de442bd5e7afe3a13204, type: 3}
+  spawnRate: 0.1
+  maxOnField: 3
+  minRangeRadius: 15
+  maxRangeRadius: 40
   deathSound: {fileID: 8300000, guid: 3d2a0080f826e884ab6313db59743336, type: 3}
+  onGround: 1

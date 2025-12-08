@@ -9,10 +9,14 @@ public abstract class Character : MonoBehaviour
 
     [Header("Movement")]
     public float moveSpeed;
-
+    public Transform castPoint;
     public bool isPlayer; // false par défaut
     public bool isDead;
     public bool deathSoundPlayed = false;
+
+    [Header("Base stats")]
+    public float baseMaxHealth;
+    public float baseMoveSpeed = 2.5f;
 
 
     protected void HandleDeath()
@@ -28,10 +32,29 @@ public abstract class Character : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
+        float newHealth = currentHealth -= damage;
+        currentHealth = newHealth;
         if (this is Monster monster)
         {
             monster.UpdateHealthBar();
         }
     }
+
+    public void TakeHealth(float health)
+    {
+        float newHealth = currentHealth += health;
+        if (newHealth < maxHealth)
+        {
+            currentHealth = newHealth;
+        }
+        else
+        {
+            currentHealth = maxHealth;
+        }
+        if (this is Monster monster)
+        {
+            monster.UpdateHealthBar();
+        }
+    }
+
 }
