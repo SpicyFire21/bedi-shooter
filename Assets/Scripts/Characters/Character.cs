@@ -16,6 +16,7 @@ public abstract class Character : MonoBehaviour
 
     [Header("Base stats")]
     public float baseMaxHealth;
+    public float baseMoveSpeed = 2.5f;
 
 
     protected void HandleDeath()

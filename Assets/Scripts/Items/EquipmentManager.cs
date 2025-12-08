@@ -77,21 +77,31 @@ public class EquipmentManager : MonoBehaviour
     private void EquipHead(ItemData item, GameObject prefab)
     {
         EquipOnSlot(player.headSlot, item, prefab);
+        Equipment equipment = prefab.GetComponent<Equipment>();
+        if (equipment != null)
+            equipment.ApplyEquipmentStats(player);
     }
 
     private void EquipChest(ItemData item, GameObject prefab)
     {
         EquipOnSlot(player.chestSlot, item, prefab);
+        Equipment equipment = prefab.GetComponent<Equipment>();
+        if (equipment != null)
+            equipment.ApplyEquipmentStats(player);
     }
 
     private void EquipLegs(ItemData item, GameObject prefab)
     {
-
+        Equipment equipment = prefab.GetComponent<Equipment>();
+        if (equipment != null)
+            equipment.ApplyEquipmentStats(player);
     }
 
     private void EquipBoots(ItemData item, GameObject prefab)
     {
-
+        Equipment equipment = prefab.GetComponent<Equipment>();
+        if (equipment != null)
+            equipment.ApplyEquipmentStats(player);
     }
 
     private void EquipWeapon(ItemData item, GameObject prefab)
@@ -112,17 +122,19 @@ public class EquipmentManager : MonoBehaviour
 
     private void UnequipHead()
     {
+        RemoveStatsFromSlot(player.bootsSlot);
         UnequipFromSlot(player.headSlot, EquipmentSlot.Head);
     }
 
     private void UnequipChest()
     {
+        RemoveStatsFromSlot(player.bootsSlot);
         UnequipFromSlot(player.chestSlot, EquipmentSlot.Chest);
     }
 
     private void UnequipLegs()
     {
-
+        RemoveStatsFromSlot(player.bootsSlot);
     }
 
     private void UnequipWeapon()
@@ -133,7 +145,7 @@ public class EquipmentManager : MonoBehaviour
 
     private void UnequipBoots()
     {
-
+        RemoveStatsFromSlot(player.bootsSlot);
     }
 
 
@@ -176,6 +188,13 @@ public class EquipmentManager : MonoBehaviour
 
         if (originalMaterials.TryGetValue(slot, out Material originalMat))
             slotRenderer.material = originalMat;
+    }
+
+    private void RemoveStatsFromSlot(Transform slot)
+    {
+        Equipment equipment = slot.GetComponentInChildren<Equipment>();
+        if (equipment != null)
+            equipment.UnapplyEquipmentStats(player);
     }
 
 

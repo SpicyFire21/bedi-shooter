@@ -7,6 +7,7 @@ public class IronAxe : MeleeWeapon
         player.animator.SetFloat("AttackSpeed", weaponAttackSpeed);
         player.animator.SetTrigger("BaseAttack");
         player.tps.canMove = false; // peut etre a revoir car vraiment trop dur sinon de jouer melée
+        AudioSource.PlayClipAtPoint(actionSound, transform.position, 1f);
     }
 
    

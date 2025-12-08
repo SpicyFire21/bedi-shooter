@@ -16,7 +16,6 @@ public class KamiGhost : Monster
     public LayerMask damageMask;      // couches qui recevront les dégâts
     public AudioClip ChaseSound;
 
-    private float baseMoveSpeed;
     private float hoverOffset;
     private bool isTouchingPlayer = false;
     private bool hasExploded = false;

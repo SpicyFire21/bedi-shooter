@@ -39,6 +39,12 @@ public class Player : Character
     public Transform legsSlot;
     public Transform bootsSlot;
 
+    [Header("Equipment Bonus")]
+    [HideInInspector] public float bonusDamage;
+    [HideInInspector] public float bonusMaxHealth;
+    [HideInInspector] public float bonusMoveSpeed;
+
+
     private Weapon equippedWeapon; // l'arme actuellement équipée
 
     public ThirdPersonController tps;
@@ -81,6 +87,10 @@ public class Player : Character
         currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
 
 
+        if (Time.timeScale == 0f) return; // bloque toute attaque si le jeu est en pause
+        Debug.Log("temps chec");
+        if (Inventory.instance.IsOpen()) return;
+        Debug.Log("deuxieme chec");
         if (Input.GetMouseButtonDown(0) && equippedWeapon != null)
         {
             equippedWeapon.Attack(this);
@@ -111,30 +121,39 @@ public class Player : Character
         Debug.Log("Level up adam est une pomme irl: " + level);
     }
 
-    protected virtual void ApplyStats()
+    public virtual void ApplyStats()
     {
-        if (level == 1)
-        {
-            return;
-        }
+        float healthMultiplier, manaMultiplier, damageMultiplier, regenMultiplier;
         // calcule les dégâts du joueur en combinant une augmentation linéaire par niveau et une croissance exponentielle
         // en gros, on veut que plus on est haut niveau, plus les valeurs sont grande sans être abusé quand même
 
         // exemple : si level = 10, Mathf.Pow(10, 1.15) ≈ 14.1, *0.015 ≈ 0.2115, +1 → damageMultiplier ≈ 1.2115
         // Donc le joueur inflige 21% de dégâts supplémentaires par rapport à baseDamage.
+        if (level != 1)
+        {
+             healthMultiplier = 1f + Mathf.Pow(level, 1.15f) * 0.08f;
+             manaMultiplier = 1f + Mathf.Pow(level, 1.12f) * 0.05f;
+             damageMultiplier = 1f + Mathf.Pow(level, 1.15f) * 0.015f;
+             regenMultiplier = 1f + Mathf.Pow(level, 1.10f) * 0.02f;
+        } else
+        {
+            healthMultiplier = 1f;
+            manaMultiplier = 1f;
+            damageMultiplier = 1f;
+            regenMultiplier = 1f;
+        }
 
-        float healthMultiplier = 1f + Mathf.Pow(level, 1.15f) * 0.08f;   // HP exponentiel
-        float manaMultiplier = 1f + Mathf.Pow(level, 1.12f) * 0.05f;     // Mana exponentiel
-        float damageMultiplier = 1f + Mathf.Pow(level, 1.15f) * 0.015f;  // Damage exponentiel
-        float regenMultiplier = 1f + Mathf.Pow(level, 1.10f) * 0.02f;    // Regen exponentiel
-
-
-        maxHealth = baseMaxHealth * healthMultiplier;
+        // BASE + EQUIPEMENTS + LEVEL
+        maxHealth = (baseMaxHealth * healthMultiplier) + bonusMaxHealth;
+        Debug.Log("affichage test : " + bonusMaxHealth);
         maxMana = baseMaxMana * manaMultiplier;
-        damage = baseDamage * damageMultiplier;
+        damage = (baseDamage * damageMultiplier) + bonusDamage;
 
         manaRegenPerSecond = baseManaRegenPerSecond * regenMultiplier;
         healthRegenPerSecond = baseHealthRegenPerSecond * regenMultiplier;
+
+        moveSpeed = baseMoveSpeed + bonusMoveSpeed;
+
         tps.MoveSpeed = moveSpeed;
     }
 

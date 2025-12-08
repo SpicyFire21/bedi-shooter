@@ -405,5 +405,10 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public bool IsOpen()
+    {
+        return isOpen;
+    }
+
 
 }
