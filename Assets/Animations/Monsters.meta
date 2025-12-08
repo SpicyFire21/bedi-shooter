@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Animations/Monsters.meta
 guid: 79c2bc7d74734604cab56e8f067f37a7
+========
+guid: e67599f1f58f21043b619bd6843d07d8
+>>>>>>>> 5240cd1324acc2723b5002ff2131d72e10d26e47:Assets/Prefabs/Items/Weapons/MeleeWeapons.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

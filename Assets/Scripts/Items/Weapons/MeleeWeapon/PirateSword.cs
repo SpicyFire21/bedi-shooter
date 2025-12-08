@@ -4,6 +4,9 @@ public class PirateSword : MeleeWeapon
 {
     public override void DoAnimation(Player player)
     {
-        player.animator.SetTrigger("BaseAttack");
+        player.animator.SetFloat("AttackSpeed", weaponAttackSpeed);
+        player.animator.SetTrigger("BaseAttack02");
+        player.tps.canMove = false; 
+        AudioSource.PlayClipAtPoint(actionSound, transform.position, 1f);
     }
 }

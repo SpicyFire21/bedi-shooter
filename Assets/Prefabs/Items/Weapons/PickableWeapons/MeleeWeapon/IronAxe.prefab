@@ -175,10 +175,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 24b1096de089c3249b438fd801dbfaf2, type: 2}
   canDealDamage: 0
-  weaponDamage: 15
-  actionSound: {fileID: 0}
-  weaponRange: 6
-  weaponAttackSpeed: 1.6
+  weaponDamage: 22
+  actionSound: {fileID: 8300000, guid: b143e5a7ff52b2643be1211065a7fcd9, type: 3}
+  weaponRange: 10.5
+  weaponAttackSpeed: 1.05
   hitMask:
     serializedVersion: 2
     m_Bits: 128

@@ -39,6 +39,12 @@ public class Player : Character
     public Transform legsSlot;
     public Transform bootsSlot;
 
+    [Header("Equipment Bonus")]
+    [HideInInspector] public float bonusDamage;
+    [HideInInspector] public float bonusMaxHealth;
+    [HideInInspector] public float bonusMoveSpeed;
+
+
     private Weapon equippedWeapon; // l'arme actuellement équipée
 
     public ThirdPersonController tps;
@@ -81,7 +87,9 @@ public class Player : Character
         currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
 
 
-        if (Input.GetMouseButtonDown(0) && equippedWeapon != null)
+        if (Time.timeScale == 0f) return; // bloque toute attaque si le jeu est en pause
+        if (Inventory.instance.IsOpen()) return;
+        if (Input.GetMouseButtonDown(0) && equippedWeapon != null && tps.Grounded)
         {
             equippedWeapon.Attack(this);
         }
@@ -111,32 +119,46 @@ public class Player : Character
         Debug.Log("Level up adam est une pomme irl: " + level);
     }
 
-    protected virtual void ApplyStats()
+    public virtual void ApplyStats()
     {
-        if (level == 1)
+        float healthMultiplier, manaMultiplier, damageMultiplier, regenMultiplier;
+
+        if (level != 1)
         {
-            return;
+            healthMultiplier = 1f + Mathf.Pow(level, 1.15f) * 0.08f;
+            manaMultiplier = 1f + Mathf.Pow(level, 1.12f) * 0.05f;
+            damageMultiplier = 1f + Mathf.Pow(level, 1.15f) * 0.015f;
+            regenMultiplier = 1f + Mathf.Pow(level, 1.10f) * 0.02f;
         }
-        // calcule les dégâts du joueur en combinant une augmentation linéaire par niveau et une croissance exponentielle
-        // en gros, on veut que plus on est haut niveau, plus les valeurs sont grande sans être abusé quand même
+        else
+        {
+            healthMultiplier = 1f;
+            manaMultiplier = 1f;
+            damageMultiplier = 1f;
+            regenMultiplier = 1f;
+        }
 
-        // exemple : si level = 10, Mathf.Pow(10, 1.15) ≈ 14.1, *0.015 ≈ 0.2115, +1 → damageMultiplier ≈ 1.2115
-        // Donc le joueur inflige 21% de dégâts supplémentaires par rapport à baseDamage.
+        // sauvegarde le pourcentage de vie actuel
+        float healthPercent = maxHealth > 0 ? currentHealth / maxHealth : 1f;
 
-        float healthMultiplier = 1f + Mathf.Pow(level, 1.15f) * 0.08f;   // HP exponentiel
-        float manaMultiplier = 1f + Mathf.Pow(level, 1.12f) * 0.05f;     // Mana exponentiel
-        float damageMultiplier = 1f + Mathf.Pow(level, 1.15f) * 0.015f;  // Damage exponentiel
-        float regenMultiplier = 1f + Mathf.Pow(level, 1.10f) * 0.02f;    // Regen exponentiel
-
-
-        maxHealth = baseMaxHealth * healthMultiplier;
+        // calcule les nouvelles stats (niveau + equipement)
+        maxHealth = (baseMaxHealth * healthMultiplier) + bonusMaxHealth;
         maxMana = baseMaxMana * manaMultiplier;
-        damage = baseDamage * damageMultiplier;
+        damage = (baseDamage * damageMultiplier) + bonusDamage;
 
         manaRegenPerSecond = baseManaRegenPerSecond * regenMultiplier;
         healthRegenPerSecond = baseHealthRegenPerSecond * regenMultiplier;
+
+        moveSpeed = baseMoveSpeed + bonusMoveSpeed;
+
+        // quand on equipe un equipement, on regenere un peu de point de vie 
+        currentHealth = maxHealth * healthPercent;
+        currentMana = maxMana * (currentMana / maxMana); // pour le mana
+
         tps.MoveSpeed = moveSpeed;
+        tps.SprintSpeed = moveSpeed * 1.5f;
     }
+
 
 
     // pour les armes
@@ -153,7 +175,17 @@ public class Player : Character
     public void ApplyWeaponDamage()
     {
         if (attackTarget != null)
-            attackTarget.TakeDamage(equippedWeapon.weaponDamage);
+        {
+            // si les degats de l'arme est une valeur inferieur au damage du personnage / 2, on met les degats de damage + weapondamage / 2 pour éviter au personnage d'être trop pénaliser
+            // si il a une arme de très mauvaise qualité et un niveau et un equipement de niveau élevé
+            if (equippedWeapon.weaponDamage >= (damage / 2))
+            {
+                attackTarget.TakeDamage(equippedWeapon.weaponDamage);
+            } else
+            {
+                attackTarget.TakeDamage((equippedWeapon.weaponDamage + damage) / 2);
+            }
+        }
     }
 
     public void OnAttackEnd()

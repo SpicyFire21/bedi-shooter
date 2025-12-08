@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Animations/Monsters/Golem.meta
 guid: a107bcee4347a2a4abd669cc77bc2d09
+========
+guid: bb16ad35d4a311e4b938491b9ea52712
+>>>>>>>> 5240cd1324acc2723b5002ff2131d72e10d26e47:Assets/Prefabs/Items/Weapons/PickableWeapons/MeleeWeapon.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

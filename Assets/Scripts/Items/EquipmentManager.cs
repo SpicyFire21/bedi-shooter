@@ -77,21 +77,31 @@ public class EquipmentManager : MonoBehaviour
     private void EquipHead(ItemData item, GameObject prefab)
     {
         EquipOnSlot(player.headSlot, item, prefab);
+        Equipment equipment = prefab.GetComponent<Equipment>();
+        if (equipment != null)
+            equipment.ApplyEquipmentStats(player);
     }
 
     private void EquipChest(ItemData item, GameObject prefab)
     {
         EquipOnSlot(player.chestSlot, item, prefab);
+        Equipment equipment = prefab.GetComponent<Equipment>();
+        if (equipment != null)
+            equipment.ApplyEquipmentStats(player);
     }
 
     private void EquipLegs(ItemData item, GameObject prefab)
     {
-
+        Equipment equipment = prefab.GetComponent<Equipment>();
+        if (equipment != null)
+            equipment.ApplyEquipmentStats(player);
     }
 
     private void EquipBoots(ItemData item, GameObject prefab)
     {
-
+        Equipment equipment = prefab.GetComponent<Equipment>();
+        if (equipment != null)
+            equipment.ApplyEquipmentStats(player);
     }
 
     private void EquipWeapon(ItemData item, GameObject prefab)
@@ -112,17 +122,19 @@ public class EquipmentManager : MonoBehaviour
 
     private void UnequipHead()
     {
+        RemoveEquipmentStats(Inventory.instance.getEquippedHelmet());
         UnequipFromSlot(player.headSlot, EquipmentSlot.Head);
     }
 
     private void UnequipChest()
     {
+        RemoveEquipmentStats(Inventory.instance.getEquippedChest());
         UnequipFromSlot(player.chestSlot, EquipmentSlot.Chest);
     }
 
     private void UnequipLegs()
     {
-
+        RemoveEquipmentStats(Inventory.instance.getEquippedLeggings());
     }
 
     private void UnequipWeapon()
@@ -133,7 +145,7 @@ public class EquipmentManager : MonoBehaviour
 
     private void UnequipBoots()
     {
-
+        RemoveEquipmentStats(Inventory.instance.getEquippedBoots());
     }
 
 
@@ -177,6 +189,27 @@ public class EquipmentManager : MonoBehaviour
         if (originalMaterials.TryGetValue(slot, out Material originalMat))
             slotRenderer.material = originalMat;
     }
+
+    private void RemoveEquipmentStats(ItemData itemData)
+    {
+        if (itemData == null) return;
+
+        // on récupère le prefab de l'item équipé
+        GameObject prefab = itemData.itemPrefab;
+        if (prefab == null) return;
+
+        // essaye de récupérer un composant Equipment sur le prefab
+        Equipment equipment = prefab.GetComponent<Equipment>();
+        if (equipment == null)
+            equipment = prefab.GetComponentInChildren<Equipment>();
+
+        if (equipment != null)
+        {
+            // supprime les stats appliquées au joueur
+            equipment.UnapplyEquipmentStats(player);
+        }
+    }
+
 
 
 }

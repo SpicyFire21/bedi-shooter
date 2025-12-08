@@ -124,13 +124,13 @@ PrefabInstance:
       addedObject: {fileID: 205865979081055018}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e6225f7dca5ab5c44928ed351487e920, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1563048156107819566}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e6225f7dca5ab5c44928ed351487e920, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7147934928500247634}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e6225f7dca5ab5c44928ed351487e920, type: 3}
       insertIndex: -1
       addedObject: {fileID: -4735462399599286330}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e6225f7dca5ab5c44928ed351487e920, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8843504311685478976}
   m_SourcePrefab: {fileID: 100100000, guid: e6225f7dca5ab5c44928ed351487e920, type: 3}
 --- !u!4 &7243902195250586077 stripped
 Transform:
@@ -165,22 +165,6 @@ CapsuleCollider:
   m_Height: 0.9859457
   m_Direction: 1
   m_Center: {x: 0, y: 0.49218565, z: -0.005938228}
---- !u!114 &1563048156107819566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8055904020073888615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4c33798d83c0b84a8df8ed1421581a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 7e19fa0912cd9e44aa858642f9a8205b, type: 2}
-  canDealDamage: 0
-  weaponDamage: 7
-  actionSound: {fileID: 8300000, guid: b143e5a7ff52b2643be1211065a7fcd9, type: 3}
 --- !u!54 &7147934928500247634
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -253,3 +237,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8843504311685478976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8055904020073888615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4c33798d83c0b84a8df8ed1421581a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 7e19fa0912cd9e44aa858642f9a8205b, type: 2}
+  canDealDamage: 0
+  weaponDamage: 16
+  actionSound: {fileID: 8300000, guid: b143e5a7ff52b2643be1211065a7fcd9, type: 3}
+  weaponRange: 8
+  weaponAttackSpeed: 1.3
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 128

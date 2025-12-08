@@ -21,8 +21,19 @@ public abstract class Equipment : ItemBase
 
     public void ApplyEquipmentStats(Player player)
     {
-        player.damage += equipmentDamageBonus;
-        player.maxHealth += equipmentHealthBonus;
-        player.moveSpeed += equipmentSpeedBonus;
+        player.bonusDamage += equipmentDamageBonus;
+        player.bonusMaxHealth += equipmentHealthBonus;
+        player.bonusMoveSpeed += equipmentSpeedBonus;
+
+        player.ApplyStats(); 
+    }
+
+    public void UnapplyEquipmentStats(Player player)
+    {
+        player.bonusDamage -= equipmentDamageBonus;
+        player.bonusMaxHealth -= equipmentHealthBonus;
+        player.bonusMoveSpeed -= equipmentSpeedBonus;
+
+        player.ApplyStats(); 
     }
 }

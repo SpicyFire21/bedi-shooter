@@ -267,9 +267,6 @@ public class Inventory : MonoBehaviour
             itemCurrentlySelected,
             equipmentLibraryItem.itemPrefab
         );
-
-        Debug.Log("equipage de : " + itemCurrentlySelected.name);
-
         inventoryContent.Remove(itemCurrentlySelected); // optionnel
         RefreshContent();
         CloseActionPanel();
@@ -315,24 +312,32 @@ public class Inventory : MonoBehaviour
         {
             case EquipmentSlot.Head:
                 currentItem = equipedHeadItem;
+                if (currentItem != null)
+                    EquipmentManager.instance.Unequip(EquipmentSlot.Head);
                 equipedHeadItem = null;
                 headSlotImage.sprite = emptySlotVisual;
                 break;
 
             case EquipmentSlot.Chest:
                 currentItem = equipedChestItem;
+                if (currentItem != null)
+                    EquipmentManager.instance.Unequip(EquipmentSlot.Chest);
                 equipedChestItem = null;
                 chestSlotImage.sprite = emptySlotVisual;
                 break;
 
             case EquipmentSlot.Legs:
                 currentItem = equipedLegsItem;
+                if (currentItem != null)
+                    EquipmentManager.instance.Unequip(EquipmentSlot.Legs);
                 equipedLegsItem = null;
                 legsSlotImage.sprite = emptySlotVisual;
                 break;
 
             case EquipmentSlot.Feet:
                 currentItem = equipedFeetsItem;
+                if (currentItem != null)
+                    EquipmentManager.instance.Unequip(EquipmentSlot.Feet);
                 equipedFeetsItem = null;
                 feetsSlotImage.sprite = emptySlotVisual;
                 break;
@@ -346,13 +351,9 @@ public class Inventory : MonoBehaviour
 
         if (currentItem == null)
         {
-            Debug.LogWarning("Aucun item équipé sur ce slot");
             return;
         }
         AddItem(currentItem);
-        EquipmentManager.instance.Unequip(equipmentType);
-        Debug.Log("Déséquipé : " + currentItem.name);
-
         RefreshContent();
     }
 
@@ -401,8 +402,32 @@ public class Inventory : MonoBehaviour
         {
             AddItem(previousItem); 
             EquipmentManager.instance.Unequip(slot);
-            Debug.Log("Déséquipement automatique de : " + previousItem.name);
         }
+    }
+
+    public bool IsOpen()
+    {
+        return isOpen;
+    }
+
+    public ItemData getEquippedHelmet()
+    {
+        return equipedHeadItem;
+    }
+
+    public ItemData getEquippedChest()
+    {
+        return equipedChestItem;
+    }
+
+    public ItemData getEquippedLeggings()
+    {
+        return equipedLegsItem;
+    }
+
+    public ItemData getEquippedBoots()
+    {
+        return equipedFeetsItem;
     }
 
 

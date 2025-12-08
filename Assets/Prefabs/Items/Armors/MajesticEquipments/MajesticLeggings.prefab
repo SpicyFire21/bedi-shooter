@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: f98f2fd25b67a3f448e77e391295beec, type: 2}
-  equipmentHealthBonus: 125
+  equipmentHealthBonus: 295
   equipmentDamageBonus: 18
   equipmentSpeedBonus: 0
 --- !u!4 &4081431275439756923 stripped
