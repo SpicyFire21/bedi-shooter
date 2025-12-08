@@ -89,7 +89,7 @@ public class Player : Character
 
         if (Time.timeScale == 0f) return; // bloque toute attaque si le jeu est en pause
         if (Inventory.instance.IsOpen()) return;
-        if (Input.GetMouseButtonDown(0) && equippedWeapon != null && tps.Grounded)
+        if (Input.GetMouseButton(0) && equippedWeapon != null && tps.Grounded)
         {
             equippedWeapon.Attack(this);
         }
@@ -127,7 +127,7 @@ public class Player : Character
         {
             healthMultiplier = 1f + Mathf.Pow(level, 1.15f) * 0.08f;
             manaMultiplier = 1f + Mathf.Pow(level, 1.12f) * 0.05f;
-            damageMultiplier = 1f + Mathf.Pow(level, 1.15f) * 0.015f;
+            damageMultiplier = 1f + Mathf.Pow(level, 1.15f) * 0.05f;
             regenMultiplier = 1f + Mathf.Pow(level, 1.10f) * 0.02f;
         }
         else
@@ -156,7 +156,7 @@ public class Player : Character
         currentMana = maxMana * (currentMana / maxMana); // pour le mana
 
         tps.MoveSpeed = moveSpeed;
-        tps.SprintSpeed = moveSpeed * 1.5f;
+        tps.SprintSpeed = moveSpeed * 1.85f;
     }
 
 

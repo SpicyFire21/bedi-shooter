@@ -19,7 +19,7 @@ public class SpellData : ScriptableObject
     // public bool isTargetedOnGround;
     // public float attackRange;
 
-    [Header("Prefab (if needed)")]
+    [Header("Prefab")]
     public GameObject prefab;
 
     [Header("Audio")]
