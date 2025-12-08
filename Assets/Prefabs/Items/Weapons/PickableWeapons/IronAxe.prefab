@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4299309068816990}
+  - component: {fileID: 8143190621646259729}
   - component: {fileID: 33317444026313614}
   - component: {fileID: 23574200011612986}
   - component: {fileID: 5655290489357464487}
@@ -37,6 +38,28 @@ Transform:
   - {fileID: 4250049415744128883}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8143190621646259729
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776472905282870}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cd67856f3db5f5640979c274431ca8d2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!33 &33317444026313614
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -152,8 +175,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 24b1096de089c3249b438fd801dbfaf2, type: 2}
   canDealDamage: 0
-  weaponDamage: 10
+  weaponDamage: 15
   actionSound: {fileID: 0}
+  weaponRange: 6
+  weaponAttackSpeed: 1.6
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &808787344821528757
 GameObject:
   m_ObjectHideFlags: 0

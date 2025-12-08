@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class PirateSword : MeleeWeapon
 {
-
-    public override void Use(Player player)
+    public override void DoAnimation(Player player)
     {
-        Debug.Log("coup de pirate sword ! ");
+        player.animator.SetTrigger("BaseAttack");
     }
-
 }
