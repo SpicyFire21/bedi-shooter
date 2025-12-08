@@ -16,5 +16,5 @@ public abstract class Consumable : ItemBase
     {
 
     }
-    public abstract override void Use(Player player);
+    public abstract void Use(Player player);
 }

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using static UnityEditor.Progress;
 
 public class EquipmentManager : MonoBehaviour
 {
@@ -6,6 +8,9 @@ public class EquipmentManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Player player;
+
+    private Dictionary<Transform, Mesh> originalMeshes = new Dictionary<Transform, Mesh>();
+    private Dictionary<Transform, Material> originalMaterials = new Dictionary<Transform, Material>();
 
     private void Awake()
     {
@@ -33,6 +38,10 @@ public class EquipmentManager : MonoBehaviour
                 EquipWeapon(item, prefab);
                 break;
 
+            case EquipmentSlot.Feet:
+                EquipBoots(item, prefab);
+                break;
+
             default:
                 Debug.LogWarning("Slot non géré : " + item.EquipmenttSlot);
                 break;
@@ -45,60 +54,129 @@ public class EquipmentManager : MonoBehaviour
         switch (slot)
         {
             case EquipmentSlot.Head:
-                Debug.Log("Casque retiré");
+                UnequipHead();
                 break;
 
             case EquipmentSlot.Chest:
-                Debug.Log("Plastron retiré");
+                UnequipChest();
                 break;
 
             case EquipmentSlot.Legs:
-                Debug.Log("Jambes retirées");
+                UnequipLegs();
                 break;
 
             case EquipmentSlot.Hands:
                 UnequipWeapon();
-                Debug.Log("Arme retirée");
+                break;
+            case EquipmentSlot.Feet:
+                UnequipBoots();
                 break;
         }
     }
 
     private void EquipHead(ItemData item, GameObject prefab)
     {
-        Debug.Log("Équipé casque : " + item.name);
+        EquipOnSlot(player.headSlot, item, prefab);
     }
 
     private void EquipChest(ItemData item, GameObject prefab)
     {
-        Debug.Log("Équipé plastron : " + item.name);
+        EquipOnSlot(player.chestSlot, item, prefab);
     }
 
     private void EquipLegs(ItemData item, GameObject prefab)
     {
-        Debug.Log("Équipé jambes : " + item.name);
+
+    }
+
+    private void EquipBoots(ItemData item, GameObject prefab)
+    {
+
     }
 
     private void EquipWeapon(ItemData item, GameObject prefab)
     {
-        if (prefab == null || item == null) return;
+        EquipOnSlot(player.weaponSlot, item, prefab);
 
-        SkinnedMeshRenderer slotRenderer = player.weaponSlot?.GetComponentInChildren<SkinnedMeshRenderer>();
+        Weapon weapon = prefab.GetComponent<Weapon>();
+        if (weapon == null)
+            weapon = prefab.GetComponentInChildren<Weapon>();
+
+        if (weapon != null)
+        {
+            player.SetEquippedWeapon(weapon);
+        }
+    }
+
+
+
+    private void UnequipHead()
+    {
+        UnequipFromSlot(player.headSlot, EquipmentSlot.Head);
+    }
+
+    private void UnequipChest()
+    {
+        UnequipFromSlot(player.chestSlot, EquipmentSlot.Chest);
+    }
+
+    private void UnequipLegs()
+    {
+
+    }
+
+    private void UnequipWeapon()
+    {
+        UnequipFromSlot(player.weaponSlot, EquipmentSlot.Hands);
+        player.SetEquippedWeapon(null);
+    }
+
+    private void UnequipBoots()
+    {
+
+    }
+
+
+    private void EquipOnSlot(Transform slot, ItemData item, GameObject prefab)
+    {
+        if (slot == null || prefab == null || item == null) return;
+
+        SkinnedMeshRenderer slotRenderer = slot.GetComponentInChildren<SkinnedMeshRenderer>();
         if (slotRenderer == null) return;
 
+        // sauvegarde le mesh et les materiaux originaux si ce n'est pas déjà fait
+        if (!originalMeshes.ContainsKey(slot))
+            originalMeshes[slot] = slotRenderer.sharedMesh;
+        if (!originalMaterials.ContainsKey(slot))
+            originalMaterials[slot] = slotRenderer.sharedMaterial;
+
+        // applique le mesh de l'item
         MeshFilter itemMeshFilter = prefab.GetComponentInChildren<MeshFilter>();
         if (itemMeshFilter != null)
             slotRenderer.sharedMesh = itemMeshFilter.sharedMesh;
 
+        // applique le matériel de l'item
         Renderer itemRenderer = prefab.GetComponentInChildren<Renderer>();
         if (itemRenderer != null)
             slotRenderer.material = itemRenderer.sharedMaterial;
-        Debug.Log("Equipé : " + item.name);
     }
-    private void UnequipWeapon()
+
+    private void UnequipFromSlot(Transform slot, EquipmentSlot equipmentSlot)
     {
-        SkinnedMeshRenderer slotRenderer = player.weaponSlot?.GetComponentInChildren<SkinnedMeshRenderer>();
+        if (slot == null) return;
+
+        SkinnedMeshRenderer slotRenderer = slot.GetComponentInChildren<SkinnedMeshRenderer>();
         if (slotRenderer == null) return;
 
-        slotRenderer.sharedMesh = null;
+        // remet le mesh et le matériel originaux
+        if (originalMeshes.TryGetValue(slot, out Mesh originalMesh))
+            slotRenderer.sharedMesh = originalMesh;
+        else
+            slotRenderer.sharedMesh = null;
+
+        if (originalMaterials.TryGetValue(slot, out Material originalMat))
+            slotRenderer.material = originalMat;
     }
+
+
 }

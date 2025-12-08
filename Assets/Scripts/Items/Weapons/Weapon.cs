@@ -5,6 +5,9 @@ public abstract class Weapon : ItemBase
     public bool canDealDamage = false;
     public float weaponDamage;
     public AudioClip actionSound;
+    public float weaponRange;
+    public float weaponAttackSpeed;
+    public LayerMask hitMask;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,5 +20,7 @@ public abstract class Weapon : ItemBase
     {
         
     }
-    public abstract override void Use(Player player);
+    public abstract void Attack(Player player);
+
+    public abstract Monster GetTarget(float maxDistance, Player player);
 }

@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class IronAxe : MeleeWeapon
 {
-
-    public override void Use(Player player)
+    public override void DoAnimation(Player player)
     {
-        Debug.Log("coup de iron axe ! ");
+        player.animator.SetFloat("AttackSpeed", weaponAttackSpeed);
+        player.animator.SetTrigger("BaseAttack");
+        player.tps.canMove = false; // peut etre a revoir car vraiment trop dur sinon de jouer melée
     }
 
-}
+   
+
+
+    }

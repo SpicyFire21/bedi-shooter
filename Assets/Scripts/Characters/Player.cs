@@ -1,3 +1,4 @@
+using StarterAssets;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
 using UnityEngine.UI;
@@ -36,6 +37,12 @@ public class Player : Character
     public Transform chestSlot;
     public Transform weaponSlot;
     public Transform legsSlot;
+    public Transform bootsSlot;
+
+    private Weapon equippedWeapon; // l'arme actuellement équipée
+
+    public ThirdPersonController tps;
+    private Monster attackTarget;
 
 
     void Start()
@@ -48,6 +55,12 @@ public class Player : Character
 
     void Update()
     {
+        if (tps.MoveSpeed != moveSpeed)
+        {
+            tps.MoveSpeed = moveSpeed;
+            tps.SprintSpeed = moveSpeed * 1.5f;
+        }
+
         HandleDeath();
 
         if (!isPlayer) return;
@@ -66,6 +79,12 @@ public class Player : Character
 
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
         currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
+
+
+        if (Input.GetMouseButtonDown(0) && equippedWeapon != null)
+        {
+            equippedWeapon.Attack(this);
+        }
     }
 
     public override void DeathHandler(float destructionTime)
@@ -94,12 +113,10 @@ public class Player : Character
 
     protected virtual void ApplyStats()
     {
-
         if (level == 1)
         {
             return;
         }
-
         // calcule les dégâts du joueur en combinant une augmentation linéaire par niveau et une croissance exponentielle
         // en gros, on veut que plus on est haut niveau, plus les valeurs sont grande sans être abusé quand même
 
@@ -118,7 +135,32 @@ public class Player : Character
 
         manaRegenPerSecond = baseManaRegenPerSecond * regenMultiplier;
         healthRegenPerSecond = baseHealthRegenPerSecond * regenMultiplier;
+        tps.MoveSpeed = moveSpeed;
     }
+
+
+    // pour les armes
+    public void SetEquippedWeapon(Weapon weapon)
+    {
+        equippedWeapon = weapon;
+    }
+
+    public void SetAttackTarget(Monster target)
+    {
+        attackTarget = target;
+    }
+
+    public void ApplyWeaponDamage()
+    {
+        if (attackTarget != null)
+            attackTarget.TakeDamage(equippedWeapon.weaponDamage);
+    }
+
+    public void OnAttackEnd()
+    {
+        tps.canMove = true;
+    }
+
 
 
 }

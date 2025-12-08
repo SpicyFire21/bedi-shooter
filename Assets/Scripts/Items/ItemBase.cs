@@ -12,8 +12,6 @@ public abstract class ItemBase : MonoBehaviour
             Debug.Log("Item ramassé : " + data.name);
     }
 
-    public abstract void Use(Player player);
-
     private void OnTriggerEnter(Collider other)
     {
         if (pickedUp) return;

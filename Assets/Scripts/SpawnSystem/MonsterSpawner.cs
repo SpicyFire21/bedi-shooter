@@ -25,7 +25,7 @@ public class MonsterSpawner : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(100f);
+            yield return new WaitForSeconds(1f);
             if (monster.monstersOnField >= monster.maxOnField)
                 continue;
 

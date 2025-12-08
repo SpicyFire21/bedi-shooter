@@ -2,20 +2,13 @@ using UnityEngine;
 
 public class RangeWeapon : Weapon
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void Attack(Player player)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public override Monster GetTarget(float maxDistance, Player player)
     {
-        
-    }
-
-    public override void Use(Player player)
-    {
-
+        return null;
     }
 }
