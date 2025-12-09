@@ -107,8 +107,10 @@ public class Inventory : MonoBehaviour
             RangeWeapon rw = instance.data.itemPrefab.GetComponent<RangeWeapon>();
             int ammo = rw != null ? rw.maxAmmo : 0;
             float lastSoundTime = rw != null ? rw.GetLastSoundTime() : 0f;
-
-            weaponRuntime[instance.uniqueID] = new WeaponRuntimeData(instance, ammo, lastSoundTime);
+            int ammoInMagazine = rw != null ? rw.getAmmoInMagazine() : 0;
+            int magazineSize = rw.magazineSize;
+            float lastShotTime = rw.GetLastShotTime();
+            weaponRuntime[instance.uniqueID] = new WeaponRuntimeData(instance, ammo, lastSoundTime, ammoInMagazine, magazineSize, lastShotTime);
         }
 
         return weaponRuntime[instance.uniqueID];
@@ -257,12 +259,27 @@ public class Inventory : MonoBehaviour
 
     public void DropActionButton()
     {
+        if (itemCurrentlySelected == null)
+            return;
+
         GameObject instantiatedItem = Instantiate(itemCurrentlySelected.data.itemPrefab);
         instantiatedItem.transform.position = dropPoint.position;
+
+        if (itemCurrentlySelected.data.itemType == ItemType.Equipment &&
+            itemCurrentlySelected.data.EquipmenttSlot == EquipmentSlot.Hands)
+        {
+            if (weaponRuntime.ContainsKey(itemCurrentlySelected.uniqueID))
+            {
+                weaponRuntime.Remove(itemCurrentlySelected.uniqueID);
+            }
+        }
+
         inventoryContent.Remove(itemCurrentlySelected);
+
         RefreshContent();
         CloseActionPanel();
     }
+
 
     public void EquipActionButton()
     {
@@ -348,56 +365,76 @@ public class Inventory : MonoBehaviour
     {
         if (IsFull()) return;
 
-        ItemData currentItem = null;
+        // pour les armes, on garde l'instance, pour les autres on peut juste utiliser ItemData
+        ItemInstance instanceToReturn = null;
+        ItemData dataToReturn = null;
 
         switch (equipmentType)
         {
             case EquipmentSlot.Head:
-                currentItem = equipedHeadItem.data;
-                if (currentItem != null)
+                if (equipedHeadItem != null)
+                {
+                    dataToReturn = equipedHeadItem.data;
                     EquipmentManager.instance.Unequip(EquipmentSlot.Head);
-                equipedHeadItem = null;
-                headSlotImage.sprite = emptySlotVisual;
+                    equipedHeadItem = null;
+                    headSlotImage.sprite = emptySlotVisual;
+                }
                 break;
 
             case EquipmentSlot.Chest:
-                currentItem = equipedChestItem.data;
-                if (currentItem != null)
+                if (equipedChestItem != null)
+                {
+                    dataToReturn = equipedChestItem.data;
                     EquipmentManager.instance.Unequip(EquipmentSlot.Chest);
-                equipedChestItem = null;
-                chestSlotImage.sprite = emptySlotVisual;
+                    equipedChestItem = null;
+                    chestSlotImage.sprite = emptySlotVisual;
+                }
                 break;
 
             case EquipmentSlot.Legs:
-                currentItem = equipedLegsItem.data;
-                if (currentItem != null)
+                if (equipedLegsItem != null)
+                {
+                    dataToReturn = equipedLegsItem.data;
                     EquipmentManager.instance.Unequip(EquipmentSlot.Legs);
-                equipedLegsItem = null;
-                legsSlotImage.sprite = emptySlotVisual;
+                    equipedLegsItem = null;
+                    legsSlotImage.sprite = emptySlotVisual;
+                }
                 break;
 
             case EquipmentSlot.Feet:
-                currentItem = equipedFeetsItem.data;
-                if (currentItem != null)
+                if (equipedFeetsItem != null)
+                {
+                    dataToReturn = equipedFeetsItem.data;
                     EquipmentManager.instance.Unequip(EquipmentSlot.Feet);
-                equipedFeetsItem = null;
-                feetsSlotImage.sprite = emptySlotVisual;
+                    equipedFeetsItem = null;
+                    feetsSlotImage.sprite = emptySlotVisual;
+                }
                 break;
 
             case EquipmentSlot.Hands:
-                currentItem = equipedWeaponItem.data;
-                equipedWeaponItem = null;
-                weaponSlotImage.sprite = emptySlotVisual;
+                if (equipedWeaponItem != null)
+                {
+                    instanceToReturn = equipedWeaponItem; // on garde l'instance complète pour le runtime
+                    EquipmentManager.instance.Unequip(EquipmentSlot.Hands);
+                    equipedWeaponItem = null;
+                    weaponSlotImage.sprite = emptySlotVisual;
+                }
                 break;
         }
 
-        if (currentItem == null)
+        // on remet dans l'inventaire
+        if (instanceToReturn != null)
         {
-            return;
+            AddItem(instanceToReturn); // ajoute l'instance complète
         }
-        AddItem(currentItem);
+        else if (dataToReturn != null)
+        {
+            AddItem(dataToReturn); // crée une nouvelle instance pour les équipements classiques
+        }
+
         RefreshContent();
     }
+
 
 
     private void DisablePreviousEquipedEquipment(ItemInstance itemToDisable)

@@ -96,7 +96,11 @@ public class Player : Character
             // si c'est un RangeWeapon, on peut laissé appuyer pour tirer
             if (equippedWeapon is RangeWeapon)
             {
-                if (Input.GetMouseButton(0))
+                if (Input.GetKeyDown(KeyCode.R) && ((equippedWeapon as RangeWeapon).getAmmoInMagazine() != (equippedWeapon as RangeWeapon).magazineSize))
+                {
+                    (equippedWeapon as RangeWeapon).StartReload(this);
+                }
+                if (Input.GetMouseButton(0) && !(equippedWeapon as RangeWeapon).IsReloading())
                 {
                     FaceMouse();
                     equippedWeapon.Attack(this);
@@ -185,6 +189,11 @@ public class Player : Character
         equippedWeapon = weapon;
     }
 
+    public Weapon GetEquippedWeapon()
+    {
+        return equippedWeapon;
+    }
+
     public void SetAttackTarget(Monster target)
     {
         attackTarget = target;
@@ -214,7 +223,7 @@ public class Player : Character
                 }
                 else
                 {
-                    attackTarget.TakeDamage((equippedWeapon.weaponDamage + damage) / 50);
+                    attackTarget.TakeDamage((equippedWeapon.weaponDamage + damage) / 4);
                 }
             }
         }

@@ -157,26 +157,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 8e13122652d4ddf4e943019da346679b, type: 2}
   canDealDamage: 0
-  weaponDamage: 0.5
+  weaponDamage: 1.3
   actionSound: {fileID: 8300000, guid: db2f4f5840efb9044b67735a6a7d0880, type: 3}
   weaponRange: 150
-  weaponAttackSpeed: 4
+  weaponAttackSpeed: 12
   hitMask:
     serializedVersion: 2
     m_Bits: 246
-  maxAmmo: 30
-  currentAmmo: 99912
-  magazineSize: 30
-  bulletSpeed: 38
+  maxAmmo: 99999
+  currentAmmo: 99898
+  magazineSize: 200
+  reloadTime: 3
+  bulletSpeed: 30
   bulletPrefab: {fileID: 2989000923634411228, guid: 4dd20d1d1ffe72c489e2fcfefb999303, type: 3}
   enemyMask:
     serializedVersion: 2
     m_Bits: 128
   soundCooldown: 0.06
-  direction: {x: 0.2496586, y: -0.031611864, z: -0.9678178}
+  reloadAudio: {fileID: 8300000, guid: 01260a10c2b4d2c44b5ea292166f4388, type: 3}
+  direction: {x: -0.35875925, y: -0.012005726, z: 0.93335295}
   equippedInstance:
     data: {fileID: 11400000, guid: 8e13122652d4ddf4e943019da346679b, type: 2}
-    uniqueID: 19845d00-3315-4079-b8a3-a8a99b8fbc6e
+    uniqueID: cbd2277e-7824-47d7-ab2e-1ae21342b280
 --- !u!54 &4375098600735302288
 Rigidbody:
   m_ObjectHideFlags: 0
