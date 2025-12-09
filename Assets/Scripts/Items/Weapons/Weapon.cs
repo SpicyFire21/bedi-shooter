@@ -21,6 +21,4 @@ public abstract class Weapon : ItemBase
         
     }
     public abstract void Attack(Player player);
-
-    public abstract Monster GetTarget(float maxDistance, Player player);
 }

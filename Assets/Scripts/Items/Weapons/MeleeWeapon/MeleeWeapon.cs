@@ -24,7 +24,7 @@ public abstract class MeleeWeapon : Weapon
         player.SetAttackTarget(target);
     }
 
-    public override Monster GetTarget(float maxDistance, Player player)
+    public Monster GetTarget(float maxDistance, Player player)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
