@@ -10,9 +10,6 @@ public class Inventory : MonoBehaviour
 {
 
     [SerializeField]
-    private List<ItemData> inventoryContent = new List<ItemData>();
-
-    [SerializeField]
     private GameObject inventoryPanel;
 
     [SerializeField]
@@ -44,18 +41,19 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private Transform dropPoint;
 
-    private ItemData itemCurrentlySelected;
+    private ItemInstance itemCurrentlySelected;
 
     public static Inventory instance;
 
     [SerializeField]
     private EquipmentLibrary equipmentLibrary;
 
-    private ItemData equipedHeadItem;
-    private ItemData equipedChestItem;
-    private ItemData equipedLegsItem;
-    private ItemData equipedFeetsItem;
-    private ItemData equipedWeaponItem;
+    private ItemInstance equipedHeadItem;
+    private ItemInstance equipedChestItem;
+    private ItemInstance equipedLegsItem;
+    private ItemInstance equipedFeetsItem;
+    private ItemInstance equipedWeaponItem;
+
 
     [SerializeField]
     private Button headSlotDesequipButton;
@@ -88,6 +86,36 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private Image weaponSlotImage;
 
+    [SerializeField] public List<ItemInstance> inventoryContent = new List<ItemInstance>();
+    private Dictionary<string, WeaponRuntimeData> weaponRuntime = new Dictionary<string, WeaponRuntimeData>();
+    public WeaponRuntimeData GetWeaponRuntime(ItemInstance instance)
+    {
+        if (instance == null)
+        {
+            Debug.LogError("GetWeaponRuntime: instance is null!");
+            return null;
+        }
+
+        if (!weaponRuntime.ContainsKey(instance.uniqueID))
+        {
+            if (instance.data.itemPrefab == null)
+            {
+                Debug.LogError("GetWeaponRuntime: itemPrefab is null for " + instance.data.name);
+                return null;
+            }
+
+            RangeWeapon rw = instance.data.itemPrefab.GetComponent<RangeWeapon>();
+            int ammo = rw != null ? rw.maxAmmo : 0;
+            float lastSoundTime = rw != null ? rw.GetLastSoundTime() : 0f;
+
+            weaponRuntime[instance.uniqueID] = new WeaponRuntimeData(instance, ammo, lastSoundTime);
+        }
+
+        return weaponRuntime[instance.uniqueID];
+    }
+
+
+
     private void Awake()
     {
         instance = this;
@@ -117,16 +145,28 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddItem(ItemData item)
+
+    // ajoute un nouvel item en créant une instance
+    public void AddItem(ItemData data)
     {
         if (IsFull()) return;
-        inventoryContent.Add(item);
+        ItemInstance instance = new ItemInstance(data);
+        inventoryContent.Add(instance);
         RefreshContent();
     }
 
-    public void RemoveItem(ItemData item)
+    // ajoute une instance existante (utile pour le déséquipement)
+    public void AddItem(ItemInstance instance)
     {
-        inventoryContent.Remove(item);
+        if (IsFull() || instance == null) return;
+        inventoryContent.Add(instance);
+        RefreshContent();
+    }
+
+
+    public void RemoveItem(ItemInstance instance)
+    {
+        inventoryContent.Remove(instance);
         RefreshContent();
     }
 
@@ -137,27 +177,26 @@ public class Inventory : MonoBehaviour
 
     private void RefreshContent()
     {
-
+        // vide les slots
         for (int i = 0; i < inventorySlotsParent.childCount; i++)
         {
             Slot currentSlot = inventorySlotsParent.GetChild(i).GetComponent<Slot>();
-
-            currentSlot.item = null;
+            currentSlot.item = null; // slot contient un ItemInstance
             currentSlot.itemVisual.sprite = emptySlotVisual;
         }
 
-
+        // on remplit les slots avec les items de l'inventaire
         for (int i = 0; i < inventoryContent.Count; i++)
         {
             Slot currentSlot = inventorySlotsParent.GetChild(i).GetComponent<Slot>();
-
-            currentSlot.item = inventoryContent[i];
-            currentSlot.itemVisual.sprite = inventoryContent[i].itemSprite;
+            currentSlot.item = inventoryContent[i]; // ItemInstance
+            currentSlot.itemVisual.sprite = inventoryContent[i].data.itemSprite; // sprite venant de l'ItemData
         }
 
-
+        // Mise à jour des boutons de déséquipement
         UpdateEquipmentDesequipButton();
     }
+
 
     private void OpenInventory()
     {
@@ -177,7 +216,7 @@ public class Inventory : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    public void OpenActionPanel(ItemData item, Vector3 panelPosition)
+    public void OpenActionPanel(ItemInstance item, Vector3 panelPosition)
     {
 
         itemCurrentlySelected = item;
@@ -188,7 +227,7 @@ public class Inventory : MonoBehaviour
             return;
         }
            
-        switch (item.itemType)
+        switch (item.data.itemType)
         {
             case ItemType.Consumable:
                 useItemButton.SetActive(true);
@@ -218,7 +257,7 @@ public class Inventory : MonoBehaviour
 
     public void DropActionButton()
     {
-        GameObject instantiatedItem = Instantiate(itemCurrentlySelected.itemPrefab);
+        GameObject instantiatedItem = Instantiate(itemCurrentlySelected.data.itemPrefab);
         instantiatedItem.transform.position = dropPoint.position;
         inventoryContent.Remove(itemCurrentlySelected);
         RefreshContent();
@@ -227,38 +266,39 @@ public class Inventory : MonoBehaviour
 
     public void EquipActionButton()
     {
+        // trouve le prefab correspondant dans la librairie
         EquipmentLibraryItem equipmentLibraryItem = equipmentLibrary.content
-            .Where(elem => elem.itemData == itemCurrentlySelected)
+            .Where(elem => elem.itemData == itemCurrentlySelected.data)
             .FirstOrDefault();
 
         if (equipmentLibraryItem == null)
         {
-            Debug.Log("Item introuvable dans la library : " + itemCurrentlySelected.name);
+            Debug.Log("Item introuvable dans la library : " + itemCurrentlySelected.data.name);
             return;
         }
 
         DisablePreviousEquipedEquipment(itemCurrentlySelected);
 
-        switch (itemCurrentlySelected.EquipmenttSlot)
+        switch (itemCurrentlySelected.data.EquipmenttSlot)
         {
             case EquipmentSlot.Head:
-                headSlotImage.sprite = itemCurrentlySelected.itemSprite;
+                headSlotImage.sprite = itemCurrentlySelected.data.itemSprite;
                 equipedHeadItem = itemCurrentlySelected;
                 break;
             case EquipmentSlot.Chest:
-                chestSlotImage.sprite = itemCurrentlySelected.itemSprite;
+                chestSlotImage.sprite = itemCurrentlySelected.data.itemSprite;
                 equipedChestItem = itemCurrentlySelected;
                 break;
             case EquipmentSlot.Legs:
-                legsSlotImage.sprite = itemCurrentlySelected.itemSprite;
+                legsSlotImage.sprite = itemCurrentlySelected.data.itemSprite;
                 equipedLegsItem = itemCurrentlySelected;
                 break;
             case EquipmentSlot.Feet:
-                feetsSlotImage.sprite = itemCurrentlySelected.itemSprite;
+                feetsSlotImage.sprite = itemCurrentlySelected.data.itemSprite;
                 equipedFeetsItem = itemCurrentlySelected;
                 break;
             case EquipmentSlot.Hands:
-                weaponSlotImage.sprite = itemCurrentlySelected.itemSprite;
+                weaponSlotImage.sprite = itemCurrentlySelected.data.itemSprite;
                 equipedWeaponItem = itemCurrentlySelected;
                 break;
         }
@@ -267,10 +307,12 @@ public class Inventory : MonoBehaviour
             itemCurrentlySelected,
             equipmentLibraryItem.itemPrefab
         );
+
         inventoryContent.Remove(itemCurrentlySelected); // optionnel
         RefreshContent();
         CloseActionPanel();
     }
+
 
     public void DestroyActionButton()
     {
@@ -283,23 +325,23 @@ public class Inventory : MonoBehaviour
     {
         headSlotDesequipButton.onClick.RemoveAllListeners();
         headSlotDesequipButton.onClick.AddListener(delegate { DesequipEquipment(EquipmentSlot.Head); });
-        headSlotDesequipButton.gameObject.SetActive(equipedHeadItem);
+        headSlotDesequipButton.gameObject.SetActive(equipedHeadItem != null);
 
         chestSlotDesequipButton.onClick.RemoveAllListeners();
         chestSlotDesequipButton.onClick.AddListener(delegate { DesequipEquipment(EquipmentSlot.Chest); });
-        chestSlotDesequipButton.gameObject.SetActive(equipedChestItem);
+        chestSlotDesequipButton.gameObject.SetActive(equipedChestItem != null);
 
         legsSlotDesequipButton.onClick.RemoveAllListeners();
         legsSlotDesequipButton.onClick.AddListener(delegate { DesequipEquipment(EquipmentSlot.Legs); });
-        legsSlotDesequipButton.gameObject.SetActive(equipedLegsItem);
+        legsSlotDesequipButton.gameObject.SetActive(equipedLegsItem != null);
 
         feetsSlotDesequipButton.onClick.RemoveAllListeners();
         feetsSlotDesequipButton.onClick.AddListener(delegate { DesequipEquipment(EquipmentSlot.Feet); });
-        feetsSlotDesequipButton.gameObject.SetActive(equipedFeetsItem);
+        feetsSlotDesequipButton.gameObject.SetActive(equipedFeetsItem != null);
 
         weaponSlotDesequipButton.onClick.RemoveAllListeners();
         weaponSlotDesequipButton.onClick.AddListener(delegate { DesequipEquipment(EquipmentSlot.Hands); });
-        weaponSlotDesequipButton.gameObject.SetActive(equipedWeaponItem);
+        weaponSlotDesequipButton.gameObject.SetActive(equipedWeaponItem != null);
     }
 
     public void DesequipEquipment(EquipmentSlot equipmentType)
@@ -311,7 +353,7 @@ public class Inventory : MonoBehaviour
         switch (equipmentType)
         {
             case EquipmentSlot.Head:
-                currentItem = equipedHeadItem;
+                currentItem = equipedHeadItem.data;
                 if (currentItem != null)
                     EquipmentManager.instance.Unequip(EquipmentSlot.Head);
                 equipedHeadItem = null;
@@ -319,7 +361,7 @@ public class Inventory : MonoBehaviour
                 break;
 
             case EquipmentSlot.Chest:
-                currentItem = equipedChestItem;
+                currentItem = equipedChestItem.data;
                 if (currentItem != null)
                     EquipmentManager.instance.Unequip(EquipmentSlot.Chest);
                 equipedChestItem = null;
@@ -327,7 +369,7 @@ public class Inventory : MonoBehaviour
                 break;
 
             case EquipmentSlot.Legs:
-                currentItem = equipedLegsItem;
+                currentItem = equipedLegsItem.data;
                 if (currentItem != null)
                     EquipmentManager.instance.Unequip(EquipmentSlot.Legs);
                 equipedLegsItem = null;
@@ -335,7 +377,7 @@ public class Inventory : MonoBehaviour
                 break;
 
             case EquipmentSlot.Feet:
-                currentItem = equipedFeetsItem;
+                currentItem = equipedFeetsItem.data;
                 if (currentItem != null)
                     EquipmentManager.instance.Unequip(EquipmentSlot.Feet);
                 equipedFeetsItem = null;
@@ -343,7 +385,7 @@ public class Inventory : MonoBehaviour
                 break;
 
             case EquipmentSlot.Hands:
-                currentItem = equipedWeaponItem;
+                currentItem = equipedWeaponItem.data;
                 equipedWeaponItem = null;
                 weaponSlotImage.sprite = emptySlotVisual;
                 break;
@@ -358,12 +400,12 @@ public class Inventory : MonoBehaviour
     }
 
 
-    private void DisablePreviousEquipedEquipment(ItemData itemToDisable)
+    private void DisablePreviousEquipedEquipment(ItemInstance itemToDisable)
     {
         if (itemToDisable == null) return;
 
-        ItemData previousItem = null;
-        EquipmentSlot slot = itemToDisable.EquipmenttSlot;
+        ItemInstance previousItem = null;
+        EquipmentSlot slot = itemToDisable.data.EquipmenttSlot;
 
         switch (slot)
         {
@@ -400,10 +442,12 @@ public class Inventory : MonoBehaviour
 
         if (previousItem != null)
         {
-            AddItem(previousItem); 
+            inventoryContent.Add(previousItem); // remet l'instance dans l'inventaire
             EquipmentManager.instance.Unequip(slot);
+            RefreshContent();
         }
     }
+
 
     public bool IsOpen()
     {
@@ -412,22 +456,22 @@ public class Inventory : MonoBehaviour
 
     public ItemData getEquippedHelmet()
     {
-        return equipedHeadItem;
+        return equipedHeadItem.data;
     }
 
     public ItemData getEquippedChest()
     {
-        return equipedChestItem;
+        return equipedChestItem.data;
     }
 
     public ItemData getEquippedLeggings()
     {
-        return equipedLegsItem;
+        return equipedLegsItem.data;
     }
 
     public ItemData getEquippedBoots()
     {
-        return equipedFeetsItem;
+        return equipedFeetsItem.data;
     }
 
 

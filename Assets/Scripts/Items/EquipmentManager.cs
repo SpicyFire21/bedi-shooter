@@ -18,35 +18,36 @@ public class EquipmentManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void Equip(ItemData item, GameObject prefab)
+    public void Equip(ItemInstance instance, GameObject prefab)
     {
-        switch (item.EquipmenttSlot)
+        switch (instance.data.EquipmenttSlot)
         {
             case EquipmentSlot.Head:
-                EquipHead(item, prefab);
+                EquipHead(instance.data, prefab);
                 break;
 
             case EquipmentSlot.Chest:
-                EquipChest(item, prefab);
+                EquipChest(instance.data, prefab);
                 break;
 
             case EquipmentSlot.Legs:
-                EquipLegs(item, prefab);
+                EquipLegs(instance.data, prefab);
                 break;
 
             case EquipmentSlot.Hands:
-                EquipWeapon(item, prefab);
+                EquipWeapon(instance, prefab);
                 break;
 
             case EquipmentSlot.Feet:
-                EquipBoots(item, prefab);
+                EquipBoots(instance.data, prefab);
                 break;
 
             default:
-                Debug.LogWarning("Slot non géré : " + item.EquipmenttSlot);
+                Debug.LogWarning("Slot non géré : " + instance.data.EquipmenttSlot);
                 break;
         }
     }
+
 
 
     public void Unequip(EquipmentSlot slot)
@@ -104,19 +105,25 @@ public class EquipmentManager : MonoBehaviour
             equipment.ApplyEquipmentStats(player);
     }
 
-    private void EquipWeapon(ItemData item, GameObject prefab)
+
+    private void EquipWeapon(ItemInstance instance, GameObject prefab)
     {
-        EquipOnSlot(player.weaponSlot, item, prefab);
+        EquipOnSlot(player.weaponSlot, instance.data, prefab);
 
-        Weapon weapon = prefab.GetComponent<Weapon>();
-        if (weapon == null)
-            weapon = prefab.GetComponentInChildren<Weapon>();
+        Weapon weapon = prefab.GetComponent<Weapon>() ?? prefab.GetComponentInChildren<Weapon>();
+        if (weapon == null) return;
 
-        if (weapon != null)
+        player.SetEquippedWeapon(weapon);
+
+        RangeWeapon rangedWeapon = weapon as RangeWeapon;
+        if (rangedWeapon != null)
         {
-            player.SetEquippedWeapon(weapon);
+            rangedWeapon.Initialize(instance);
         }
     }
+
+
+
 
 
 
@@ -209,7 +216,4 @@ public class EquipmentManager : MonoBehaviour
             equipment.UnapplyEquipmentStats(player);
         }
     }
-
-
-
 }
