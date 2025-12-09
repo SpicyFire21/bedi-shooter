@@ -77,7 +77,7 @@ public class Golem : Monster
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 Quaternion.LookRotation(dir),
-                Time.deltaTime * 5f
+                Time.deltaTime * 3f
             );
         }
     }
@@ -128,6 +128,14 @@ public class Golem : Monster
             {
                 // Le golem frappe fort → dégâts multipliés par 2
                 playerCharacter.TakeDamage(damage * 2f);
+            }
+
+            // knockback
+            PlayerKnockback knock = hit.GetComponent<PlayerKnockback>();
+            if (knock != null)
+            {
+                Vector3 dir = hit.transform.position - transform.position;
+                knock.ApplyKnockback(dir, 10f, 0.2f, 0.25f);
             }
         }
     }

@@ -1,32 +1,65 @@
-using UnityEngine;
+﻿using UnityEngine;
+using StarterAssets;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerKnockback : MonoBehaviour
 {
     private CharacterController controller;
+    private ThirdPersonController tps;
 
-    private Vector3 knockbackVelocity;
-    private float knockbackTimer;
-    public bool isKnockbackActive => knockbackTimer > 0f;
+    [Header("Gravity Settings")]
+    public float knockGravity = 0f;
+
+    private Vector3 verticalVelocity;
+
+    private Vector3 knockDirection;
+    private float knockForce;
+    private float knockDuration;
+    private float knockTimer;
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        tps = GetComponent<ThirdPersonController>();
     }
 
-    private void Update()
+    void Update()
     {
-        if (knockbackTimer > 0)
+        if (knockTimer > 0f)
         {
-            controller.Move(knockbackVelocity * Time.deltaTime);
-            knockbackTimer -= Time.deltaTime;
+            knockTimer -= Time.deltaTime;
+
+            // Force horizontale (impulsion lissée)
+            Vector3 move = knockDirection * knockForce;
+
+            // Gravité douce
+            verticalVelocity.y += knockGravity * Time.deltaTime;
+
+            move += verticalVelocity * Time.deltaTime;
+
+            controller.Move(move * Time.deltaTime);
+
+            // Empêche le mouvement normal du joueur
+            tps.canMove = false;
+
+            if (knockTimer <= 0f)
+            {
+                // Reset à la fin
+                tps.canMove = true;
+                verticalVelocity = Vector3.zero;
+            }
         }
     }
 
-    public void ApplyKnockback(Vector3 direction, float force, float duration)
+    public void ApplyKnockback(Vector3 direction, float force, float hauteur, float duration)
     {
-        direction.y = 0f;
-        knockbackVelocity = direction.normalized * force;
-        knockbackTimer = duration;
+        direction.y = hauteur;
+        knockDirection = direction.normalized;
+        knockForce = force;
+        knockDuration = duration;
+        knockTimer = duration;
+
+        // donne une impulsion verticale initiale
+        verticalVelocity = new Vector3(0, hauteur * 6f, 0);
     }
 }
