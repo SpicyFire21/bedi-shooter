@@ -26,6 +26,7 @@ public abstract class RangeWeapon : Weapon
     private float lastSoundTime;
     private float lastShotTime = 0f;
     public AudioClip reloadAudio;
+    public float animTransitionCooldown = 0.5f;
 
     [HideInInspector] public Vector3 direction;
 
@@ -35,14 +36,13 @@ public abstract class RangeWeapon : Weapon
 
     public override void Attack(Player player)
     {
-
-        Debug.Log("last shottime : " + lastShotTime);
         // vérifie le cooldown --> pour 4 d'attack speed --> 4 balles par secondes
         if (Time.time - lastShotTime < 1f / weaponAttackSpeed)
             return;
 
         if (currentAmmo <= 0) return;
 
+        DoAnimation(player);
         direction = GetDirection(player);
 
         GameObject instanceGO = Instantiate(
@@ -63,7 +63,7 @@ public abstract class RangeWeapon : Weapon
 
         if (Time.time - lastSoundTime >= soundCooldown)
         {
-            AudioSource.PlayClipAtPoint(actionSound, player.transform.position, 1f);
+            AudioSource.PlayClipAtPoint(actionSound, player.transform.position, 3f);
             lastSoundTime = Time.time;
         }
 
@@ -102,6 +102,8 @@ public abstract class RangeWeapon : Weapon
     }
 
     public abstract void DoAnimation(Player player);
+
+    public abstract void StopAnimation(Player player);
 
     public void Initialize(ItemInstance instance)
     {
@@ -154,9 +156,9 @@ public abstract class RangeWeapon : Weapon
     private IEnumerator ReloadCoroutine(Player player)
     {
         isReloading = true;
-
+        player.animator.SetTrigger("IsReloading");
         Debug.Log("Reloading...");
-        AudioSource.PlayClipAtPoint(reloadAudio, player.transform.position, 2f);
+        AudioSource.PlayClipAtPoint(reloadAudio, player.transform.position, 3f);
         yield return new WaitForSeconds(reloadTime);
         int neededAmmo = magazineSize - ammoInMagazine;
         int ammoToLoad = Mathf.Min(neededAmmo, currentAmmo);

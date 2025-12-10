@@ -47,6 +47,7 @@ public class Player : Character
 
     private Weapon equippedWeapon; // l'arme actuellement équipée
 
+    [Header("Others")]
     public ThirdPersonController tps;
     private Monster attackTarget;
     public LayerMask notPlayerMask;
@@ -104,6 +105,9 @@ public class Player : Character
                 {
                     FaceMouse();
                     equippedWeapon.Attack(this);
+                } else if (Input.GetMouseButtonUp(0))
+                {
+                    (equippedWeapon as RangeWeapon).StopAnimation(this);
                 }
             }
             else // arme de mêlée
@@ -207,7 +211,7 @@ public class Player : Character
             // si il a une arme de très mauvaise qualité et un niveau et un equipement de niveau élevé
             if (equippedWeapon is MeleeWeapon)
             {
-                if (equippedWeapon.weaponDamage >= (damage / 2))
+                if (equippedWeapon.weaponDamage >= (damage / 1.8))
                 {
                     attackTarget.TakeDamage(equippedWeapon.weaponDamage);
                 }
