@@ -14,7 +14,7 @@ public abstract class SpellBase : MonoBehaviour
 
         if (data.castSound != null)
         {
-            AudioSource.PlayClipAtPoint(data.castSound, transform.position, data.volume);
+            AudioSource.PlayClipAtPoint(data.castSound, caster.transform.position, data.volume);
         }
 
         Cast();
