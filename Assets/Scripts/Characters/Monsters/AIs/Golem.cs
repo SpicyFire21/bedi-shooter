@@ -79,10 +79,6 @@ public class Golem : Monster
         // On efface toujours les vieux triggers pour éviter un blocage
         anim.ResetTrigger("Emote1");
 
-        // Ne pas jouer l'emote si le joueur est trop loin
-        //if (Vector3.Distance(transform.position, player.position) > stompRange + 1f)
-        //    return;
-
         // Tirage aléatoire
         if (Random.value <= emoteChance)
         {
@@ -93,7 +89,7 @@ public class Golem : Monster
 
     public void EndAttack()
     {
-        Debug.Log("EndAttack() called");
+        //Debug.Log("EndAttack() called");
 
         isAttacking = false;
         agent.isStopped = false;
@@ -114,7 +110,7 @@ public class Golem : Monster
     private float storedDamage;
     public override void Attack(float damage)
     {
-        Debug.Log("Attack appeler");
+        //Debug.Log("Attack appeler");
         storedDamage = damage;
 
         // Choisir une attaque aleatoire : 0 = Stomp, 1 = Punch
@@ -168,7 +164,7 @@ public class Golem : Monster
     // Appel via Animation Event pour Stomp
     private void DealStompDamage()
     {
-        Debug.Log("Golem are stomping");
+        //Debug.Log("Golem are stomping");
         Collider[] hits = Physics.OverlapSphere(transform.position, stompRange);
         foreach (Collider hit in hits)
         {
@@ -215,7 +211,7 @@ public class Golem : Monster
                 knock.ApplyKnockback(dir, punchKnockbackStrength, 0.01f, 0.5f);
             }
 
-            Debug.Log("Punch hits the player!");
+            //Debug.Log("Punch hits the player!");
         }
 
         // Fin de l'attaque
@@ -223,28 +219,19 @@ public class Golem : Monster
         agent.isStopped = false;
     }
 
-
-    public static void DebugWireSphere(Vector3 position, Color color, float radius, float duration = 0f)
+    public void SlowDeathAnimation()
     {
-        int segments = 24;
-        float angle = 0f;
-        float increment = 360f / segments;
-
-        Vector3 lastPoint = Vector3.zero;
-
-        for (int i = 0; i <= segments; i++)
+        if (anim != null)
         {
-            float rad = Mathf.Deg2Rad * angle;
-            float x = Mathf.Sin(rad) * radius;
-            float z = Mathf.Cos(rad) * radius;
+            anim.speed = 0.2f; // ralentit l'animation
+        }
+    }
 
-            Vector3 nextPoint = position + new Vector3(x, 0, z);
-
-            if (i > 0)
-                Debug.DrawLine(lastPoint, nextPoint, color, duration);
-
-            lastPoint = nextPoint;
-            angle += increment;
+    public void SpeedDeathAnimation()
+    {
+        if (anim != null)
+        {
+            anim.speed = 1f;
         }
     }
 

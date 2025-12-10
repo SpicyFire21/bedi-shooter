@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Raygun
   itemDescription: Made to kill zombies.
   itemPrefab: {fileID: 124194, guid: 637fda8b799a3a14aba04e86a22cac6f, type: 3}
-  itemSprite: {fileID: 21300000, guid: 1b24ec92ea4622a4db583983b8250741, type: 3}
+  itemSprite: {fileID: 21300000, guid: 0fbb61c745490344e9c17606042b31bc, type: 3}
   itemType: 1
   EquipmenttSlot: 2
   itemLevel: 30

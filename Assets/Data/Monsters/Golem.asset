@@ -23,5 +23,5 @@ MonoBehaviour:
   maxOnField: 1
   minRangeRadius: 15
   maxRangeRadius: 40
-  deathSound: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: 9953ac5e11ff4aa4dbc49f93637f33fb, type: 3}
   onGround: 1
