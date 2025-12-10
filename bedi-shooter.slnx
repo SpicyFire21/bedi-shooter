@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 ﻿<Solution>
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Samples.Runtime.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Samples.Editor.csproj" />
 </Solution>
+=======
+﻿<Solution>
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Unity.RenderPipelines.Core.Samples.Runtime.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="Unity.RenderPipelines.Core.Samples.Editor.csproj" />
+</Solution>
+>>>>>>> cd7dc478fd0aa7cb5402879d55b850d52757a916

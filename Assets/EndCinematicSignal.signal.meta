@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/EndCinematicSignal.signal.meta
 guid: 7609be943805ff041b78e82f5d4589e0
 NativeFormatImporter:
+========
+guid: 28d98573a97fdc964841134a4c58b5fd
+DefaultImporter:
+>>>>>>>> cd7dc478fd0aa7cb5402879d55b850d52757a916:Assets/Scenes/Scene_copy_monsters.unity.meta
   externalObjects: {}
   mainObjectFileID: 11400000
   userData: 
