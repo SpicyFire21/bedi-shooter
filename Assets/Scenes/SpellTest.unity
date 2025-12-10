@@ -18407,7 +18407,7 @@ MonoBehaviour:
     spellIndex: 2
   - key: 107
     spellIndex: 3
-  - key: 98
+  - key: 103
     spellIndex: 4
 --- !u!4 &6925663119456768350
 Transform:

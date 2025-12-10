@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: HollowPurple
   m_EditorClassIdentifier: 
   spellName: Hollow Purple
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 155a4ca359f4d084c94b21c8f58359ec, type: 3}
   spellType: 0
-  value: 50
+  value: 250
   cooldown: 0
   manaCost: 0
   lifeTime: 5
   effectDuration: 0
-  prefab: {fileID: 2952631268968578322, guid: fbe3cff5ed5b2204fb841fe5e1bb1e9e, type: 3}
-  castSound: {fileID: 0}
+  prefab: {fileID: 8935418595417918653, guid: a220cbb73c87608428f47380faacd924, type: 3}
+  castSound: {fileID: 8300000, guid: 6cd7b1ea33ac1684f91837b201e7372f, type: 3}
   volume: 1
