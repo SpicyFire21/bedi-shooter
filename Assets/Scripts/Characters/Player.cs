@@ -49,6 +49,7 @@ public class Player : Character
 
     public ThirdPersonController tps;
     private Monster attackTarget;
+    public LayerMask notPlayerMask;
 
 
     void Start()
@@ -89,9 +90,30 @@ public class Player : Character
 
         if (Time.timeScale == 0f) return; // bloque toute attaque si le jeu est en pause
         if (Inventory.instance.IsOpen()) return;
-        if (Input.GetMouseButtonDown(0) && equippedWeapon != null && tps.Grounded)
+
+        if (equippedWeapon != null && tps.Grounded)
         {
-            equippedWeapon.Attack(this);
+            // si c'est un RangeWeapon, on peut laissé appuyer pour tirer
+            if (equippedWeapon is RangeWeapon)
+            {
+                if (Input.GetKeyDown(KeyCode.R) && ((equippedWeapon as RangeWeapon).getAmmoInMagazine() != (equippedWeapon as RangeWeapon).magazineSize))
+                {
+                    (equippedWeapon as RangeWeapon).StartReload(this);
+                }
+                if (Input.GetMouseButton(0) && !(equippedWeapon as RangeWeapon).IsReloading())
+                {
+                    FaceMouse();
+                    equippedWeapon.Attack(this);
+                }
+            }
+            else // arme de mêlée
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    FaceMouse();
+                    equippedWeapon.Attack(this);
+                }
+            }
         }
     }
 
@@ -167,6 +189,11 @@ public class Player : Character
         equippedWeapon = weapon;
     }
 
+    public Weapon GetEquippedWeapon()
+    {
+        return equippedWeapon;
+    }
+
     public void SetAttackTarget(Monster target)
     {
         attackTarget = target;
@@ -178,12 +205,26 @@ public class Player : Character
         {
             // si les degats de l'arme est une valeur inferieur au damage du personnage / 2, on met les degats de damage + weapondamage / 2 pour éviter au personnage d'être trop pénaliser
             // si il a une arme de très mauvaise qualité et un niveau et un equipement de niveau élevé
-            if (equippedWeapon.weaponDamage >= (damage / 2))
+            if (equippedWeapon is MeleeWeapon)
             {
-                attackTarget.TakeDamage(equippedWeapon.weaponDamage);
-            } else
+                if (equippedWeapon.weaponDamage >= (damage / 2))
+                {
+                    attackTarget.TakeDamage(equippedWeapon.weaponDamage);
+                }
+                else
+                {
+                    attackTarget.TakeDamage((equippedWeapon.weaponDamage + damage) / 2);
+                }
+            } else if (equippedWeapon is RangeWeapon)
             {
-                attackTarget.TakeDamage((equippedWeapon.weaponDamage + damage) / 2);
+                if (equippedWeapon.weaponDamage >= (damage / 2))
+                {
+                    attackTarget.TakeDamage(equippedWeapon.weaponDamage);
+                }
+                else
+                {
+                    attackTarget.TakeDamage((equippedWeapon.weaponDamage + damage) / 4);
+                }
             }
         }
     }
@@ -192,6 +233,35 @@ public class Player : Character
     {
         tps.canMove = true;
     }
+
+    protected virtual Vector3 GetMouseWorldPosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, notPlayerMask)) // TOUT sauf le player
+        {
+            return hit.point; // retourne la vraie position dans le monde
+        }
+
+        // fallback : point très loin dans la direction du rayon
+        return ray.origin + ray.direction * 100f;
+    }
+
+    private void FaceMouse()
+    {
+        Vector3 mouseWorldPos = GetMouseWorldPosition();
+        Vector3 direction = mouseWorldPos - transform.position;
+        direction.y = 0; // on ignore la hauteur
+
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = targetRotation; 
+                                              
+        }
+    }
+
+
 
 
 

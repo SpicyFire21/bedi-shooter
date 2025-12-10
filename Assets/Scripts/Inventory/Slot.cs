@@ -1,19 +1,20 @@
-using Unity.VisualScripting;
+using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-
-    public ItemData item;
+    public ItemInstance item; 
     public Image itemVisual;
-   
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (item != null)
         {
-            TooltipSystem.instance.Show(item.itemName + ", Lv. " + item.itemLevel, item.itemDescription);
+            TooltipSystem.instance.Show(
+                item.data.itemName + ", Lv. " + item.data.itemLevel,
+                item.data.itemDescription
+            );
         }
     }
 
@@ -26,5 +27,4 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         Inventory.instance.OpenActionPanel(item, transform.position);
     }
-
 }

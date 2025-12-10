@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Animations/Monsters/Golem/Animation/Attack_big_feet.anim.meta
 guid: 3343d83a6d3a3a3408f687f92d23766f
 NativeFormatImporter:
+========
+guid: 43aef30f23f71ee419b3406764009950
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> bd2d865d23de721a3bff953d749fd08324b7e566:Assets/Audios/Items.meta
   externalObjects: {}
   mainObjectFileID: 7400000
   userData: 
