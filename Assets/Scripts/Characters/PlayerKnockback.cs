@@ -8,7 +8,7 @@ public class PlayerKnockback : MonoBehaviour
     private ThirdPersonController tps;
 
     [Header("Gravity Settings")]
-    public float knockGravity = 0f;
+    public float knockGravity = -12f;
 
     private Vector3 verticalVelocity;
 

@@ -4,11 +4,19 @@ public class Golem : Monster
 {
     [Header("Golem Settings")]
     public float stompRange = 3f;       // portée d'attaque au sol
-    public float stompCooldown = 2.5f;    // cooldown d’attaque
+    //public float stompCooldown = 2.5f;  // cooldown d’attaque
     public float stompWindup = 0.7f;    // temps de préparation avant dégâts
     public AudioClip stompSound;
 
+    [Header("Punch Settings")]
+    public float attackCooldown = 5f;                // cooldown du punch
+    public float punchRange = 2f;                  // portée du poing
+    public float punchDamageMultiplier = 3f;       // dégâts multipliés
+    public float punchKnockbackStrength = 18f;      // plus fort que stomp
+    public AudioClip punchSound;
+
     private float lastStompTime;
+    private float lastPunchTime;
     private bool isAttacking = false;
 
     protected override void Start()
@@ -16,7 +24,7 @@ public class Golem : Monster
         base.Start();
 
         // Le golem est lent mais puissant
-        moveSpeed *= 0.6f;     // 40% plus lent que les autres monstres
+        moveSpeed *= 0.6f;
         agent.acceleration *= 0.5f;
         agent.angularSpeed *= 0.6f;
     }
@@ -25,6 +33,7 @@ public class Golem : Monster
     {
         base.Update();
         if (isDead || isAttacking || player == null) return;
+
         LookAtPlayer();
         HandleMovement();
         TryAttack();
@@ -34,12 +43,10 @@ public class Golem : Monster
     {
         float distance = Vector3.Distance(transform.position, player.position);
 
-        // Si en dehors de la portée → il marche vers le joueur
         if (distance > stompRange)
         {
             agent.isStopped = false;
             agent.SetDestination(player.position);
-
             anim.SetFloat("Speed", agent.velocity.magnitude > 0.1f ? 1f : 0f);
         }
         else
@@ -51,96 +58,195 @@ public class Golem : Monster
 
     protected virtual void LookAtPlayer()
     {
-        if (player == null) return;
+        if (player == null || isAttacking) return;
 
         float distance = Vector3.Distance(transform.position, player.position);
-
-        // Ne regarde le joueur que lorsqu'il est assez proche
-        if (distance > data.attackRange + 0.2f) return;
+        if (distance > data.detectionRange) return;
 
         Vector3 dir = player.position - transform.position;
         dir.y = 0;
+        if (dir.sqrMagnitude < 0.001f) return;
 
-        // Rotation douce si proche mais pas encore à portée d’attaque
-        if (distance <= data.detectionRange && distance > data.attackRange)
-        {
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                Quaternion.LookRotation(dir),
-                Time.deltaTime * 2f
-            );
-        }
+        float rotationSpeed = distance <= data.attackRange ? 3f : 2f;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotationSpeed);
+    }
 
-        // Rotation rapide si en attaque
-        if (dir.sqrMagnitude > 0.001f)
+    private void PlayRandomEmoteAfterAttack()
+    {
+        // Probabilité de faire l'emote : ajustable (ici 25%)
+        float emoteChance = 0.25f;
+
+        // On efface toujours les vieux triggers pour éviter un blocage
+        anim.ResetTrigger("Emote1");
+
+        // Ne pas jouer l'emote si le joueur est trop loin
+        //if (Vector3.Distance(transform.position, player.position) > stompRange + 1f)
+        //    return;
+
+        // Tirage aléatoire
+        if (Random.value <= emoteChance)
         {
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                Quaternion.LookRotation(dir),
-                Time.deltaTime * 3f
-            );
+            Debug.Log("Golem plays emote!");
+            anim.SetTrigger("Emote1");
         }
+    }
+
+    public void EndAttack()
+    {
+        Debug.Log("EndAttack() called");
+
+        isAttacking = false;
+        agent.isStopped = false;
+        lastAttackTime = Time.time;  // pour le cooldown
+
+        PlayRandomEmoteAfterAttack();
+
+        // Optionnel : relancer la poursuite
+        if (player != null)
+            agent.SetDestination(player.position);
+    }
+
+    public void DebugEvent()
+    {
+        Debug.Log("DEBUG EVENT CALLED");
+    }
+
+    private float storedDamage;
+    public override void Attack(float damage)
+    {
+        Debug.Log("Attack appeler");
+        storedDamage = damage;
+
+        // Choisir une attaque aleatoire : 0 = Stomp, 1 = Punch
+        int randomAttack = Random.Range(0, 2);
+        anim.SetInteger("AttackIndex", randomAttack);
+        anim.SetTrigger("Attack");
+
+        lastAttackTime = Time.time;
     }
 
     private void TryAttack()
     {
-        float distance = Vector3.Distance(transform.position, player.position);
+        //Debug.Log("TryAttack() called");
 
-        if (distance <= stompRange && Time.time >= lastStompTime + stompCooldown)
+        if (player == null)
         {
-            StartCoroutine(StompRoutine());
+            Debug.Log("Player == null");
+            return;
         }
-    }
 
-    private System.Collections.IEnumerator StompRoutine()
-    {
+        float distance = Vector3.Distance(transform.position, player.position);
+        //Debug.Log("Distance: " + distance);
+
+        if (distance > stompRange)
+        {
+            //Debug.Log("Too far to attack");
+            return;
+        }
+
+        if (isAttacking)
+        {
+            Debug.Log("Blocked: isAttacking == true");
+            return;
+        }
+
+        if (Time.time < lastAttackTime + attackCooldown)
+        {
+            //Debug.Log("Cooldown not finished");
+            return;
+        }
+
+        Debug.Log("🟢 ATTACK LAUNCHED !");
         isAttacking = true;
         agent.isStopped = true;
 
-        anim.SetTrigger("Stomp");
-
-        // Son optionnel au début du coup
-        if (stompSound != null)
-            AudioSource.PlayClipAtPoint(stompSound, transform.position);
-
-        // Temps avant que l’impact touche
-        yield return new WaitForSeconds(stompWindup);
-
-        DealStompDamage();
-
-        // Fin de l’animation → petit délai
-        yield return new WaitForSeconds(0.4f);
-
-        lastStompTime = Time.time;
-        isAttacking = false;
+        Attack(damage);
     }
 
+
+
+    // Appel via Animation Event pour Stomp
     private void DealStompDamage()
     {
-        // Détection des cibles autour du Golem
+        Debug.Log("Golem are stomping");
         Collider[] hits = Physics.OverlapSphere(transform.position, stompRange);
-
         foreach (Collider hit in hits)
         {
             Player playerCharacter = hit.GetComponent<Player>();
-
             if (playerCharacter != null)
-            {
-                // Le golem frappe fort → dégâts multipliés par 2
                 playerCharacter.TakeDamage(damage * 2f);
-            }
 
-            // knockback
             PlayerKnockback knock = hit.GetComponent<PlayerKnockback>();
             if (knock != null)
             {
-                Vector3 dir = hit.transform.position - transform.position;
-                knock.ApplyKnockback(dir, 10f, 0.2f, 0.25f);
+                Vector3 dir = (hit.transform.position - transform.position).normalized;
+                knock.ApplyKnockback(dir, 10f, 0.15f, 0.4f);
             }
         }
+        isAttacking = false;
+        agent.isStopped = false;
     }
 
-    public override void Attack(float value) { }
+    private void DealPunchDamage()
+    {
+        // Centre du punch (au niveau du Golem)
+        Vector3 punchCenter = transform.position;
+        // Rayon du punch
+        float radius = punchRange;
+        // Détecte tous les colliders dans la zone du punch
+        Collider[] hits = Physics.OverlapSphere(punchCenter, radius);
+
+        if (hits.Length == 0)
+        {
+            Debug.Log("Punch: no valid target hit.");
+        }
+
+        foreach (Collider hit in hits)
+        {
+            // Cherche le composant Player sur le GameObject ou ses enfants
+            Player playerCharacter = hit.GetComponent<Player>();
+            if (playerCharacter != null)
+                playerCharacter.TakeDamage(damage * punchDamageMultiplier);
+
+            PlayerKnockback knock = hit.GetComponent<PlayerKnockback>();
+            if (knock != null)
+            {
+                Vector3 dir = (hit.transform.position - transform.position).normalized;
+                knock.ApplyKnockback(dir, punchKnockbackStrength, 0.01f, 0.5f);
+            }
+
+            Debug.Log("Punch hits the player!");
+        }
+
+        // Fin de l'attaque
+        isAttacking = false;
+        agent.isStopped = false;
+    }
+
+
+    public static void DebugWireSphere(Vector3 position, Color color, float radius, float duration = 0f)
+    {
+        int segments = 24;
+        float angle = 0f;
+        float increment = 360f / segments;
+
+        Vector3 lastPoint = Vector3.zero;
+
+        for (int i = 0; i <= segments; i++)
+        {
+            float rad = Mathf.Deg2Rad * angle;
+            float x = Mathf.Sin(rad) * radius;
+            float z = Mathf.Cos(rad) * radius;
+
+            Vector3 nextPoint = position + new Vector3(x, 0, z);
+
+            if (i > 0)
+                Debug.DrawLine(lastPoint, nextPoint, color, duration);
+
+            lastPoint = nextPoint;
+            angle += increment;
+        }
+    }
 
     public override void Spawn(Vector3 spawnPosition, int level)
     {
