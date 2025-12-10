@@ -374,12 +374,12 @@ MonoBehaviour:
   weaponDamage: 75
   actionSound: {fileID: 8300000, guid: 30a957a99a7b12143bee76a986c4d551, type: 3}
   weaponRange: 200
-  weaponAttackSpeed: 4
+  weaponAttackSpeed: 3.6
   hitMask:
     serializedVersion: 2
-    m_Bits: 246
+    m_Bits: 1
   maxAmmo: 200
-  currentAmmo: 164
+  currentAmmo: 186
   magazineSize: 20
   reloadTime: 3.5
   bulletSpeed: 60
@@ -387,13 +387,13 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 128
-  soundCooldown: 0.25
+  soundCooldown: 0.277
   reloadAudio: {fileID: 8300000, guid: 2d7e60b4cc2b7134199954534a9830f7, type: 3}
   animTransitionCooldown: 0.5
-  direction: {x: -0.45955548, y: 0.12881885, z: -0.87875736}
+  direction: {x: -0.3793432, y: 0.020024644, z: -0.92503935}
   equippedInstance:
     data: {fileID: 11400000, guid: b84323f5172f7754c98a91d12ecbb7c2, type: 2}
-    uniqueID: 71ad6165-8a11-4a15-b013-9e620ca1a4ec
+    uniqueID: 742bcdbd-7bb3-44e7-908e-90b64bd00a5e
 --- !u!54 &-6963121210122978242
 Rigidbody:
   m_ObjectHideFlags: 0

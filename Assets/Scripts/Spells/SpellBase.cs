@@ -8,7 +8,6 @@ public abstract class SpellBase : MonoBehaviour
 
     public virtual void Init(Character character, SpellData spellData)
     {
-        Debug.Log("Appel slt");
         caster = character;
         data = spellData;
 

@@ -4,6 +4,7 @@ public abstract class UltimateProjectile : ProjectileSpellBase
 {
 
     public float cinematicDuration;
+    public float cameraShakeIntensity;
 
 
     public abstract void UltimateCinematic();
@@ -23,25 +24,33 @@ public abstract class UltimateProjectile : ProjectileSpellBase
 
     public Vector3 GetCinematicCastPosition()
     {
-        Vector3 position = Vector3.zero;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit[] hits = Physics.RaycastAll(ray, 1000f, hitMask);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, hitMask))
+        Vector3 origin = caster.transform.position;
+
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        foreach (RaycastHit hit in hits)
         {
-            float dist = Vector3.Distance(caster.transform.position, hit.point);
-            if (dist <= 10)
-            {
-                position = hit.point;
-                return position;
-            }
+            if (hit.transform == caster.transform)
+                continue;
 
-            // empêche le joueur de placer la zone plus loin que la portée maximum (maxRange) --> clamp
-            Vector3 dir = (hit.point - caster.transform.position).normalized;
-            position = caster.transform.position + dir * 10f;
-            return position;
+            float dist = Vector3.Distance(origin, hit.point);
+            if (dist <= 10f)
+            {
+                return hit.point;
+            }
+            else
+            {
+                Vector3 dir = (hit.point - origin).normalized;
+                return origin + dir * 10f;
+            }
         }
 
-        return position;
+        Vector3 fallbackDir = ray.direction.normalized;
+        return origin + fallbackDir * 10f;
     }
+
 
 }

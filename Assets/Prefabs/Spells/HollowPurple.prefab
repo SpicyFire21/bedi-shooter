@@ -5089,12 +5089,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 246
   cinematicDuration: 1.2
+  cameraShakeIntensity: 100
   redPrefab: {fileID: 8935418595417918653, guid: d43362eebf6d4e845b60ce3981df40fe, type: 3}
   bluePrefab: {fileID: 8935418595417918653, guid: efc563489ca26a8488098c7f148bba4b, type: 3}
-  offsetDistance: 1
-  forwardOffset: 10
-  fusionDuration: 2
-  cameraShakeIntensity: 0.3
+  gapBetweenPrefabs: 2
+  fusionDuration: 1.2
 --- !u!65 &-5381060776821250697
 BoxCollider:
   m_ObjectHideFlags: 0
