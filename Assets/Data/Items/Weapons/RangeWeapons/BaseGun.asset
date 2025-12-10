@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Base Gun
   itemDescription: The gun of the begginers
   itemPrefab: {fileID: 7658220749020036070, guid: d21cc853d511bb6448a4eef9c79fc18a, type: 3}
-  itemSprite: {fileID: 21300000, guid: 63ad5bedc11661c40b88d320a62a3307, type: 3}
+  itemSprite: {fileID: 21300000, guid: 551b3ebbf26fa5f44ab68b885f1d70d6, type: 3}
   itemType: 1
   EquipmenttSlot: 2
   itemLevel: 5
