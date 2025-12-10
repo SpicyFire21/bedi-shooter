@@ -1359,7 +1359,7 @@ MonoBehaviour:
   healthBarPrefab: {fileID: -1830062705855029619, guid: 088680c26ec060b499c41da48529dbae, type: 3}
   stompRange: 2.5
   stompWindup: 0.7
-  stompSound: {fileID: 0}
+  stompSound: {fileID: 8300000, guid: 634cdcbf1225589439c465397f742510, type: 3}
   attackCooldown: 3
   punchRange: 2
   punchDamageMultiplier: 3
