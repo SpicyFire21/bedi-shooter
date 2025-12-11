@@ -22,4 +22,4 @@ MonoBehaviour:
   effectDuration: 0
   prefab: {fileID: 8935418595417918653, guid: a220cbb73c87608428f47380faacd924, type: 3}
   castSound: {fileID: 8300000, guid: 6cd7b1ea33ac1684f91837b201e7372f, type: 3}
-  volume: 1
+  volume: 0.392

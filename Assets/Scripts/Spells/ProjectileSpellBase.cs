@@ -31,6 +31,7 @@ public class ProjectileSpellBase : SpellBase
         {
             CastNormalProjectile();
             (caster as Player).animator.SetTrigger("IsCasting");
+            (caster as Player).FaceMouse();
         }
     }
 

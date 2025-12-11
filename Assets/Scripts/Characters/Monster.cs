@@ -73,6 +73,8 @@ public abstract class Monster : Character
             deathSoundPlayed = true;
         }
 
+        DropLoot();
+
         if (player != null)
         {
             Player playerScript = player.GetComponent<Player>();
@@ -137,4 +139,26 @@ public abstract class Monster : Character
         return Mathf.Clamp(xp, data.baseXpReward * 0.5f, data.baseXpReward * 20f); // on evite les gains enormes d'xp quand meme
     }
 
+    private void DropLoot()
+    {
+        if (data.lootTable == null || data.lootTable.Length == 0)
+            return;
+
+        foreach (var entry in data.lootTable)
+        {
+            if (entry.item == null)
+                continue;
+
+            // test de probabilité défini PAR LE MONSTRE
+            if (Random.value <= entry.dropChance)
+            {
+                int amount = Random.Range(entry.minAmount, entry.maxAmount + 1);
+
+                for (int i = 0; i < amount; i++)
+                {
+                    Instantiate(entry.item.itemPrefab, transform.position, Quaternion.identity);
+                }
+            }
+        }
+    }
 }

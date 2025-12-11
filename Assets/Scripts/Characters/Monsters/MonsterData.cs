@@ -23,6 +23,9 @@ public class MonsterData : ScriptableObject
     [Header("Audio")]
     public AudioClip deathSound;
 
+    [Header("Loot Table")]
+    public LootEntry[] lootTable;
+
     public bool onGround;
 
     private int onField = 0;
