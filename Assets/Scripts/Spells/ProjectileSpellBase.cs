@@ -30,6 +30,7 @@ public class ProjectileSpellBase : SpellBase
         else
         {
             CastNormalProjectile();
+            (caster as Player).animator.SetTrigger("IsCasting");
         }
     }
 

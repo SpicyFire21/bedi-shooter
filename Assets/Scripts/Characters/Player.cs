@@ -251,7 +251,7 @@ public class Player : Character
         return ray.origin + ray.direction * 100f;
     }
 
-    private void FaceMouse()
+    public void FaceMouse()
     {
         Vector3 mouseWorldPos = GetMouseWorldPosition();
         Vector3 direction = mouseWorldPos - transform.position;
