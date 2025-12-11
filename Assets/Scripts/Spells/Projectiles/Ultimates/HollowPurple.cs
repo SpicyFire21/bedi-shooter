@@ -28,6 +28,7 @@ public class HollowPurple : UltimateProjectile
     private void HollowPurpleCinematic()
     {
         Player player = caster as Player;
+        player.animator.SetTrigger("IsLaunchingPurpleStyle");
         Vector3 castPosition = GetCinematicCastPosition();
 
         Vector3 direction = (castPosition - caster.transform.position).normalized;

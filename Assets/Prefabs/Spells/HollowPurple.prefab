@@ -5087,7 +5087,7 @@ MonoBehaviour:
   speed: 30
   hitMask:
     serializedVersion: 2
-    m_Bits: 246
+    m_Bits: 118
   cinematicDuration: 1.2
   cameraShakeIntensity: 0.7
   cameraShakingDuration: 1

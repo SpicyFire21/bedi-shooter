@@ -28,6 +28,7 @@ public class ZoneSpellBase : SpellBase
 
         ZoneSpellBase zone = instance.GetComponent<ZoneSpellBase>();
         zone.Initialize(caster, data);
+        (caster as Player).animator.SetTrigger("IsCastingZone");
         // la zone gère sa propre destruction si besoin
     }
 
