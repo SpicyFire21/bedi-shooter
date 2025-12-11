@@ -74,14 +74,4 @@ public class HollowPurple : UltimateProjectile
         Destroy(blue.gameObject);
     }
 
-
-
-
-    public override void ShakeCamera(float intensity)
-    {
-        Camera cam = Camera.main;
-        if (cam == null) return;
-
-        cam.transform.position = Random.insideUnitSphere * intensity;
-    }
 }

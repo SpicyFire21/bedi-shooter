@@ -5,11 +5,11 @@ public abstract class UltimateProjectile : ProjectileSpellBase
 
     public float cinematicDuration;
     public float cameraShakeIntensity;
+    public float cameraShakingDuration;
 
 
     public abstract void UltimateCinematic();
 
-    public abstract void ShakeCamera(float intensity);
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

@@ -94,7 +94,7 @@ public class ProjectileSpellBase : SpellBase
         yield return new WaitForSeconds(ultimatePrefab.cinematicDuration);
         player.tps.enabled = true;
         player.tps.canMove = true;
-        ultimatePrefab.ShakeCamera(ultimatePrefab.cameraShakeIntensity);
+        CameraShake.Instance.Shake(ultimatePrefab.cameraShakeIntensity, ultimatePrefab.cameraShakingDuration);
         CastNormalProjectile();
     }
 }

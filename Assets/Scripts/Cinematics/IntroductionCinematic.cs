@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Cinematique : MonoBehaviour
+public class IntroductionCinematic : MonoBehaviour
 {
     public Camera playerCamera;       // Caméra du personnage
     public Camera cinematicCamera;    // Caméra pour la cinématique
