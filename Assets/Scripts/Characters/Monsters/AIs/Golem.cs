@@ -219,6 +219,30 @@ public class Golem : Monster
         agent.isStopped = false;
     }
 
+    public void FootStomp()
+    {
+        // Intensité et durée ajustables
+        float shakeIntensity = 2f;
+        float shakeDuration = 0.3f;
+
+        if (CameraShake.Instance != null)
+            CameraShake.Instance.Shake(shakeIntensity, shakeDuration);
+    }
+
+    public void Footstep()
+    {
+        // Empêche les tremblements si golem mort / attaquant
+        if (isDead) return;
+
+        // Intensité et durée ajustables
+        float shakeIntensity = 0.2f;  // tu peux ajuster
+        float shakeDuration = 0.2f;
+
+        if (CameraShake.Instance != null)
+            CameraShake.Instance.Shake(shakeIntensity, shakeDuration);
+    }
+
+
     public void SlowDeathAnimation()
     {
         if (anim != null)
