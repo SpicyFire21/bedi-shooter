@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private Vector3 startPosition;
-    private float maxDistance;
-    private Player player;
-    private float damage;
-    private LayerMask enemyMask;
+    protected Vector3 startPosition;
+    protected float maxDistance;
+    protected Player player;
+    protected float damage;
+    protected LayerMask enemyMask;
 
     public void Init(float range, float bulletDamage, LayerMask layerMask, Player caster)
     {
