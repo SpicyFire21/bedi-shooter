@@ -7,14 +7,15 @@ public class MonsterHealthBar : MonoBehaviour
     public Text levelText;
     public Text healthText;
     public Transform target;
-    public Vector3 offset = new Vector3(0, 2f, 0);
 
     void LateUpdate() // late update s'appelle après tout les updates de tout les objets
     {
         if (target == null) return;
 
-        transform.position = target.position + offset;
-        transform.rotation = Camera.main.transform.rotation; // billboard --> sert à ce que la barre de vie soit toujours orienté vers NOTRE caméra
+        float height = GetMonsterHeight(target);
+
+        transform.position = target.position + new Vector3(0, height, 0);
+        transform.rotation = Camera.main.transform.rotation;
     }
 
     public void SetHealth(float current, float max)
@@ -27,4 +28,16 @@ public class MonsterHealthBar : MonoBehaviour
     {
         levelText.text = "Lv. " + level.ToString();
     }
+
+    float GetMonsterHeight(Transform monster)
+    {
+        Collider col = monster.GetComponent<Collider>();
+        if (col != null)
+        {
+            return col.bounds.size.y;
+        }
+
+        return 0f; // si pas de collider
+    }
+
 }
