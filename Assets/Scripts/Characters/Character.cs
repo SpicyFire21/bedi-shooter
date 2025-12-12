@@ -37,6 +37,9 @@ public abstract class Character : MonoBehaviour
         if (this is Monster monster)
         {
             monster.UpdateHealthBar();
+        } else if (this is Player player)
+        {
+            player.animator.SetTrigger("IsTakingDamage");
         }
     }
 

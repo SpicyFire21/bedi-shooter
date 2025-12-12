@@ -17,5 +17,5 @@ MonoBehaviour:
   itemPrefab: {fileID: 3742483260793539777, guid: d49cd2e92bfeede4c8a2b9d045ef03e4, type: 3}
   itemSprite: {fileID: 21300000, guid: 7e59ee25621fdf347b8c649fd0f57733, type: 3}
   itemType: 1
-  EquipmenttSlot: 3
-  itemLevel: 90
+  EquipmentSlot: 3
+  itemLevel: 30

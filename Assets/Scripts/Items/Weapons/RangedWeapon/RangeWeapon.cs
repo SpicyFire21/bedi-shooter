@@ -40,7 +40,7 @@ public abstract class RangeWeapon : Weapon
         if (Time.time - lastShotTime < 1f / weaponAttackSpeed)
             return;
 
-        if (currentAmmo <= 0) return;
+        if (currentAmmo + ammoInMagazine <= 0) return;
 
         DoAnimation(player);
         direction = GetDirection(player);
@@ -67,7 +67,6 @@ public abstract class RangeWeapon : Weapon
             lastSoundTime = Time.time;
         }
 
-        currentAmmo--;
         HandleAmmoInMagazine(player);
 
         if (equippedInstance != null)
@@ -132,16 +131,14 @@ public abstract class RangeWeapon : Weapon
     private void HandleAmmoInMagazine(Player player)
     {
         ammoInMagazine--;
-        if (ammoInMagazine == 0 && currentAmmo > magazineSize)
-        {
-            StartReload(player);
-        }
-        else if (currentAmmo < magazineSize)
-        {
-            ammoInMagazine = magazineSize;
-        } else if (currentAmmo == 0)
+
+        if (ammoInMagazine <= 0)
         {
             ammoInMagazine = 0;
+            if (currentAmmo > 0)
+            {
+                StartReload(player);
+            }
         }
     }
 
@@ -157,19 +154,19 @@ public abstract class RangeWeapon : Weapon
     {
         isReloading = true;
         player.animator.SetTrigger("IsReloading");
-        Debug.Log("Reloading...");
         AudioSource.PlayClipAtPoint(reloadAudio, player.transform.position, 3f);
+
         yield return new WaitForSeconds(reloadTime);
+
         int neededAmmo = magazineSize - ammoInMagazine;
         int ammoToLoad = Mathf.Min(neededAmmo, currentAmmo);
-        
 
         ammoInMagazine += ammoToLoad;
-        //currentAmmo -= ammoToLoad;
+        currentAmmo -= ammoToLoad; 
 
         isReloading = false;
-        Debug.Log("Reload complete");
     }
+
 
     public int getAmmoInMagazine()
     {

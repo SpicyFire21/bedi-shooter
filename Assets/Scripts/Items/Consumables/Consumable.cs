@@ -17,4 +17,10 @@ public abstract class Consumable : ItemBase
 
     }
     public abstract void Use(Player player);
+
+    public void Consume(Player player)
+    {
+        AudioSource.PlayClipAtPoint(actionSound, player.transform.position, 0.5f);
+        Use(player);
+    }
 }

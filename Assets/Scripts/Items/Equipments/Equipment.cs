@@ -5,6 +5,7 @@ public abstract class Equipment : ItemBase
     public float equipmentHealthBonus;
     public float equipmentDamageBonus;
     public float equipmentSpeedBonus;
+    public int nbJumpsBonus;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,6 +25,7 @@ public abstract class Equipment : ItemBase
         player.bonusDamage += equipmentDamageBonus;
         player.bonusMaxHealth += equipmentHealthBonus;
         player.bonusMoveSpeed += equipmentSpeedBonus;
+        player.tps.maxJumps += nbJumpsBonus;
 
         player.ApplyStats(); 
     }
@@ -33,6 +35,7 @@ public abstract class Equipment : ItemBase
         player.bonusDamage -= equipmentDamageBonus;
         player.bonusMaxHealth -= equipmentHealthBonus;
         player.bonusMoveSpeed -= equipmentSpeedBonus;
+        player.tps.maxJumps -= nbJumpsBonus;
 
         player.ApplyStats(); 
     }

@@ -227,7 +227,7 @@ public class Player : Character
                 }
                 else
                 {
-                    attackTarget.TakeDamage((equippedWeapon.weaponDamage + damage) / 4);
+                    attackTarget.TakeDamage((equippedWeapon.weaponDamage + damage) / 8.5f);
                 }
             }
         }

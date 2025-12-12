@@ -5,6 +5,7 @@ using static UnityEditor.Progress;
 public class EquipmentManager : MonoBehaviour
 {
     public static EquipmentManager instance;
+    public AudioClip equipmentEquipSound;
 
     [Header("References")]
     [SerializeField] private Player player;
@@ -20,7 +21,8 @@ public class EquipmentManager : MonoBehaviour
 
     public void Equip(ItemInstance instance, GameObject prefab)
     {
-        switch (instance.data.EquipmenttSlot)
+        AudioSource.PlayClipAtPoint(equipmentEquipSound, player.transform.position, 0.6f);
+        switch (instance.data.EquipmentSlot)
         {
             case EquipmentSlot.Head:
                 EquipHead(instance.data, prefab);
@@ -43,7 +45,7 @@ public class EquipmentManager : MonoBehaviour
                 break;
 
             default:
-                Debug.LogWarning("Slot non géré : " + instance.data.EquipmenttSlot);
+                Debug.LogWarning("Slot non géré : " + instance.data.EquipmentSlot);
                 break;
         }
     }
@@ -77,15 +79,18 @@ public class EquipmentManager : MonoBehaviour
 
     private void EquipHead(ItemData item, GameObject prefab)
     {
-        EquipOnSlot(player.headSlot, item, prefab);
+        //EquipOnSlot(player.headSlot, item, prefab);
         Equipment equipment = prefab.GetComponent<Equipment>();
         if (equipment != null)
+        {
             equipment.ApplyEquipmentStats(player);
+
+        }
     }
 
     private void EquipChest(ItemData item, GameObject prefab)
     {
-        EquipOnSlot(player.chestSlot, item, prefab);
+        //EquipOnSlot(player.chestSlot, item, prefab);
         Equipment equipment = prefab.GetComponent<Equipment>();
         if (equipment != null)
             equipment.ApplyEquipmentStats(player);
@@ -130,13 +135,13 @@ public class EquipmentManager : MonoBehaviour
     private void UnequipHead()
     {
         RemoveEquipmentStats(Inventory.instance.getEquippedHelmet());
-        UnequipFromSlot(player.headSlot, EquipmentSlot.Head);
+        //UnequipFromSlot(player.headSlot, EquipmentSlot.Head);
     }
 
     private void UnequipChest()
     {
         RemoveEquipmentStats(Inventory.instance.getEquippedChest());
-        UnequipFromSlot(player.chestSlot, EquipmentSlot.Chest);
+        //UnequipFromSlot(player.chestSlot, EquipmentSlot.Chest);
     }
 
     private void UnequipLegs()

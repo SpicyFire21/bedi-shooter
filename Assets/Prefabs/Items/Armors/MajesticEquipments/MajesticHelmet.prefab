@@ -197,6 +197,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 0f3dca3159cf5a842879bbba07823789, type: 2}
-  equipmentHealthBonus: 210
-  equipmentDamageBonus: 15
+  equipmentHealthBonus: 110
+  equipmentDamageBonus: 6
   equipmentSpeedBonus: 0

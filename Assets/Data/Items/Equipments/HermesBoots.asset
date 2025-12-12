@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4de527f422a2d33448c8a402b80c78eb, type: 3}
+  m_Name: HermesBoots
+  m_EditorClassIdentifier: 
+  itemName: Hermes Boots
+  itemDescription: Makes miracles
+  itemPrefab: {fileID: 1602269844851708830, guid: e78eb795a9673ea47a15f37c11e5c286, type: 3}
+  itemSprite: {fileID: 21300000, guid: 0cee7249f42636f4b85994d69d904443, type: 3}
+  itemType: 1
+  EquipmentSlot: 4
+  itemLevel: 10

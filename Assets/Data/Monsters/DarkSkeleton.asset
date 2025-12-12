@@ -19,9 +19,18 @@ MonoBehaviour:
   attackRange: 2
   attackCooldown: 1
   prefab: {fileID: 8435787980998359774, guid: 866b24ac318220148a048a713842e8dc, type: 3}
-  spawnRate: 0.1
-  maxOnField: 1
+  spawnRate: 0.05
+  maxOnField: 5
   minRangeRadius: 15
   maxRangeRadius: 40
   deathSound: {fileID: 8300000, guid: 3d2a0080f826e884ab6313db59743336, type: 3}
+  lootTable:
+  - item: {fileID: 11400000, guid: 31c4a2ff35660f441b4a655dc219e7c2, type: 2}
+    dropChance: 0.05
+    minAmount: 1
+    maxAmount: 1
+  - item: {fileID: 11400000, guid: 08deec5688a5a9344b9ef28cb94211d5, type: 2}
+    dropChance: 0.08
+    minAmount: 1
+    maxAmount: 1
   onGround: 1

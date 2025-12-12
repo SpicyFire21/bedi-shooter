@@ -3374,7 +3374,7 @@ MonoBehaviour:
   maxHealth: 15
   currentHealth: 15
   characterName: LeBaronRouge
-  moveSpeed: 3
+  moveSpeed: 2
   castPoint: {fileID: 0}
   isPlayer: 0
   isDead: 0

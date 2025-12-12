@@ -4946,7 +4946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 08deec5688a5a9344b9ef28cb94211d5, type: 2}
-  actionSound: {fileID: 0}
+  actionSound: {fileID: 8300000, guid: 6b68369e2330c7241b3263ad47b4123b, type: 3}
   effectValue: 25
 --- !u!65 &-721498222748504943
 BoxCollider:

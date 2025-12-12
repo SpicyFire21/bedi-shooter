@@ -86,6 +86,8 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private Image weaponSlotImage;
 
+    private Player player;
+
     [SerializeField] public List<ItemInstance> inventoryContent = new List<ItemInstance>();
     private Dictionary<string, WeaponRuntimeData> weaponRuntime = new Dictionary<string, WeaponRuntimeData>();
     public WeaponRuntimeData GetWeaponRuntime(ItemInstance instance)
@@ -127,6 +129,7 @@ public class Inventory : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        player = FindAnyObjectByType<Player>();
         CloseInventory();
         RefreshContent();
     }
@@ -253,6 +256,12 @@ public class Inventory : MonoBehaviour
 
     public void UseActionButton()
     {
+        Consumable consumable = itemCurrentlySelected.data.itemPrefab.GetComponent<Consumable>();
+        if (consumable != null)
+        {
+            consumable.Consume(player);
+            inventoryContent.Remove(itemCurrentlySelected);
+        }
         RefreshContent();
         CloseActionPanel();
     }
@@ -266,7 +275,7 @@ public class Inventory : MonoBehaviour
         instantiatedItem.transform.position = dropPoint.position;
 
         if (itemCurrentlySelected.data.itemType == ItemType.Equipment &&
-            itemCurrentlySelected.data.EquipmenttSlot == EquipmentSlot.Hands)
+            itemCurrentlySelected.data.EquipmentSlot == EquipmentSlot.Hands)
         {
             if (weaponRuntime.ContainsKey(itemCurrentlySelected.uniqueID))
             {
@@ -296,7 +305,7 @@ public class Inventory : MonoBehaviour
 
         DisablePreviousEquipedEquipment(itemCurrentlySelected);
 
-        switch (itemCurrentlySelected.data.EquipmenttSlot)
+        switch (itemCurrentlySelected.data.EquipmentSlot)
         {
             case EquipmentSlot.Head:
                 headSlotImage.sprite = itemCurrentlySelected.data.itemSprite;
@@ -441,49 +450,61 @@ public class Inventory : MonoBehaviour
     {
         if (itemToDisable == null) return;
 
+        EquipmentSlot slot = itemToDisable.data.EquipmentSlot;
         ItemInstance previousItem = null;
-        EquipmentSlot slot = itemToDisable.data.EquipmenttSlot;
 
         switch (slot)
         {
             case EquipmentSlot.Head:
                 previousItem = equipedHeadItem;
-                equipedHeadItem = null;
-                headSlotImage.sprite = emptySlotVisual;
                 break;
-
             case EquipmentSlot.Chest:
                 previousItem = equipedChestItem;
-                equipedChestItem = null;
-                chestSlotImage.sprite = emptySlotVisual;
                 break;
-
             case EquipmentSlot.Legs:
                 previousItem = equipedLegsItem;
-                equipedLegsItem = null;
-                legsSlotImage.sprite = emptySlotVisual;
                 break;
-
             case EquipmentSlot.Feet:
                 previousItem = equipedFeetsItem;
-                equipedFeetsItem = null;
-                feetsSlotImage.sprite = emptySlotVisual;
                 break;
-
             case EquipmentSlot.Hands:
                 previousItem = equipedWeaponItem;
-                equipedWeaponItem = null;
-                weaponSlotImage.sprite = emptySlotVisual;
                 break;
         }
 
         if (previousItem != null)
         {
-            inventoryContent.Add(previousItem); // remet l'instance dans l'inventaire
             EquipmentManager.instance.Unequip(slot);
-            RefreshContent();
+            AddItem(previousItem);
         }
+
+        switch (slot)
+        {
+            case EquipmentSlot.Head:
+                equipedHeadItem = null;
+                headSlotImage.sprite = emptySlotVisual;
+                break;
+            case EquipmentSlot.Chest:
+                equipedChestItem = null;
+                chestSlotImage.sprite = emptySlotVisual;
+                break;
+            case EquipmentSlot.Legs:
+                equipedLegsItem = null;
+                legsSlotImage.sprite = emptySlotVisual;
+                break;
+            case EquipmentSlot.Feet:
+                equipedFeetsItem = null;
+                feetsSlotImage.sprite = emptySlotVisual;
+                break;
+            case EquipmentSlot.Hands:
+                equipedWeaponItem = null;
+                weaponSlotImage.sprite = emptySlotVisual;
+                break;
+        }
+
+        RefreshContent();
     }
+
 
 
     public bool IsOpen()

@@ -76,6 +76,11 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        [Header("Double Jump")]
+        public int maxJumps = 1;
+        private int jumpCount = 0;
+
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -291,70 +296,65 @@ namespace StarterAssets
         {
             if (Grounded)
             {
-                // reset the fall timeout timer
                 _fallTimeoutDelta = FallTimeout;
 
-                // update animator if using character
+                // reset jump count
+                jumpCount = 0;
+
                 if (_hasAnimator)
                 {
                     _animator.SetBool(_animIDJump, false);
                     _animator.SetBool(_animIDFreeFall, false);
                 }
 
-                // stop our velocity dropping infinitely when grounded
                 if (_verticalVelocity < 0.0f)
-                {
                     _verticalVelocity = -2f;
-                }
 
-                // Jump
-                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+                // FIRST JUMP
+                if (_input.jump && jumpCount < maxJumps)
                 {
-                    // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
-                    // update animator if using character
                     if (_hasAnimator)
-                    {
                         _animator.SetBool(_animIDJump, true);
-                    }
-                }
 
-                // jump timeout
-                if (_jumpTimeoutDelta >= 0.0f)
-                {
-                    _jumpTimeoutDelta -= Time.deltaTime;
+                    jumpCount++;
+
+                    _input.jump = false;   // sinon ca jump en boucle
                 }
             }
             else
             {
-                // reset the jump timeout timer
                 _jumpTimeoutDelta = JumpTimeout;
 
-                // fall timeout
-                if (_fallTimeoutDelta >= 0.0f)
+                // SECOND JUMP
+                if (_input.jump && jumpCount < maxJumps - 1)
                 {
-                    _fallTimeoutDelta -= Time.deltaTime;
+                    _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+
+                    if (_hasAnimator)
+                        _animator.SetBool(_animIDJump, true);
+
+                    jumpCount++;
+
+                    _input.jump = false;   // empeche un saut involontaire
                 }
+
+                // falling animation
+                if (_fallTimeoutDelta > 0)
+                    _fallTimeoutDelta -= Time.deltaTime;
                 else
                 {
-                    // update animator if using character
                     if (_hasAnimator)
-                    {
                         _animator.SetBool(_animIDFreeFall, true);
-                    }
                 }
-
-                // if we are not grounded, do not jump
-                _input.jump = false;
             }
 
-            // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+            // gravity
             if (_verticalVelocity < _terminalVelocity)
-            {
                 _verticalVelocity += Gravity * Time.deltaTime;
-            }
         }
+
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
         {

@@ -24,4 +24,13 @@ MonoBehaviour:
   minRangeRadius: 15
   maxRangeRadius: 40
   deathSound: {fileID: 8300000, guid: 9953ac5e11ff4aa4dbc49f93637f33fb, type: 3}
+  lootTable:
+  - item: {fileID: 11400000, guid: b84323f5172f7754c98a91d12ecbb7c2, type: 2}
+    dropChance: 1
+    minAmount: 1
+    maxAmount: 1
+  - item: {fileID: 11400000, guid: c29ec7edda3c31f499be42e8035762ed, type: 2}
+    dropChance: 1
+    minAmount: 2
+    maxAmount: 5
   onGround: 1

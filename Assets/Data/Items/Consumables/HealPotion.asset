@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4de527f422a2d33448c8a402b80c78eb, type: 3}
+  m_Name: HealPotion
+  m_EditorClassIdentifier: 
+  itemName: Heal Potion
+  itemDescription: A heal potion that restores 100 HP.
+  itemPrefab: {fileID: 5401461271513356868, guid: 25ed5c2160c16d84ab5808945c5795c2, type: 3}
+  itemSprite: {fileID: 21300000, guid: 5338bf8f0bed9bd4e9ad1505ec99391c, type: 3}
+  itemType: 0
+  EquipmenttSlot: 0
+  itemLevel: 15
