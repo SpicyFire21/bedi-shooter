@@ -17,16 +17,32 @@ public class DragonBoss : Monster
     public float airSpeed = 10f; // Vitesse utilisée pour la rotation en vol
     public float groundAttackRotationSpeed = 8f; // Vitesse de rotation au sol pour faire face au joueur
 
+    [Header("Attack Damage Multipliers")]
+    public float biteDamageMultiplier = 1.0f;
+    public float chargeDamageMultiplier = 1.5f;
+    public float flameDamageMultiplier = 0.5f; // Dégâts plus faibles mais peut être DoT
+    public float flameDamagePerTick = 0.1f;    // Dégâts pour l'attaque aérienne (si DoT)
+
+    [Header("Knockback Settings")]
+    public float biteKnockback = 8f;
+    public float chargeKnockback = 20f; // Très fort pour une charge
+                                        // Durée et hauteur des Knockbacks peuvent être ajustées dans les méthodes
+    [Header("Attack Hitbox Offset")]
+    public float biteOffsetDistance = 5.6f; // Décalage du centre de la morsure devant le Dragon
+    public float chargeOffsetDistance = 8.5f; // Décalage du centre de la charge devant le Dragon
+    public float biteRadius = 2f;
+    public float chargeRadius = 3f;
+
     [Header("Fighting Distance")]
-    public float biteRange = 3f;
-    public float flameRangeGround = 10f;
-    public float chargeRange = 12f;
+    public float biteRange = 8f;
+    public float flameRangeGround = 20f;
+    public float chargeRange = 15f;
 
     [Header("Cooldowns")]
     public float attackCooldown = 2f;
-    public float chargeCooldown = 6f;
-    public float flameCooldown = 5f;
-    public float screamCooldown = 12f;
+    public float chargeCooldown = 8f;
+    public float flameCooldown = 10f;
+    public float screamCooldown = 15f;
 
     [Header("Phase Settings")]
     public float phase2HealthRatio = 0.66f;
@@ -38,6 +54,8 @@ public class DragonBoss : Monster
     private float lastScreamTime;
 
     private Rigidbody rb;
+
+    private bool shouldWarpAfterAttack = false;
 
     private bool isAttacking = false;
     private bool phase2Triggered = false;
@@ -118,8 +136,11 @@ public class DragonBoss : Monster
         anim.SetBool("Is_Flying", false);
         agent.speed = groundSpeed;
 
-        if (agent.enabled && agent.isOnNavMesh)
-            agent.SetDestination(player.position);
+        if (agent.enabled)
+        {
+            if (!agent.hasPath)
+                agent.SetDestination(player.position);
+        }
 
         float distance = Vector3.Distance(transform.position, player.position);
 
@@ -164,21 +185,86 @@ public class DragonBoss : Monster
 
         if (agent.enabled && agent.isOnNavMesh)
         {
-            agent.isStopped = true;
-            // Force la rotation vers le joueur immédiatement
+            if (trigger == "Charge")
+            {
+                // ⭐ CHANGEMENT : On désactive l'Agent pendant la Charge pour éviter toute interférence physique.
+                agent.enabled = false;
+
+                rb.useGravity = false;      // ⭐ STOP gravité
+                rb.isKinematic = true;      // ⭐ STOP physique
+
+                shouldWarpAfterAttack = true; // Flag pour savoir qu'il faut le réactiver/warper
+            }
+            else
+            {
+                // Pour les autres attaques, on le stoppe simplement
+                agent.isStopped = true;
+            }
             RotateTowardsPlayer(groundAttackRotationSpeed * 5f);
         }
 
-        // ⭐ AJOUT : Réinitialisation explicite des autres triggers
-        // C'est une mesure de sécurité pour s'assurer qu'un trigger précédent ne se réactive pas
-        // ou n'interfère pas avec la nouvelle attaque.
+        // Réinitialisation explicite des autres triggers
         anim.ResetTrigger("Attack");
         anim.ResetTrigger("Charge");
         anim.ResetTrigger("Flamme_Attack");
         anim.ResetTrigger("Scream");
 
-        // On définit le nouveau Trigger d'animation
         anim.SetTrigger(trigger);
+    }
+
+    // =================ATTACK EVENT========================
+    public void DealBiteDamage()
+    {
+        // Calcule la zone de dégâts DEVANT le Dragon en utilisant l'offset
+        Vector3 biteCenter = transform.position + transform.forward * biteOffsetDistance;
+
+        // Détecte les cibles dans la zone
+        Collider[] hits = Physics.OverlapSphere(biteCenter, biteRadius);
+
+        foreach (Collider hit in hits)
+        {
+            Player playerCharacter = hit.GetComponent<Player>();
+            if (playerCharacter != null)
+            {
+                // ... (logique de dégâts et knockback)
+                playerCharacter.TakeDamage(damage * biteDamageMultiplier);
+
+                PlayerKnockback knock = hit.GetComponent<PlayerKnockback>();
+                if (knock != null)
+                {
+                    Vector3 dir = (hit.transform.position - transform.position).normalized;
+                    knock.ApplyKnockback(dir, biteKnockback, 0.1f, 0.3f);
+                }
+                break;
+            }
+        }
+    }
+
+    public void DealChargeDamage()
+    {
+        // Calcule la zone de dégâts DEVANT le Dragon en utilisant l'offset
+        Vector3 chargeCenter = transform.position + transform.forward * chargeOffsetDistance;
+
+        // Détecte les cibles dans la zone
+        Collider[] hits = Physics.OverlapSphere(chargeCenter, chargeRadius);
+
+        foreach (Collider hit in hits)
+        {
+            Player playerCharacter = hit.GetComponent<Player>();
+            if (playerCharacter != null)
+            {
+                // ... (logique de dégâts et knockback)
+                playerCharacter.TakeDamage(damage * chargeDamageMultiplier);
+
+                PlayerKnockback knock = hit.GetComponent<PlayerKnockback>();
+                if (knock != null)
+                {
+                    Vector3 dir = (hit.transform.position - transform.position).normalized;
+                    knock.ApplyKnockback(dir, chargeKnockback, 0.2f, 0.6f);
+                }
+                break;
+            }
+        }
     }
 
     // =====================================================
@@ -302,8 +388,59 @@ public class DragonBoss : Monster
     {
         isAttacking = false;
 
-        if (agent.enabled && agent.isOnNavMesh && !isInFlyingEvent)
-            agent.isStopped = false;
+        // CAS DE LA CHARGE
+        if (shouldWarpAfterAttack)
+        {
+            shouldWarpAfterAttack = false;
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(transform.position, out hit, 5f, NavMesh.AllAreas))
+            {
+                agent.enabled = true;
+                agent.Warp(hit.position);
+                rb.isKinematic = false;     // ⭐ réactive la physique
+                rb.useGravity = true;       // ⭐ réactive la gravité
+                agent.isStopped = false;
+
+                // ⭐ FIX CRITIQUE : forcer une destination
+                agent.SetDestination(player.position);
+            }
+            else
+            {
+                Debug.LogWarning("❌ Échec critique du repositionnement après Charge.");
+
+                agent.enabled = true;
+                if (agent.isOnNavMesh)
+                {
+                    agent.isStopped = false;
+                    agent.SetDestination(player.position);
+                }
+            }
+        }
+        else
+        {
+            // Autres attaques (morsure, flamme, cri)
+            if (agent.enabled && agent.isOnNavMesh && !isInFlyingEvent)
+            {
+                agent.isStopped = false;
+                agent.SetDestination(player.position); // ⭐ sécurité
+            }
+        }
+    }
+
+    public void ScreamCameraShake()
+    {
+        // Empêche l'exécution si le Dragon est mort ou si l'instance de CameraShake n'existe pas
+        if (isDead)
+            return;
+
+        if (CameraShake.Instance != null)
+        {
+            Debug.Log("🔊 Dragon hurle : tremblement de caméra déclenché.");
+
+            // Appelle la fonction de tremblement en utilisant les variables de l'inspecteur
+            CameraShake.Instance.Shake(10f, 2f);
+        }
     }
 
     // =====================================================
@@ -329,7 +466,7 @@ public class DragonBoss : Monster
             rb.isKinematic = true;
         }
 
-        anim.SetTrigger("Die");
+        anim.SetTrigger("Is_Dead");
 
         // Logique de fin de combat (loot, cinématique...)
     }

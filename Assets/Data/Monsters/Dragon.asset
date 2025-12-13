@@ -15,7 +15,7 @@ MonoBehaviour:
   baseMoveSpeed: 4
   baseXpReward: 200
   baseDamage: 30
-  detectionRange: 10
+  detectionRange: 15
   attackRange: 2
   attackCooldown: 2
   prefab: {fileID: 2934558356057575715, guid: 1605b9765f5bc9d45a9276437f81b6f9, type: 3}
