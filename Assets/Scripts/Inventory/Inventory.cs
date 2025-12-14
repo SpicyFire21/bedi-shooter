@@ -89,8 +89,10 @@ public class Inventory : MonoBehaviour
     private Player player;
 
     [SerializeField] public List<ItemInstance> inventoryContent = new List<ItemInstance>();
-    private Dictionary<string, WeaponRuntimeData> weaponRuntime = new Dictionary<string, WeaponRuntimeData>();
-    public WeaponRuntimeData GetWeaponRuntime(ItemInstance instance)
+    private Dictionary<string, RangeWeaponRuntimeData> rangeWeaponRuntime = new Dictionary<string, RangeWeaponRuntimeData>();
+    private Dictionary<string, UltimateMeleeWeaponRuntimeData> ultimateMeleeWeaponRuntime = new Dictionary<string, UltimateMeleeWeaponRuntimeData>();
+
+    public RangeWeaponRuntimeData GetRangeWeaponRuntime(ItemInstance instance)
     {
         if (instance == null)
         {
@@ -98,7 +100,7 @@ public class Inventory : MonoBehaviour
             return null;
         }
 
-        if (!weaponRuntime.ContainsKey(instance.uniqueID))
+        if (!rangeWeaponRuntime.ContainsKey(instance.uniqueID))
         {
             if (instance.data.itemPrefab == null)
             {
@@ -112,14 +114,38 @@ public class Inventory : MonoBehaviour
             int ammoInMagazine = rw != null ? rw.getAmmoInMagazine() : 0;
             int magazineSize = rw.magazineSize;
             float lastShotTime = rw.GetLastShotTime();
-            weaponRuntime[instance.uniqueID] = new WeaponRuntimeData(instance, ammo, lastSoundTime, ammoInMagazine, magazineSize, lastShotTime);
+            rangeWeaponRuntime[instance.uniqueID] = new RangeWeaponRuntimeData(instance, ammo, lastSoundTime, ammoInMagazine, magazineSize, lastShotTime);
         }
 
-        return weaponRuntime[instance.uniqueID];
+        return rangeWeaponRuntime[instance.uniqueID];
     }
 
+    public UltimateMeleeWeaponRuntimeData GetUltimateMeleeWeaponRuntime(ItemInstance instance)
+    {
+        if (instance == null)
+        {
+            Debug.LogError("GetWeaponRuntime: instance is null!");
+            return null;
+        }
 
+        if (!ultimateMeleeWeaponRuntime.ContainsKey(instance.uniqueID))
+        {
+            if (instance.data.itemPrefab == null)
+            {
+                Debug.LogError("GetWeaponRuntime: itemPrefab is null for " + instance.data.name);
+                return null;
+            }
 
+            UltimateMeleeWeapon umw = instance.data.itemPrefab.GetComponent<UltimateMeleeWeapon>();
+            float maxRightClickDistance = umw.maxRightClickDistance;
+            float rightClickCooldown = umw.rightClickCooldown;
+            float nextRightClickTime = umw.GetNextRightClickTime();
+            LayerMask canRightClickMask = umw.canRightClickMask;
+            ultimateMeleeWeaponRuntime[instance.uniqueID] = new UltimateMeleeWeaponRuntimeData(instance, maxRightClickDistance, rightClickCooldown, nextRightClickTime, canRightClickMask);
+        }
+
+        return ultimateMeleeWeaponRuntime[instance.uniqueID];
+    }
     private void Awake()
     {
         instance = this;
@@ -277,9 +303,14 @@ public class Inventory : MonoBehaviour
         if (itemCurrentlySelected.data.itemType == ItemType.Equipment &&
             itemCurrentlySelected.data.EquipmentSlot == EquipmentSlot.Hands)
         {
-            if (weaponRuntime.ContainsKey(itemCurrentlySelected.uniqueID))
+            if (rangeWeaponRuntime.ContainsKey(itemCurrentlySelected.uniqueID))
             {
-                weaponRuntime.Remove(itemCurrentlySelected.uniqueID);
+                rangeWeaponRuntime.Remove(itemCurrentlySelected.uniqueID);
+            }
+
+            if (ultimateMeleeWeaponRuntime.ContainsKey(itemCurrentlySelected.uniqueID))
+            {
+                ultimateMeleeWeaponRuntime.Remove(itemCurrentlySelected.uniqueID);
             }
         }
 

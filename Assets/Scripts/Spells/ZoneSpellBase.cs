@@ -54,7 +54,7 @@ public class ZoneSpellBase : SpellBase
     }
 
 
-    protected bool TryGetTargetPosition(out Vector3 position)
+    public bool TryGetTargetPosition(out Vector3 position)
     {
         position = Vector3.zero;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

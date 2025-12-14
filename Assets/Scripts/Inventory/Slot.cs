@@ -32,12 +32,25 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             Weapon weapon = item.data.itemPrefab.GetComponent<Weapon>();
 
-            TooltipSystem.instance.Show(
-                item.data.itemName + ", Lv. " + item.data.itemLevel,
-                item.data.itemDescription
-                + "\n<color=red>Damage : " + weapon.weaponDamage + "</color>"
-                + "\n<color=orange>Weapon attack speed : " + weapon.weaponAttackSpeed + "</color>"
-            );
+            if (weapon is UltimateMeleeWeapon)
+            {
+                TooltipSystem.instance.Show(
+                     "<color=red>[Ultimate Weapon]</color>\n" + item.data.itemName + ", Lv. " + item.data.itemLevel,
+                     item.data.itemDescription
+                     + "\n<color=red>Damage: " + weapon.weaponDamage + "</color>"
+                     + "\n<color=orange>Weapon attack speed: " + weapon.weaponAttackSpeed + "</color>"
+                     + "\n<color=grey>Right click ability:</color> " + "<color=purple>" + (weapon as UltimateMeleeWeapon).rightClickAbilityName + "</color>"
+                     + "\n<color=grey>Special ability:</color> " + "<color=purple>" + (weapon as UltimateMeleeWeapon).specialAbilityName + "</color>"
+                 );
+            } else
+            {
+                TooltipSystem.instance.Show(
+                                 item.data.itemName + ", Lv. " + item.data.itemLevel,
+                                 item.data.itemDescription
+                                 + "\n<color=red>Damage : " + weapon.weaponDamage + "</color>"
+                                 + "\n<color=orange>Weapon attack speed : " + weapon.weaponAttackSpeed + "</color>"
+                             );
+            }
 
             return;
         }

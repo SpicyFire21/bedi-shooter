@@ -14,10 +14,15 @@ public abstract class SpellBase : MonoBehaviour
         if (data.castSound != null)
         {
             UltimateProjectile ultimatePrefab = data.prefab.GetComponent<UltimateProjectile>();
+            ZoneSpellBase zoneSpellBase = data.prefab.GetComponent<ZoneSpellBase>();
 
             if (ultimatePrefab != null)
             {
                 PlayGlobalSound(ultimatePrefab.data.castSound, data.volume);
+            }
+            else if (zoneSpellBase != null && !zoneSpellBase.TryGetTargetPosition(out Vector3 position))
+            {
+                return;
             }
             else
             {

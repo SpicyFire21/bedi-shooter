@@ -117,6 +117,13 @@ public class Player : Character
                     FaceMouse();
                     equippedWeapon.Attack(this);
                 }
+                if (Input.GetMouseButtonDown(1) && equippedWeapon is UltimateMeleeWeapon)
+                {
+                    (equippedWeapon as UltimateMeleeWeapon).DoRightClick(this);
+                } else if (Input.GetKeyDown(KeyCode.V) && equippedWeapon is UltimateMeleeWeapon)
+                {
+                    (equippedWeapon as UltimateMeleeWeapon).SpecialAbility(this);
+                }
             }
         }
     }
@@ -198,6 +205,11 @@ public class Player : Character
         return equippedWeapon;
     }
 
+    public UltimateMeleeWeapon GetUltimateMeleeWeapon()
+    {
+        return equippedWeapon as UltimateMeleeWeapon;
+    }
+
     public void SetAttackTarget(Monster target)
     {
         attackTarget = target;
@@ -218,6 +230,11 @@ public class Player : Character
                 else
                 {
                     attackTarget.TakeDamage((equippedWeapon.weaponDamage + damage) / 2);
+                }
+
+                if (equippedWeapon is UltimateMeleeWeapon)
+                {
+                    (equippedWeapon as UltimateMeleeWeapon).ImpactEffect(this, attackTarget);
                 }
             } else if (equippedWeapon is RangeWeapon)
             {

@@ -71,7 +71,7 @@ public abstract class RangeWeapon : Weapon
 
         if (equippedInstance != null)
         {
-            WeaponRuntimeData runtime = Inventory.instance.GetWeaponRuntime(equippedInstance);
+            RangeWeaponRuntimeData runtime = Inventory.instance.GetRangeWeaponRuntime(equippedInstance);
             runtime.currentAmmo = currentAmmo;
             runtime.lastSoundTime = lastSoundTime;
             runtime.ammoInMagazine = ammoInMagazine;
@@ -107,7 +107,7 @@ public abstract class RangeWeapon : Weapon
     public void Initialize(ItemInstance instance)
     {
         equippedInstance = instance;
-        WeaponRuntimeData runtime = Inventory.instance.GetWeaponRuntime(instance);
+        RangeWeaponRuntimeData runtime = Inventory.instance.GetRangeWeaponRuntime(instance);
 
         // si c'est la première fois qu'on initialise l'arme
         if (!runtime.initialized)
