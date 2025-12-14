@@ -2315,7 +2315,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4069032608350865191, guid: 92a454e552de44044a8fbca2dafe1969, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.119999886
+      value: 0.54
       objectReference: {fileID: 0}
     - target: {fileID: 4069032608350865191, guid: 92a454e552de44044a8fbca2dafe1969, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4090,6 +4090,10 @@ PrefabInstance:
     - target: {fileID: 1776472905282870, guid: 26e754a29c9d11342835fcae340c3367, type: 3}
       propertyPath: m_Name
       value: IronAxe
+      objectReference: {fileID: 0}
+    - target: {fileID: 1776472905282870, guid: 26e754a29c9d11342835fcae340c3367, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4299309068816990, guid: 26e754a29c9d11342835fcae340c3367, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12194,6 +12198,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Raygun
       objectReference: {fileID: 0}
+    - target: {fileID: 124194, guid: 637fda8b799a3a14aba04e86a22cac6f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 498068, guid: 637fda8b799a3a14aba04e86a22cac6f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.26
@@ -12298,6 +12306,10 @@ PrefabInstance:
     - target: {fileID: 6515496271478185057, guid: f3af18201fb3b7849a03085fb76e1ef3, type: 3}
       propertyPath: m_Name
       value: ThunderWand
+      objectReference: {fileID: 0}
+    - target: {fileID: 6515496271478185057, guid: f3af18201fb3b7849a03085fb76e1ef3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15881,7 +15893,7 @@ GameObject:
   - component: {fileID: 2102617655}
   m_Layer: 6
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

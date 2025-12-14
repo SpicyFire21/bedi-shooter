@@ -159,27 +159,29 @@ MonoBehaviour:
   hitMask:
     serializedVersion: 2
     m_Bits: 128
-  maxRightClickDistance: 15
+  maxRightClickDistance: 18
   rightClickCooldown: 4
-  abilityCooldown: 1
+  abilityCooldown: 30
+  specialAbilityDamage: 200
   canRightClickMask:
     serializedVersion: 2
     m_Bits: 502
   rightClickAbilityName: Teleport
-  specialAbilityName: Overheat
+  specialAbilityName: Open
   rightClickAbilitySound: {fileID: 8300000, guid: 1ac4518cdfefc0849a0e582aaae178f5, type: 3}
   specialAbilitySound: {fileID: 8300000, guid: 66288610e46b9ef419ef377437e8ae18, type: 3}
   equippedInstance:
     data: {fileID: 11400000, guid: a2b194690f6ea684998e1628db62da21, type: 2}
-    uniqueID: 2ea5572d-c99c-4599-88bc-adfe46a17919
+    uniqueID: b0aaa69c-ea6f-42ef-b6fb-011b06fdeca1
   visualImpact: {fileID: 7834434380170384362, guid: cc523019d790c714188841ecf9f70d39, type: 3}
-  visualPreAbility: {fileID: 7626139322179216226, guid: 466fc931a97096844a304312f5dfded3, type: 3}
-  visualFinalAbility: {fileID: 7626139322179216226, guid: f50691a3fdf318043889df42cffe0269, type: 3}
+  visualPreAbility: {fileID: 7626139322179216226, guid: 586229a6d62472448a4fcba67cf5e214, type: 3}
+  visualFinalAbility: {fileID: 4251143904839232136, guid: 5cdcd0820b264ce4e9ebd38bc8a1f479, type: 3}
   impactAudio: {fileID: 8300000, guid: 2a814e233c0da194e953dee052a6022f, type: 3}
-  preAbilityAudio: {fileID: 8300000, guid: 08d52d4ef665dc14bb15be00d8a0e7d9, type: 3}
+  preAbilityAudio: {fileID: 8300000, guid: 40cbb8c7a1482ac4abbdaebfe8110158, type: 3}
   finalAbilityAudio: {fileID: 8300000, guid: 66288610e46b9ef419ef377437e8ae18, type: 3}
   visualImpactDuration: 1
-  finalAbilityDuration: 2.5
+  finalAbilityDuration: 2
+  arrowSpeed: 30
 --- !u!1 &8783779355861745837
 GameObject:
   m_ObjectHideFlags: 0

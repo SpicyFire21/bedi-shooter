@@ -15,9 +15,12 @@ public class SupremeSword : UltimateMeleeWeapon
 
     [Header("Durations")]
     public float visualImpactDuration;
-    private float preAbilityDuration = 1.2f;
     public float finalAbilityDuration;
     private Vector3 startCastPos;
+
+    [Header("Open stats")]
+    public float arrowSpeed = 10f;
+    private Rigidbody rb;
 
     public override void DoAnimation(Player player)
     {
@@ -37,7 +40,7 @@ public class SupremeSword : UltimateMeleeWeapon
     public override void SpecialAbility(Player player)
     {
         if (!CanCastAbility()) return;
- 
+
         PrecastAbility(player);
     }
 
@@ -79,57 +82,57 @@ public class SupremeSword : UltimateMeleeWeapon
     private void PrecastAbility(Player player)
     {
         TriggerAbilityCooldown();
-        startCastPos = GetRightClickPosition(player, 6f);
-        startCastPos.y = player.castPoint.position.y + 1f;
-        GameObject precastObject = Instantiate(visualPreAbility, startCastPos, Quaternion.identity);
+
+        Vector3 targetPos = GetRightClickPosition(player, 100f); 
+
+        Vector3 origin = player.castPoint.position;
+        Vector3 direction = targetPos - origin;
+        float distance = direction.magnitude;
+
+        if (distance > 6f)
+        {
+            direction = direction.normalized * 6f;
+        }
+
+        Vector3 finalTargetPos = origin + direction;
+        GameObject precastObject = Instantiate(visualPreAbility, origin, Quaternion.identity);
+
         if (preAbilityAudio != null)
-        {
-            AudioSource.PlayClipAtPoint(
-                preAbilityAudio,
-                player.transform.position,
-                2f
-            );
-        }
-        player.tps.enabled = false;
-        ActiveUnactiveAnimation(player, precastObject, preAbilityDuration);
+            AudioSource.PlayClipAtPoint(preAbilityAudio, player.transform.position, 1f);
+
+        rb = precastObject.GetComponent<Rigidbody>();
+
+        Vector3 finalDirection = (finalTargetPos - origin).normalized;
+        rb.linearVelocity = finalDirection * arrowSpeed;
+        precastObject.transform.forward = finalDirection;
+
+
     }
 
-    private void ActiveUnactiveAnimation(Player player, GameObject obj, float duration)
-    {
-        player.StartCoroutine(ScalePulseCoroutine(player, obj, duration));
-    }
 
-    private IEnumerator ScalePulseCoroutine(Player player, GameObject obj, float duration)
-    {
-        float elapsed = 0f;
-        float value = 0.3f;
-
-        while (elapsed < duration)
-        {
-            float random = Random.Range(0f, 1f);
-
-            obj.SetActive(random <= value);
-
-            value += 0.013f; // augmente progressivement la probabilité*
-            elapsed += Time.deltaTime;
-            yield return null; // attendre une frame
-        }
-
-        obj.SetActive(true); // état final
-        FinalAbilityCast(player, finalAbilityDuration);
-    }
-
-    public void FinalAbilityCast(Player player, float duration) 
+    public void FinalAbilityCast(GameObject precastObject)
     {
         AudioSource.PlayClipAtPoint(
                 specialAbilitySound,
-                player.transform.position,
+                precastObject.transform.position,
                 2f
             );
+        GameObject open = Instantiate(visualFinalAbility, precastObject.transform.position, Quaternion.identity);
+        Destroy(precastObject);
+        CameraShake.Instance.Shake(0.5f, 1f);
+        float radius = 4f; // rayon de la zone
+        Collider[] hitColliders = Physics.OverlapSphere(open.transform.position, radius);
+        foreach (Collider hit in hitColliders)
+        {
+            Monster monster = hit.GetComponent<Monster>();
 
-        Instantiate(visualFinalAbility, startCastPos, Quaternion.identity);
+            if (monster != null)
+            {
+                monster.TakeDamage(specialAbilityDamage);
+            }
+        }
+        Destroy(open, finalAbilityDuration);
 
-        player.tps.enabled = true;
     }
 
 

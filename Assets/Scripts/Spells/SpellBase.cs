@@ -18,7 +18,7 @@ public abstract class SpellBase : MonoBehaviour
 
             if (ultimatePrefab != null)
             {
-                PlayGlobalSound(ultimatePrefab.data.castSound, data.volume);
+                PlayGlobalSound(ultimatePrefab.data.castSound, 0.05f);
             }
             else if (zoneSpellBase != null && !zoneSpellBase.TryGetTargetPosition(out Vector3 position))
             {

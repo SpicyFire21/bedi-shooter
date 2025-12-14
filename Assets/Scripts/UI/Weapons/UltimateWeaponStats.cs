@@ -33,7 +33,19 @@ public class UltimateWeaponStats : MonoBehaviour
                     "<color=green>Ready</color>";
             }
 
-            abilityText.text = "Press V to use [" + equipped.specialAbilityName + "]";
+            float abilityCd = equipped.GetCurrentAbilityCooldown();
+            if (abilityCd > 0f)
+            {
+                abilityText.text =
+                        "Press V to use [" + equipped.specialAbilityName + "] " +
+                        "<color=red>" + abilityCd.ToString("F1") + "s</color>";
+            }
+            else
+            {
+                abilityText.text =
+                        "Press V to use [" + equipped.specialAbilityName + "] " +
+                        "<color=green>Ready</color>";
+            }
         }
         else
         {

@@ -8,6 +8,7 @@ public abstract class UltimateMeleeWeapon : MeleeWeapon
 
     protected float nextRightClickTime = 0f;
     protected float nextAbilityTime = 0f;
+    public float specialAbilityDamage = 200f;
     public LayerMask canRightClickMask;
     public string rightClickAbilityName, specialAbilityName;
     public AudioClip rightClickAbilitySound, specialAbilitySound;
