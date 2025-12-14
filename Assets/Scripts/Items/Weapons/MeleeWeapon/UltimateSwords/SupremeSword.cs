@@ -110,7 +110,7 @@ public class SupremeSword : UltimateMeleeWeapon
 
             obj.SetActive(random <= value);
 
-            value += 0.013f; // augmente progressivement la probabilité
+            value += 0.013f; // augmente progressivement la probabilité*
             elapsed += Time.deltaTime;
             yield return null; // attendre une frame
         }
