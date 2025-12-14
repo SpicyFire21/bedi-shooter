@@ -7,6 +7,7 @@ public class Golem : Monster
     //public float stompCooldown = 2.5f;  // cooldown d’attaque
     public float stompWindup = 0.7f;    // temps de préparation avant dégâts
     public AudioClip stompSound;
+    public AudioClip walkSound;
 
     [Header("Punch Settings")]
     public float attackCooldown = 5f;                // cooldown du punch
@@ -224,6 +225,9 @@ public class Golem : Monster
         float shakeIntensity = 2f;
         float shakeDuration = 0.3f;
 
+        if (stompSound != null)
+            AudioSource.PlayClipAtPoint(stompSound, transform.position, 1f);
+
         if (CameraShake.Instance != null)
             CameraShake.Instance.Shake(shakeIntensity, shakeDuration);
     }
@@ -236,6 +240,9 @@ public class Golem : Monster
         // Intensité et durée ajustables
         float shakeIntensity = 0.2f;  // tu peux ajuster
         float shakeDuration = 0.2f;
+
+        if (walkSound != null)
+            AudioSource.PlayClipAtPoint(walkSound, transform.position, 1f);
 
         if (CameraShake.Instance != null)
             CameraShake.Instance.Shake(shakeIntensity, shakeDuration);

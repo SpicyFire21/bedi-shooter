@@ -15,6 +15,14 @@ public class DragonBoss : Monster
     [Header("VFX References")]
     public ParticleSystem fireBreathVFX;
 
+    [Header("Sounds Effects")]
+    public AudioClip screamSound;
+    public AudioClip FireSound;
+    public AudioClip flyingSound;
+    public AudioClip crocSound;
+    public AudioClip jumpSound;
+    public AudioClip chargeScreamSound;
+
     [Header("Movement")]
     public float groundSpeed = 5f;
     public float airSpeed = 10f; // Vitesse utilisée pour la rotation en vol
@@ -326,6 +334,9 @@ public class DragonBoss : Monster
 
         anim.SetBool("Is_Flying", true);
 
+        if (flyingSound != null && player != null)
+            AudioSource.PlayClipAtPoint(flyingSound, player.position, 1f);
+
         // 🛫 Takeoff
         yield return new WaitForSeconds(2.5f);
 
@@ -395,6 +406,9 @@ public class DragonBoss : Monster
         rb.isKinematic = false;
 
         anim.SetBool("Is_Flying", false);
+
+        if (flyingSound != null && player != null)
+            AudioSource.PlayClipAtPoint(flyingSound, player.position, 1f);
 
         NavMeshHit hit;
         if (NavMesh.SamplePosition(transform.position, out hit, 15f, NavMesh.AllAreas))
@@ -479,7 +493,6 @@ public class DragonBoss : Monster
         if (CameraShake.Instance != null)
         {
             Debug.Log("🔊 Dragon hurle : tremblement de caméra déclenché.");
-
             // Appelle la fonction de tremblement en utilisant les variables de l'inspecteur
             CameraShake.Instance.Shake(10f, 2f);
         }
@@ -514,6 +527,38 @@ public class DragonBoss : Monster
 
             // Optionnel : Ajoutez ici la fin de votre logique de dégâts de DoT
         }
+    }
+
+    //==================================================
+    //                 Sound Effect
+    //==================================================
+    public void CrocSoundPlay()
+    {
+        if (crocSound != null)
+            AudioSource.PlayClipAtPoint(crocSound, transform.position, 1f);
+    }
+
+    public void FireSoundPlay()
+    {
+        if (FireSound != null && player != null)
+            AudioSource.PlayClipAtPoint(FireSound, player.position, 4f);
+    }
+
+    public void ScreamSoundPlay()
+    {
+        if (screamSound != null && player != null)
+            AudioSource.PlayClipAtPoint(screamSound, player.position, 1f);
+    }
+
+    public void ChargeSoundPlay()
+    {
+        if (jumpSound != null && player != null)
+            AudioSource.PlayClipAtPoint(jumpSound, transform.position, 1f);
+    }
+    public void ChargeScreamSoundPlay()
+    {
+        if (chargeScreamSound != null && player != null)
+            AudioSource.PlayClipAtPoint(chargeScreamSound, transform.position, 1f);
     }
 
     // =====================================================
