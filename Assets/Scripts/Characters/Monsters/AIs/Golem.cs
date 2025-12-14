@@ -213,7 +213,6 @@ public class Golem : Monster
 
             //Debug.Log("Punch hits the player!");
         }
-
         // Fin de l'attaque
         isAttacking = false;
         agent.isStopped = false;

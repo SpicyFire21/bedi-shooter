@@ -12,6 +12,9 @@ public class DragonBoss : Monster
     public Transform fireBreathPoint;
     public Transform landingPoint;
 
+    [Header("VFX References")]
+    public ParticleSystem fireBreathVFX;
+
     [Header("Movement")]
     public float groundSpeed = 5f;
     public float airSpeed = 10f; // Vitesse utilisée pour la rotation en vol
@@ -37,6 +40,7 @@ public class DragonBoss : Monster
     public float biteRange = 8f;
     public float flameRangeGround = 20f;
     public float chargeRange = 15f;
+    public float stoppingDistanceBuffer = 4.0f;
 
     [Header("Cooldowns")]
     public float attackCooldown = 2f;
@@ -64,15 +68,23 @@ public class DragonBoss : Monster
 
     private void Start()
     {
+        base.Start();
         rb = GetComponent<Rigidbody>();
         if (agent == null) agent = GetComponent<NavMeshAgent>();
 
         if (agent != null)
-            agent.updateRotation = true;
+            agent.updateRotation = false;
+
+        if (fireBreathVFX != null)
+        {
+            // crache pas de feu
+            fireBreathVFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        }
     }
 
     private void Update()
     {
+        base.Update();
         if (isDead || player == null || isInFlyingEvent)
             return;
 
@@ -85,26 +97,30 @@ public class DragonBoss : Monster
         {
             GroundBehaviour();
         }
-        else if (isAttacking && agent.enabled)
+        else if (isAttacking && !isInFlyingEvent)
         {
-            // Permet une rotation rapide pendant les animations d'attaque au sol
-            RotateTowardsPlayer(groundAttackRotationSpeed);
+            LookAtPlayer(groundAttackRotationSpeed * 1.5f);
         }
     }
 
     // Gère la rotation rapide vers le joueur lors des attaques au sol
-    private void RotateTowardsPlayer(float rotationSpeed)
+    private void LookAtPlayer(float rotationSpeed)
     {
-        if (player == null) return;
+        if (player == null || isAttacking)
+            return;
 
-        Vector3 direction = (player.position - transform.position).normalized;
-        direction.y = 0;
+        Vector3 dir = player.position - transform.position;
+        dir.y = 0f;
 
-        if (direction != Vector3.zero)
-        {
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
-        }
+        if (dir.sqrMagnitude < 0.001f)
+            return;
+
+        Quaternion targetRot = Quaternion.LookRotation(dir);
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRot,
+            Time.deltaTime * rotationSpeed
+        );
     }
 
     // =====================================================
@@ -134,16 +150,37 @@ public class DragonBoss : Monster
     private void GroundBehaviour()
     {
         anim.SetBool("Is_Flying", false);
-        agent.speed = groundSpeed;
 
-        if (agent.enabled)
-        {
-            if (!agent.hasPath)
-                agent.SetDestination(player.position);
-        }
+        if (!agent.enabled || player == null)
+            return;
 
         float distance = Vector3.Distance(transform.position, player.position);
 
+        // -----------------------------
+        // Rotation vers le joueur
+        // -----------------------------
+        LookAtPlayer(groundAttackRotationSpeed);
+
+        // -----------------------------
+        // Mouvement via NavMeshAgent UNIQUEMENT
+        // -----------------------------
+        if (distance > biteRange) // distance d'arrêt logique
+        {
+            agent.isStopped = false;
+            agent.speed = groundSpeed;
+            agent.SetDestination(player.position);
+
+            anim.SetFloat("Speed", agent.velocity.magnitude > 0.1f ? 1f : 0f);
+        }
+        else
+        {
+            agent.isStopped = true;
+            anim.SetFloat("Speed", 0f);
+        }
+
+        // -----------------------------
+        // Attaques
+        // -----------------------------
         TryGroundAttacks(distance);
     }
 
@@ -165,7 +202,7 @@ public class DragonBoss : Monster
             return;
         }
 
-        if (distance < flameRangeGround && time > lastFlameTime + flameCooldown)
+        if (distance < flameRangeGround && time > lastFlameTime + flameCooldown && distance > biteRange)
         {
             TriggerAttack("Flamme_Attack");
             lastFlameTime = time;
@@ -187,20 +224,21 @@ public class DragonBoss : Monster
         {
             if (trigger == "Charge")
             {
-                // ⭐ CHANGEMENT : On désactive l'Agent pendant la Charge pour éviter toute interférence physique.
                 agent.enabled = false;
+                rb.useGravity = false;
+                rb.isKinematic = true;
 
-                rb.useGravity = false;      // ⭐ STOP gravité
-                rb.isKinematic = true;      // ⭐ STOP physique
+                // 🔒 LOCK rotation
+                LookAtPlayer(999f);
 
-                shouldWarpAfterAttack = true; // Flag pour savoir qu'il faut le réactiver/warper
+                shouldWarpAfterAttack = true;
             }
             else
             {
                 // Pour les autres attaques, on le stoppe simplement
                 agent.isStopped = true;
             }
-            RotateTowardsPlayer(groundAttackRotationSpeed * 5f);
+            LookAtPlayer(groundAttackRotationSpeed * 5f);
         }
 
         // Réinitialisation explicite des autres triggers
@@ -275,11 +313,15 @@ public class DragonBoss : Monster
         isInFlyingEvent = true;
         isAttacking = true;
 
-        agent.isStopped = true;
-        agent.enabled = false;
+        // Assurez-vous que l'Agent est arrêté immédiatement
+        if (agent != null && agent.enabled)
+        {
+            agent.isStopped = true;
+            agent.enabled = false;
+        }
 
+        // Le Rigidbody DOIT être Kinematic pour que le LERP dans FlyTo fonctionne
         rb.useGravity = false;
-        // ⭐ AJOUT : Rend le Rigidbody insensible aux forces externes
         rb.isKinematic = true;
 
         anim.SetBool("Is_Flying", true);
@@ -440,6 +482,37 @@ public class DragonBoss : Monster
 
             // Appelle la fonction de tremblement en utilisant les variables de l'inspecteur
             CameraShake.Instance.Shake(10f, 2f);
+        }
+    }
+
+    public void StartFireBreath()
+    {
+        if (anim != null)
+        {
+            anim.speed = 0.6f; // ralentit l'animation
+        }
+        if (fireBreathVFX != null)
+        {
+            // ⭐ Démarre l'émission des particules
+            fireBreathVFX.Play();
+            Debug.Log("🔥 Fire Breath DÉMARRE.");
+
+            // Optionnel : Ajoutez ici le début de votre logique de dégâts de DoT (Damage over Time)
+        }
+    }
+    public void StopFireBreath()
+    {
+        if (anim != null)
+        {
+            anim.speed = 1f;
+        }
+        if (fireBreathVFX != null)
+        {
+            // ⭐ Arrête l'émission, mais permet aux particules existantes de s'éteindre
+            fireBreathVFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            Debug.Log("🔥 Fire Breath S'ARRÊTE.");
+
+            // Optionnel : Ajoutez ici la fin de votre logique de dégâts de DoT
         }
     }
 
