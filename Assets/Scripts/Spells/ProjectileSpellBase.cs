@@ -40,7 +40,7 @@ public class ProjectileSpellBase : SpellBase
         GameObject instance = Instantiate(
             data.prefab,
             caster.castPoint.position,
-            Quaternion.identity
+            data.prefab.transform.rotation
         );
 
         ProjectileSpellBase projectile = instance.GetComponent<ProjectileSpellBase>();

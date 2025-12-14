@@ -19,7 +19,7 @@ MonoBehaviour:
   attackRange: 0
   attackCooldown: 0
   prefab: {fileID: 2922891418913868426, guid: a067f71a87fd5a142bfd3b1644fb4300, type: 3}
-  spawnRate: 0.04
+  spawnRate: 0.06
   maxOnField: 6
   minRangeRadius: 15
   maxRangeRadius: 25

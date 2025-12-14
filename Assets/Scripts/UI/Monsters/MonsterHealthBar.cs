@@ -13,8 +13,7 @@ public class MonsterHealthBar : MonoBehaviour
         if (target == null) return;
 
         float height = GetMonsterHeight(target);
-
-        transform.position = target.position + new Vector3(0, height, 0);
+        transform.position = target.position + new Vector3(0, height + 0.3f, 0);
         transform.rotation = Camera.main.transform.rotation;
     }
 
@@ -37,7 +36,7 @@ public class MonsterHealthBar : MonoBehaviour
             return col.bounds.size.y;
         }
 
-        return 0f; // si pas de collider
+        return 1f; // si pas de collider
     }
 
 }

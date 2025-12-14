@@ -125,6 +125,12 @@ public class EquipmentManager : MonoBehaviour
         {
             rangedWeapon.Initialize(instance);
         }
+
+        UltimateMeleeWeapon ultimateMeleeWeapon = weapon as UltimateMeleeWeapon;
+        if (ultimateMeleeWeapon != null)
+        {
+            ultimateMeleeWeapon.Initialize(instance);
+        }
     }
 
 

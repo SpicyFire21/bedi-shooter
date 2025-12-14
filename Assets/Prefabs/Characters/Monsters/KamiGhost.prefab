@@ -837,6 +837,7 @@ MonoBehaviour:
   isDead: 0
   deathSoundPlayed: 0
   baseMaxHealth: 10
+  baseMoveSpeed: 2.5
   data: {fileID: 11400000, guid: 2472aff3610534b4d8598a5f521ccbee, type: 2}
   level: 1
   agent: {fileID: 0}
@@ -872,9 +873,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 1.1807115
   m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: -0, y: 0.48833388, z: 0}
 --- !u!54 &2886380935699684538
 Rigidbody:
   m_ObjectHideFlags: 0

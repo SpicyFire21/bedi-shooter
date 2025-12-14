@@ -39,7 +39,19 @@ public abstract class Character : MonoBehaviour
             monster.UpdateHealthBar();
         } else if (this is Player player)
         {
-            player.animator.SetTrigger("IsTakingDamage");
+                Animator animator = player.animator;
+
+                // animation deja occupé --> on degage
+                if (animator.IsInTransition(0))
+                    return;
+
+                AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+
+                // si une anim est deja en cours on va preferer la faire --> idle cest les actions de base comme courir, bouger...
+                if (!state.IsTag("Idle"))
+                    return;
+
+                animator.SetTrigger("IsTakingDamage");
         }
     }
 
