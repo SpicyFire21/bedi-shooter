@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
@@ -20,6 +20,10 @@ public class MonsterSpawner : MonoBehaviour
     private int survivalSeconds;
     private int nextIndexMonstre;
     private int lastProcessedSecond = -1;
+    private int lastProcessedMinute = -1;
+    private Monster currentBoss;
+    public Text alertBossText;
+    private float alertDuration = 3f;
 
 
     void Start()
@@ -40,16 +44,43 @@ public class MonsterSpawner : MonoBehaviour
         return timerTextValue;
     }
 
+    private IEnumerator ShowBossAlert(string message)
+    {
+        alertBossText.text = message;
+        alertBossText.gameObject.SetActive(true); // au cas où le texte était caché
+        yield return new WaitForSeconds(alertDuration);
+        alertBossText.gameObject.SetActive(false); // le cacher après le temps
+    }
+
+
     private void InitSpawnSystem()
     {
         monsterDatabase.SetMonsterDatabaseEmpty();
         monsterDatabase.AddMonstre(completeMonsterDatabase.GetMonsterDataFromIndex(0));
         monsterDatabase.AddMonstre(completeMonsterDatabase.GetMonsterDataFromIndex(1));
-        monsterDatabase.AddMonstre(completeMonsterDatabase.GetMonsterDataFromIndex(2));
         actualSurvivalTime = 0f;
         survivalSeconds = 0;
-        nextIndexMonstre = 3;
+        nextIndexMonstre = 2;
     }
+
+    //private void DifficultyUpgrade()
+    //{
+    //    int currentMinute = survivalSeconds / 10;
+
+    //    if (currentMinute == lastProcessedMinute) return; // déjà appliqué ce palier
+
+    //    lastProcessedMinute = currentMinute; // on marque le palier comme traité
+
+    //    foreach (MonsterData monster in monsterDatabase.monstersList)
+    //    {
+    //        // scaling asymptotique : monte vite au début, puis ralentit
+    //        float scaled = 1f - Mathf.Pow(0.98f, currentMinute); // on utilise currentMinute au lieu de survivalSeconds
+    //        monster.spawnRate = Mathf.Clamp(monster.spawnRate * (1f + scaled), 0f, 1f);
+    //    }
+
+    //    Debug.Log("Augmentation de difficulté !");
+    //}
+
 
     void Update()
     {
@@ -61,13 +92,16 @@ public class MonsterSpawner : MonoBehaviour
         {
             lastProcessedSecond = survivalSeconds;
             handleSpawns();
+            //DifficultyUpgrade();
         }
     }
 
-    private void handleSpawns()
+    private void handleSpawns() // la logique est qu'on prend la database complete les fonctions gerent les index automatiquement
+        // et pour les boss, on force leurs spawn, puis quand ils sont battu, ils peuvent spawn naturellement
     {
-        AddNewMonsterPossiblySpawning(5); // golem
-        AddNewMonsterPossiblySpawning(10); // dragon
+        AddNewMonsterPossiblySpawning(30); // dark skeleton au bout de 30 secondes
+        MonsterBossEvent(completeMonsterDatabase.GetMonsterDataFromIndex(nextIndexMonstre), 120); // BOSS GOLEM A 2mn
+        MonsterBossEvent(completeMonsterDatabase.GetMonsterDataFromIndex(nextIndexMonstre), 360); // BOSS DRAGON A 6mn 
     }
 
     private void AddNewMonsterPossiblySpawning(int seconds)
@@ -85,12 +119,71 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
-    private void MonsterBossEvent()
+    private void AddNewMonsterPossiblySpawning(MonsterData newMonster)
     {
+            if (!monsterDatabase.ContainsMonstre(newMonster))
+            {
+                monsterDatabase.AddMonstre(newMonster);
 
+                StartCoroutine(SpawnRoutine(newMonster));
+                nextIndexMonstre++;
+        }
+    }
+
+    private void MonsterBossEvent(MonsterData monsterData, int seconds)
+    {
+        if (survivalSeconds == seconds)
+        {
+            GameObject bossObj;
+            if (monsterData.onGround)
+            {
+                bossObj = Instantiate(
+                    monsterData.prefab,
+                    GetRandomPointOnNavMeshAroundPlayer(monsterData),
+                    Quaternion.identity
+                );
+            } else
+            {
+                bossObj = Instantiate(
+                    monsterData.prefab,
+                    GetRandomAirSpawnPositionAroundPlayer(monsterData),
+                    Quaternion.identity);
+            }
+
+            currentBoss = bossObj.GetComponent<Monster>();
+            currentBoss.Spawn(bossObj.transform.position, player.level);
+            StartCoroutine(ShowBossAlert("A new boss has spawned: <color=red>" + monsterData.name + "</color>"));
+        }
     }
 
 
+    private void HandleMonsterDeath(Monster monster) // lorsque l'un monstre meurt, si c'est le boss actuel et qu'on le tue, on va lui ajouté une coroutine de spawn --> devient
+        // un mob commun
+    {
+        if (monster == currentBoss)
+        {
+            OnBossKilled();
+        }
+    }
+
+    void OnEnable() // sur chaque monstre on écoute si il meurt
+    {
+        Monster.OnMonsterDeath += HandleMonsterDeath;
+    }
+
+    void OnDisable()
+    {
+        Monster.OnMonsterDeath -= HandleMonsterDeath;
+    }
+
+
+
+    private void OnBossKilled()
+    {
+        AddNewMonsterPossiblySpawning(currentBoss.data);
+        StartCoroutine(ShowBossAlert("A boss has been killed: <color=red>" + currentBoss.data.name + "</color>, \nhe can now spawn on the map"));
+        currentBoss = null;
+    }
 
 
     IEnumerator SpawnRoutine(MonsterData monster)
@@ -124,8 +217,8 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
-    Vector3 GetRandomPointOnNavMeshAroundPlayer(MonsterData monster) // on prend un point al�atoire sur le mesh en respectant le radius mit dans l'inspecteur -->                                              
-                                                  // on essaye tant qu'on a pas trouv� de bonne position (20 fois en tout)
+    Vector3 GetRandomPointOnNavMeshAroundPlayer(MonsterData monster) // on prend un point aléatoire sur le mesh en respectant le radius mit dans l'inspecteur -->                                              
+                                                  // on essaye tant qu'on a pas trouvé de bonne position (20 fois en tout)
     {
         for (int i = 0; i < 20; i++)
         {
@@ -145,14 +238,14 @@ public class MonsterSpawner : MonoBehaviour
 
     Vector3 GetRandomAirSpawnPositionAroundPlayer(MonsterData monster)
     {
-        // Choisit une direction al�atoire autour du joueur
+        // Choisit une direction aléatoire autour du joueur
         Vector2 randomDir = Random.insideUnitCircle.normalized;
         float distance = Random.Range(monster.minRangeRadius, monster.maxRangeRadius);
 
-        // Choisit une hauteur al�atoire ou fixe
+        // Choisit une hauteur aléatoire ou fixe
         float height = Random.Range(5, 10);
 
-        // Calcul de la position a�rienne
+        // Calcul de la position aérienne
         Vector3 spawnPos = player.transform.position + new Vector3(randomDir.x, 0, randomDir.y) * distance;
         spawnPos.y += height;
 

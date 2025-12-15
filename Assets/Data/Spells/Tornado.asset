@@ -16,8 +16,8 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 218a80a7d108d404482938ce717844a7, type: 3}
   spellType: 0
   value: 70
-  cooldown: 0
-  manaCost: 0
+  cooldown: 22
+  manaCost: 27
   lifeTime: 4
   effectDuration: 0
   prefab: {fileID: 7966731087305637596, guid: 03098b9fb709e5540a6ae94a91caeb88, type: 3}

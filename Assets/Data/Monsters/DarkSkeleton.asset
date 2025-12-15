@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: DarkSkeleton
   m_EditorClassIdentifier: 
   baseMoveSpeed: 3
-  baseXpReward: 15
-  baseDamage: 10
+  baseXpReward: 32
+  baseDamage: 6
   detectionRange: 2
   attackRange: 2
   attackCooldown: 1
   prefab: {fileID: 8435787980998359774, guid: 866b24ac318220148a048a713842e8dc, type: 3}
-  spawnRate: 0.05
-  maxOnField: 5
-  minRangeRadius: 15
-  maxRangeRadius: 40
+  spawnRate: 0.065
+  maxOnField: 20
+  minRangeRadius: 25
+  maxRangeRadius: 60
   deathSound: {fileID: 8300000, guid: 3d2a0080f826e884ab6313db59743336, type: 3}
   lootTable:
   - item: {fileID: 11400000, guid: 31c4a2ff35660f441b4a655dc219e7c2, type: 2}

@@ -8,8 +8,8 @@ public class Player : Character
     [Header("Base Stats")]
     public float baseMaxMana = 20f;
     public float baseDamage = 10f;
-    public float baseManaRegenPerSecond = 0.3f;
-    public float baseHealthRegenPerSecond = 0.6f;
+    public float baseManaRegenPerSecond = 0.555f;
+    public float baseHealthRegenPerSecond = 1.2f;
 
     // ces bases stats vont servir poue le scaling du personnage --> on va toujours se baser sur les stats qu'il avait de base pour pas qu'il devienne trop OP 
 

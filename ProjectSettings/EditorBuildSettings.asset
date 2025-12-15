@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/MenuTest.unity
     guid: 624ebf0c398d1a548a33bb57bbb1a9d0
   - enabled: 1
-    path: Assets/Scenes/SpellTest.unity
-    guid: 57e8b3963f807854dbe8e6e6bce72cd3
+    path: Assets/Scenes/Demonstration_Gameplay.unity
+    guid: a01529c034fa13a48a29f6dc922e826f
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05

@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Skeleton
   m_EditorClassIdentifier: 
   baseMoveSpeed: 3
-  baseXpReward: 15
+  baseXpReward: 25
   baseDamage: 5
   detectionRange: 7
   attackRange: 2.3
   attackCooldown: 0.1
   prefab: {fileID: 8435787980998359774, guid: a510f007eba1de442bd5e7afe3a13204, type: 3}
-  spawnRate: 0.05
-  maxOnField: 12
-  minRangeRadius: 15
-  maxRangeRadius: 40
+  spawnRate: 0.1
+  maxOnField: 30
+  minRangeRadius: 20
+  maxRangeRadius: 50
   deathSound: {fileID: 8300000, guid: 3d2a0080f826e884ab6313db59743336, type: 3}
   lootTable:
   - item: {fileID: 11400000, guid: 08deec5688a5a9344b9ef28cb94211d5, type: 2}

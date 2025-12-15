@@ -42,7 +42,7 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     public void NewGameButton() // public pour pouvoir assigner la methode au bouton
     {
-        SceneManager.LoadScene("SpellTest");
+        SceneManager.LoadScene("Demonstration_Gameplay");
     }
 
     public void MainMenuButton()

@@ -15,9 +15,9 @@ MonoBehaviour:
   spellName: Ice Storm
   icon: {fileID: 21300000, guid: 2cd45cd819310a8458fefcd7a2a9c347, type: 3}
   spellType: 0
-  value: 30
-  cooldown: 0
-  manaCost: 0
+  value: 45
+  cooldown: 12
+  manaCost: 11
   lifeTime: 3
   effectDuration: 2
   prefab: {fileID: 417830094756996763, guid: 54b328c499db0a54da1b70780a254bce, type: 3}

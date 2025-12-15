@@ -201,7 +201,7 @@ public class Inventory : MonoBehaviour
         RefreshContent();
     }
 
-    private bool IsFull()
+    public bool IsFull()
     {
         return inventorySize == inventoryContent.Count;
     }

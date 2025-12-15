@@ -7,8 +7,10 @@ public abstract class ItemBase : MonoBehaviour
 
     public virtual void OnPickup()
     {
-            Inventory.instance.AddItem(data); 
-            Destroy(gameObject);
+        if (Inventory.instance.IsFull()) return;
+
+        Inventory.instance.AddItem(data); 
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
