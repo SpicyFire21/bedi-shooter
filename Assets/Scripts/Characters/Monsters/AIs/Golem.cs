@@ -265,6 +265,7 @@ public class Golem : Monster
         }
     }
 
+
     public override void Spawn(Vector3 spawnPosition, int level)
     {
         data.IncrementOnField();

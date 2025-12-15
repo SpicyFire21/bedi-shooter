@@ -161,7 +161,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Speed
     m_EventTreshold: 0.1
   - m_ConditionMode: 2
-    m_ConditionEvent: Is_Dead
+    m_ConditionEvent: Is_dead
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3423780053691843866}
@@ -606,7 +606,7 @@ AnimatorController:
   m_Name: DragonAnim
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Is_Dead
+  - m_Name: Is_dead
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -681,7 +681,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1c27807064dadad40acacd52fc9ad062, type: 3}
+  m_Motion: {fileID: 7400000, guid: 6d009f7618e261e4fb897fe44ca3910a, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1037,7 +1037,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Is_Dead
+    m_ConditionEvent: Is_dead
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 25308707091853498}
@@ -1065,7 +1065,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Speed
     m_EventTreshold: 0.5
   - m_ConditionMode: 2
-    m_ConditionEvent: Is_Dead
+    m_ConditionEvent: Is_dead
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7083686498211123976}

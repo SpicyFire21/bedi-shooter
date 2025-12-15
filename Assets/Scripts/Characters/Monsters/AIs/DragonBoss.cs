@@ -498,6 +498,14 @@ public class DragonBoss : Monster
         }
     }
 
+    public void DeathCameraShake()
+    {
+        if (CameraShake.Instance != null)
+        {
+            CameraShake.Instance.Shake(5f, 1f);
+        }
+    }
+
     public void StartFireBreath()
     {
         if (anim != null)
@@ -565,8 +573,9 @@ public class DragonBoss : Monster
     //                 OVERRIDES (MONSTER)
     // =====================================================
 
-    public void Die()
+    /*public void DeathHandler()
     {
+        //base.DeathHandler();
         if (isDead) return;
         isDead = true;
 
@@ -587,7 +596,7 @@ public class DragonBoss : Monster
         anim.SetTrigger("Is_Dead");
 
         // Logique de fin de combat (loot, cinématique...)
-    }
+    }*/
 
     public override void Attack(float damage) { }
 

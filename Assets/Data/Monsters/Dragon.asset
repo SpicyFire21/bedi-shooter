@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseMoveSpeed: 4
   baseXpReward: 200
-  baseDamage: 30
+  baseDamage: 50
   detectionRange: 25
   attackRange: 2
   attackCooldown: 2
@@ -23,6 +23,6 @@ MonoBehaviour:
   maxOnField: 1
   minRangeRadius: 0
   maxRangeRadius: 0
-  deathSound: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: da48f555ef674a8459aac551e0a40080, type: 3}
   lootTable: []
   onGround: 0
