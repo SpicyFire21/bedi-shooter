@@ -1,31 +1,104 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 
 public class MonsterSpawner : MonoBehaviour
 {
+    public MonsterDatabase completeMonsterDatabase;
     public MonsterDatabase monsterDatabase; // BDD de monstres
     public NavMeshSurface map;
     public Player player;
+    private float actualSurvivalTime;
+    private string timerTextValue;
+    public Text timerText;
+    private int survivalSeconds;
+    private int nextIndexMonstre;
+    private int lastProcessedSecond = -1;
+
 
     void Start()
     {
-        foreach (MonsterData monster in monsterDatabase.monstersList)
+        InitSpawnSystem();
+        foreach (MonsterData monster in completeMonsterDatabase.monstersList)
         {
             monster.ResetOnField(); // on reset a chaque lancement de jeu
+        }
+        foreach (MonsterData monster in monsterDatabase.monstersList)
+        {
             StartCoroutine(SpawnRoutine(monster));
         }
     }
+
+    public string getTimerText()
+    {
+        return timerTextValue;
+    }
+
+    private void InitSpawnSystem()
+    {
+        monsterDatabase.SetMonsterDatabaseEmpty();
+        monsterDatabase.AddMonstre(completeMonsterDatabase.GetMonsterDataFromIndex(0));
+        monsterDatabase.AddMonstre(completeMonsterDatabase.GetMonsterDataFromIndex(1));
+        monsterDatabase.AddMonstre(completeMonsterDatabase.GetMonsterDataFromIndex(2));
+        actualSurvivalTime = 0f;
+        survivalSeconds = 0;
+        nextIndexMonstre = 3;
+    }
+
+    void Update()
+    {
+        actualSurvivalTime += Time.deltaTime; 
+        timerTextValue = FormatTime(actualSurvivalTime);
+        timerText.text = timerTextValue;
+        survivalSeconds = Mathf.FloorToInt(actualSurvivalTime);
+        if (survivalSeconds != lastProcessedSecond)
+        {
+            lastProcessedSecond = survivalSeconds;
+            handleSpawns();
+        }
+    }
+
+    private void handleSpawns()
+    {
+        AddNewMonsterPossiblySpawning(5); // golem
+        AddNewMonsterPossiblySpawning(10); // dragon
+    }
+
+    private void AddNewMonsterPossiblySpawning(int seconds)
+    {
+        if (survivalSeconds == seconds)
+        {
+            MonsterData newMonster = completeMonsterDatabase.GetMonsterDataFromIndex(nextIndexMonstre);
+            if (!monsterDatabase.ContainsMonstre(newMonster))
+            {
+                monsterDatabase.AddMonstre(newMonster);
+
+                StartCoroutine(SpawnRoutine(newMonster));
+                nextIndexMonstre++;
+            }
+        }
+    }
+
+    private void MonsterBossEvent()
+    {
+
+    }
+
+
+
 
     IEnumerator SpawnRoutine(MonsterData monster)
     {
         while (true)
         {
             yield return new WaitForSeconds(1f);
+            if (!monsterDatabase.ContainsMonstre(monster)) continue;
             if (monster.monstersOnField >= monster.maxOnField)
                 continue;
 
@@ -33,7 +106,6 @@ public class MonsterSpawner : MonoBehaviour
             if (roll > monster.spawnRate)
                 continue;
             Vector3 spawnPos;
-
             if (monster.onGround)
             {
                 spawnPos = GetRandomPointOnNavMeshAroundPlayer(monster);
@@ -85,6 +157,13 @@ public class MonsterSpawner : MonoBehaviour
         spawnPos.y += height;
 
         return spawnPos;
+    }
+
+    private string FormatTime(float time)
+    {
+        int minutes = Mathf.FloorToInt(time / 60);
+        int seconds = Mathf.FloorToInt(time % 60);
+        return string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
 }
