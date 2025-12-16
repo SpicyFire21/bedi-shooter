@@ -24,6 +24,7 @@ public class MonsterSpawner : MonoBehaviour
     private Monster currentBoss;
     public Text alertBossText;
     private float alertDuration = 3f;
+    private int additionalLevel = 10;
 
 
     void Start()
@@ -99,8 +100,8 @@ public class MonsterSpawner : MonoBehaviour
     private void handleSpawns() // la logique est qu'on prend la database complete les fonctions gerent les index automatiquement
         // et pour les boss, on force leurs spawn, puis quand ils sont battu, ils peuvent spawn naturellement
     {
-        AddNewMonsterPossiblySpawning(30); // dark skeleton au bout de 30 secondes
-        MonsterBossEvent(completeMonsterDatabase.GetMonsterDataFromIndex(nextIndexMonstre), 120); // BOSS GOLEM A 2mn
+        AddNewMonsterPossiblySpawning(1); // dark skeleton au bout de 30 secondes
+        MonsterBossEvent(completeMonsterDatabase.GetMonsterDataFromIndex(nextIndexMonstre), 180); // BOSS GOLEM A 3mn
         MonsterBossEvent(completeMonsterDatabase.GetMonsterDataFromIndex(nextIndexMonstre), 360); // BOSS DRAGON A 6mn 
     }
 
@@ -151,8 +152,9 @@ public class MonsterSpawner : MonoBehaviour
             }
 
             currentBoss = bossObj.GetComponent<Monster>();
-            currentBoss.Spawn(bossObj.transform.position, player.level);
+            currentBoss.Spawn(bossObj.transform.position, player.level + additionalLevel + 3);
             StartCoroutine(ShowBossAlert("A new boss has spawned: <color=red>" + monsterData.name + "</color>"));
+            additionalLevel += 9;
         }
     }
 
@@ -213,7 +215,7 @@ public class MonsterSpawner : MonoBehaviour
                     Quaternion.identity
                 );
             Monster monsterComponent = monsterObj.GetComponent<Monster>();
-            monsterComponent.Spawn(spawnPos, Random.Range(1, player.level + (Random.Range(1, 10))));
+            monsterComponent.Spawn(spawnPos, Random.Range(1, player.level + (Random.Range(3, additionalLevel))));
         }
     }
 

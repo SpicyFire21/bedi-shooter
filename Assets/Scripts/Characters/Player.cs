@@ -282,6 +282,20 @@ public class Player : Character
         }
     }
 
+    public void TakeMana(float mana)
+    {
+        float newMana = currentMana += mana;
+        if (newMana < maxMana)
+        {
+            currentMana = newMana;
+        }
+        else
+        {
+            currentMana = maxMana;
+        }
+    }
+
+
 
 
 
