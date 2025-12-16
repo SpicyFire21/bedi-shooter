@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using StarterAssets;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,9 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField]
     private GameObject optionsPanel;
+
+    [SerializeField]
+    private ThirdPersonController tps;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -73,4 +77,10 @@ public class MainMenu : MonoBehaviour
         gameObject.SetActive(!gameObject.activeSelf);
         Debug.Log("debug options panel");
     }
+
+    public void SetSensitivity(float value)
+    {
+        tps.lookSensitivity = new Vector2(value, value);
+    }
+
 }
