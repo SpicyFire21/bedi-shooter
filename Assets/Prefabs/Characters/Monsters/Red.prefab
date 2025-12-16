@@ -11127,15 +11127,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2df67ff9882b3419a2bf9d62e8b38a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 150
-  currentHealth: 150
+  maxHealth: 200
+  currentHealth: 200
   characterName: DracoBoss
   moveSpeed: 5
   castPoint: {fileID: 0}
   isPlayer: 0
   isDead: 0
   deathSoundPlayed: 1
-  baseMaxHealth: 150
+  baseMaxHealth: 250
   baseMoveSpeed: 5
   data: {fileID: 11400000, guid: 6558a27e77c4b464ca792195a51577c3, type: 2}
   level: 1

@@ -8,7 +8,8 @@ public class Waterball : ProjectileSpellBase
 
         if (target != null && target != caster)
         {
-            target.TakeDamage(data.value);
+            if (target.currentHealth <= 0) return;
+            target.TakeDamage(localValue);
             Destroy(gameObject);
         }
 
