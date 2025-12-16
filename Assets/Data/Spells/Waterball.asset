@@ -17,7 +17,7 @@ MonoBehaviour:
   spellType: 0
   value: 15
   cooldown: 10
-  manaCost: 8
+  manaCost: 6
   lifeTime: 4
   effectDuration: 2
   prefab: {fileID: 2044565841225397092, guid: e56522a49371f5f498e5a447d46bfced, type: 3}

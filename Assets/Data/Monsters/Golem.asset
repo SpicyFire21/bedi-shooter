@@ -13,24 +13,24 @@ MonoBehaviour:
   m_Name: Golem
   m_EditorClassIdentifier: 
   baseMoveSpeed: 3
-  baseXpReward: 15
+  baseXpReward: 250
   baseDamage: 20
   detectionRange: 10
   attackRange: 3
   attackCooldown: 3
   prefab: {fileID: 4937162684446414018, guid: 34cd9d1a737277549b20e398bca24ae8, type: 3}
-  spawnRate: 0.1
-  maxOnField: 1
-  minRangeRadius: 15
+  spawnRate: 0.02
+  maxOnField: 4
+  minRangeRadius: 20
   maxRangeRadius: 40
   deathSound: {fileID: 8300000, guid: 9953ac5e11ff4aa4dbc49f93637f33fb, type: 3}
   lootTable:
   - item: {fileID: 11400000, guid: b84323f5172f7754c98a91d12ecbb7c2, type: 2}
-    dropChance: 1
+    dropChance: 0.5
     minAmount: 1
     maxAmount: 1
   - item: {fileID: 11400000, guid: c29ec7edda3c31f499be42e8035762ed, type: 2}
     dropChance: 1
     minAmount: 2
-    maxAmount: 5
+    maxAmount: 3
   onGround: 1

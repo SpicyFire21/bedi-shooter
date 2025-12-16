@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public abstract class Monster : Character
 {
@@ -22,8 +24,9 @@ public abstract class Monster : Character
     [Header("UI")]
     public MonsterHealthBar healthBarPrefab;
     private MonsterHealthBar healthBarInstance;
+    public static event Action<Monster> OnMonsterDeath;
 
-    
+
     protected virtual void Start()
     {
         FindPlayer();
@@ -63,6 +66,7 @@ public abstract class Monster : Character
     public override void DeathHandler(float destructionTime)
     {
         data.DecrementOnField();
+        OnMonsterDeath?.Invoke(this);
 
         if (agent != null) agent.isStopped = true;
         if (anim != null) anim.SetBool("Is_dead", true);

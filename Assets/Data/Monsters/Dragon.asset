@@ -13,16 +13,40 @@ MonoBehaviour:
   m_Name: Dragon
   m_EditorClassIdentifier: 
   baseMoveSpeed: 4
-  baseXpReward: 200
+  baseXpReward: 2500
   baseDamage: 50
   detectionRange: 25
   attackRange: 2
   attackCooldown: 2
-  prefab: {fileID: 2934558356057575715, guid: 1605b9765f5bc9d45a9276437f81b6f9, type: 3}
-  spawnRate: 0
-  maxOnField: 1
-  minRangeRadius: 0
-  maxRangeRadius: 0
+  prefab: {fileID: 3451514578887329685, guid: eb661f88877a4e24b822f23ba11fc246, type: 3}
+  spawnRate: 0.007
+  maxOnField: 2
+  minRangeRadius: 30
+  maxRangeRadius: 50
   deathSound: {fileID: 8300000, guid: da48f555ef674a8459aac551e0a40080, type: 3}
-  lootTable: []
+  lootTable:
+  - item: {fileID: 11400000, guid: db20017af1bc6f146b4480a4cec19e2c, type: 2}
+    dropChance: 0.12
+    minAmount: 1
+    maxAmount: 1
+  - item: {fileID: 11400000, guid: 375b27abd2ab20842b3542ad95ddc5d7, type: 2}
+    dropChance: 0.12
+    minAmount: 1
+    maxAmount: 1
+  - item: {fileID: 11400000, guid: 0f3dca3159cf5a842879bbba07823789, type: 2}
+    dropChance: 0.12
+    minAmount: 1
+    maxAmount: 1
+  - item: {fileID: 11400000, guid: f98f2fd25b67a3f448e77e391295beec, type: 2}
+    dropChance: 0.12
+    minAmount: 1
+    maxAmount: 1
+  - item: {fileID: 11400000, guid: 338b9838600f65c4eaf840a0090be446, type: 2}
+    dropChance: 0.15
+    minAmount: 1
+    maxAmount: 1
+  - item: {fileID: 11400000, guid: a2b194690f6ea684998e1628db62da21, type: 2}
+    dropChance: 0.15
+    minAmount: 1
+    maxAmount: 1
   onGround: 0
