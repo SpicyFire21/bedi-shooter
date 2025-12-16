@@ -26,7 +26,7 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 9953ac5e11ff4aa4dbc49f93637f33fb, type: 3}
   lootTable:
   - item: {fileID: 11400000, guid: b84323f5172f7754c98a91d12ecbb7c2, type: 2}
-    dropChance: 0.5
+    dropChance: 1
     minAmount: 1
     maxAmount: 1
   - item: {fileID: 11400000, guid: c29ec7edda3c31f499be42e8035762ed, type: 2}
@@ -37,4 +37,8 @@ MonoBehaviour:
     dropChance: 1
     minAmount: 1
     maxAmount: 2
+  - item: {fileID: 11400000, guid: 338b9838600f65c4eaf840a0090be446, type: 2}
+    dropChance: 0.05
+    minAmount: 1
+    maxAmount: 1
   onGround: 1
