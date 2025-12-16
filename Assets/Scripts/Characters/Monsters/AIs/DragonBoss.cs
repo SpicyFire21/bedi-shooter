@@ -80,6 +80,7 @@ public class DragonBoss : Monster
     private void Start()
     {
         base.Start();
+
         rb = GetComponent<Rigidbody>();
         if (agent == null) agent = GetComponent<NavMeshAgent>();
 
