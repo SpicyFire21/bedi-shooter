@@ -50,14 +50,31 @@ public class PlayerSpells : MonoBehaviour
         SpellData spell = playerDatabase.allSpells[index];
 
         if (player.currentMana < spell.manaCost) return;
- 
-        SpellBase spellLogic = spell.prefab.GetComponent<SpellBase>();
 
-        if (spellLogic != null)
+        SpellBase spellLogic = spell.prefab.GetComponent<SpellBase>();
+        ZoneSpellBase zoneSpellBase = spell.prefab.GetComponent<ZoneSpellBase>();
+        if (zoneSpellBase != null)
         {
-            spellLogic.Init(player, spell);
-            player.currentMana -= spell.manaCost;
-            cooldowns[index] = spell.cooldown;
+            zoneSpellBase.caster = player;
+            if (zoneSpellBase.TryGetTargetPosition(out Vector3 position))
+            {
+                zoneSpellBase.Init(player, spell);
+                player.currentMana -= spell.manaCost;
+                cooldowns[index] = spell.cooldown;
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            if (spellLogic != null)
+            {
+                spellLogic.Init(player, spell);
+                player.currentMana -= spell.manaCost;
+                cooldowns[index] = spell.cooldown;
+            }
         }
     }
 

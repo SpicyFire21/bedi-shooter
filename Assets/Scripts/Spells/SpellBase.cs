@@ -18,15 +18,18 @@ public abstract class SpellBase : MonoBehaviour
 
             if (ultimatePrefab != null)
             {
-                PlayGlobalSound(ultimatePrefab.data.castSound, 0.05f);
+                PlayGlobalSound(ultimatePrefab.data.castSound, 0.1f);
             }
             else if (zoneSpellBase != null && !zoneSpellBase.TryGetTargetPosition(out Vector3 position))
             {
                 return;
             }
-            else
+            else if (zoneSpellBase != null)
             {
                 AudioSource.PlayClipAtPoint(data.castSound, this.transform.position, data.volume);
+            } else
+            {
+                AudioSource.PlayClipAtPoint(data.castSound, caster.transform.position, data.volume);
             }
         }
         Cast();

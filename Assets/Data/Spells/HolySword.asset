@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HolySword
   m_EditorClassIdentifier: 
   spellName: Holy Sword
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 34de6c8a9f438fc46b983597d8e8102a, type: 3}
   spellType: 1
   value: 75
   cooldown: 17
