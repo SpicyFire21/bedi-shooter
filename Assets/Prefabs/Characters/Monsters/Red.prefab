@@ -11127,25 +11127,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2df67ff9882b3419a2bf9d62e8b38a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 200
-  currentHealth: 200
+  maxHealth: 150
+  currentHealth: 150
   characterName: DracoBoss
   moveSpeed: 5
   castPoint: {fileID: 0}
   isPlayer: 0
   isDead: 0
   deathSoundPlayed: 1
-  baseMaxHealth: 1000
+  baseMaxHealth: 150
   baseMoveSpeed: 5
   data: {fileID: 11400000, guid: 6558a27e77c4b464ca792195a51577c3, type: 2}
   level: 1
   agent: {fileID: 8127641686569587496}
   anim: {fileID: 783069990088319024}
   healthBarPrefab: {fileID: -1830062705855029619, guid: 088680c26ec060b499c41da48529dbae, type: 3}
-  player: {fileID: 0}
-  outOfArenaPoint: {fileID: 0}
-  fireBreathPoint: {fileID: 0}
-  landingPoint: {fileID: 0}
+  outOfArenaPoint: {fileID: 3384570519965273163, guid: 3a942c6ae7f25a0429df1901540c8b55, type: 3}
+  fireBreathPoint: {fileID: 4384038057681042139, guid: d7702a34ea2a93b4fa843901bf13154f, type: 3}
+  landingPoint: {fileID: 522061108551174640, guid: 7443fee4d6ee2eb4ba3433edf7204c1e, type: 3}
   fireBreathVFX: {fileID: 82465397278485010}
   screamSound: {fileID: 8300000, guid: da48f555ef674a8459aac551e0a40080, type: 3}
   FireSound: {fileID: 8300000, guid: a650c21438db9ad49b59589300e12b3f, type: 3}
