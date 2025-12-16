@@ -33,4 +33,8 @@ MonoBehaviour:
     dropChance: 1
     minAmount: 2
     maxAmount: 3
+  - item: {fileID: 11400000, guid: d5b082aaaeeb9ce46ab263750639e5e4, type: 2}
+    dropChance: 1
+    minAmount: 1
+    maxAmount: 2
   onGround: 1

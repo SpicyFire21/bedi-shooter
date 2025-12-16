@@ -15,7 +15,7 @@ MonoBehaviour:
   spellName: Tornado
   icon: {fileID: 21300000, guid: 218a80a7d108d404482938ce717844a7, type: 3}
   spellType: 0
-  value: 70
+  value: 80
   cooldown: 22
   manaCost: 27
   lifeTime: 4

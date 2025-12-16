@@ -15,7 +15,7 @@ MonoBehaviour:
   spellName: Holy Sword
   icon: {fileID: 0}
   spellType: 1
-  value: 50
+  value: 75
   cooldown: 17
   manaCost: 13
   lifeTime: 5
