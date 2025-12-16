@@ -34,6 +34,9 @@ public class DragonBoss : Monster
     public float flameDamageMultiplier = 0.5f; // Dégâts plus faibles mais peut être DoT
     public float flameDamagePerTick = 0.1f;    // Dégâts pour l'attaque aérienne (si DoT)
 
+    [Header("Fire Breath Damage")]
+    [SerializeField] private DragonFlameDamage flameDamage;
+
     [Header("Knockback Settings")]
     public float biteKnockback = 8f;
     public float chargeKnockback = 20f; // Très fort pour une charge
@@ -534,6 +537,23 @@ public class DragonBoss : Monster
             Debug.Log("🔥 Fire Breath S'ARRÊTE.");
 
             // Optionnel : Ajoutez ici la fin de votre logique de dégâts de DoT
+        }
+    }
+
+    public void StartFireBreathDamage()
+    {
+        if (flameDamage != null)
+        {
+            flameDamage.StartDealingDamage();
+        }
+    }
+
+    // Appelé par Animation Event
+    public void StopFireBreathDamage()
+    {
+        if (flameDamage != null)
+        {
+            flameDamage.StopDealingDamage();
         }
     }
 

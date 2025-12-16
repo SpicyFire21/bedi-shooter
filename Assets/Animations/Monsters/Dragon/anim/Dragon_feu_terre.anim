@@ -83694,6 +83694,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.7
+    functionName: StartFireBreathDamage
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.73333335
     functionName: StartFireBreath
     data: 
@@ -83703,6 +83710,13 @@ AnimationClip:
     messageOptions: 0
   - time: 2.3333333
     functionName: StopFireBreath
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.3666666
+    functionName: StopFireBreathDamage
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
