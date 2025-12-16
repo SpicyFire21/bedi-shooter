@@ -25,6 +25,8 @@ public class MonsterSpawner : MonoBehaviour
     public Text alertBossText;
     private float alertDuration = 3f;
     private int additionalLevel = 10;
+    private int killCounter;
+    public Text killCounterText;
 
 
     void Start()
@@ -62,6 +64,8 @@ public class MonsterSpawner : MonoBehaviour
         actualSurvivalTime = 0f;
         survivalSeconds = 0;
         nextIndexMonstre = 2;
+        killCounter = 0;
+        killCounterText.text = "Kills: " + killCounter;
     }
 
     //private void DifficultyUpgrade()
@@ -101,8 +105,8 @@ public class MonsterSpawner : MonoBehaviour
         // et pour les boss, on force leurs spawn, puis quand ils sont battu, ils peuvent spawn naturellement
     {
         AddNewMonsterPossiblySpawning(1); // dark skeleton au bout de 30 secondes
-        MonsterBossEvent(completeMonsterDatabase.GetMonsterDataFromIndex(nextIndexMonstre), 180); // BOSS GOLEM A 3mn
-        MonsterBossEvent(completeMonsterDatabase.GetMonsterDataFromIndex(nextIndexMonstre), 360); // BOSS DRAGON A 6mn 
+        MonsterBossEvent(completeMonsterDatabase.GetMonsterDataFromIndex(nextIndexMonstre), 2); // BOSS GOLEM A 3mn
+        MonsterBossEvent(completeMonsterDatabase.GetMonsterDataFromIndex(4), 3); // BOSS DRAGON A 6mn 
     }
 
     private void AddNewMonsterPossiblySpawning(int seconds)
@@ -162,6 +166,8 @@ public class MonsterSpawner : MonoBehaviour
     private void HandleMonsterDeath(Monster monster) // lorsque l'un monstre meurt, si c'est le boss actuel et qu'on le tue, on va lui ajouté une coroutine de spawn --> devient
         // un mob commun
     {
+        killCounter++;
+        killCounterText.text = "Kills: " + killCounter;
         if (monster == currentBoss)
         {
             OnBossKilled();

@@ -18,7 +18,7 @@ MonoBehaviour:
   detectionRange: 25
   attackRange: 2
   attackCooldown: 2
-  prefab: {fileID: 3451514578887329685, guid: eb661f88877a4e24b822f23ba11fc246, type: 3}
+  prefab: {fileID: 2934558356057575715, guid: 1605b9765f5bc9d45a9276437f81b6f9, type: 3}
   spawnRate: 0.007
   maxOnField: 2
   minRangeRadius: 30
@@ -49,4 +49,4 @@ MonoBehaviour:
     dropChance: 0.15
     minAmount: 1
     maxAmount: 1
-  onGround: 0
+  onGround: 1
